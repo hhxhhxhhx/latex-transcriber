@@ -1,19 +1,143 @@
-% comment
+% this is a single line comment
+
 %%%
-block comment
+This is a block comment.
+Nothing here will be read or transcribed
 %%%
 
-..font 12 % optional, default 12
-..packages a b c % optional, separate packages by spaces. amsmath, amssymb, amsthm included by default. 
-..paper letter % optional, default letter. 
-..orient portrait % optional, default portrait, can be landscape. 
-..margin 1 % optional, default 1 inch.
+..font 12								% Optional, default 12.
+..packages								% Optional, default amsmath, amssymb, amsthm, geometry
+..paper letter							% Optional, default letter. Can be "legal", "a4", etc.
+..orient portrait						% Optional, default portrait. Can be "landscape"
 
-..indent 4 % optional, default 4
+..margin 1								% Optional, default 1. Can be 2, 3, 1.5, etc.
+..indent 0								% Optional, default 4 (paragraph indent). 
+..spacing 1.5							% Optional, default 1.5. Can be "single", "1", "double", "2"
 
-..begin
+..qed Q.E.D								% Optional, default black square. 
 
-Known: $\vec{b} /dot \vec{c} \neq \vec{0}$ \n
-If we define $\vec{a} = \vec{b} /cross \vec{c}$, then $\vec{a} /dot \vec{b} = \vec{0} /and \vec{a} /dot \vec{c} = \vec{0}$. 
+..initheorem* Theorem 					% The * means that this "Theorem" will not have a counter. 
+..initheorem Lemma 						% "Lemma"s with an independent counter called "Lemma". 
+..initheorem Corollary Lemma sub 		% Numbered "Corollary"s that are subordinate to "Lemma" counters. 
+..initheorem Note Lemma shared 			% Numbered "Note"s that share the same counter as "Lemma".
 
-..end
+
+..begindoc								% This is "\begin{document}"
+
+To create a type of theorem, be it /it{Theorem}, /it{Lemma}, /it{Corollary}, whatever, do this.
+
+..beginthm Theorem
+This is the contents of Theorem. Notice that it does not have a counter. 
+..endthm Theorem
+
+That means it doesn't matter how many /it{Theorem}s you have, they'll always show up as /bd{Theorem}.
+
+..beginthm Theorem
+Here is another theorem.
+..endthm Theorem
+
+..beginthm Theorem
+And another.
+..endthm Theorem
+
+On the other hand, /it{Lemma}s have a counter, since it was defined without the asterisk. 
+
+..beginthm Lemma
+Yes, I know this isn't a lemma, but see how there's a counter?
+..endthm Lemma
+
+And since /it{Note} shares the same counter as /it{Lemma}, the counter will change whenever we define
+a new /it{Note} or /it{Lemma}. 
+
+..beginthm Note
+Hello World! New counter!
+..endthm Note
+
+..beginthm Lemma
+Counter changes again!
+..endthm Lemma
+
+However, /it{Corollary}s are defined to be subordinate to /it{Lemma} counters, take a look. 
+
+..beginthm Corollary
+Hello, I'm a corollary. 
+..endthm Corollary
+
+..beginthm Corollary
+What a coincidence, me too!
+..endthm Corollary
+
+Once the "superior" counter changes, in this case /it{Lemma}, /it{Corollary}s' counter will also change.
+
+..beginthm Note
+Our counter changed!
+..endthm Note
+
+..beginthm Corollary
+It should be self-explanatory why my counter is the way it is now. 
+..endthm Corollary
+
+We can also give names to theorems, like this. 
+
+..beginthm Theorem Stoke's Theorem
+For a closed surface oriented counter-clockwise, 
+\[ \int\limits_C \vec{F} /dot d\vec{r} = \iint\limits_S (/del /cross \vec{F}) /dot d/bd{S} \]
+..endthm Theorem
+
+..beginthm Note Some arbitrary title
+It works for /it{Note}, /it{Lemma}, etc.
+..endthm Note
+
+It's extremely simple to create a proof. 
+
+\medskip
+
+/bd{Claim:} an irrational number raised to an irrational power can be rational.  
+..beginproof
+
+Notice that $\sqrt{2} \in \mathbb{R}$, $\notin \mathbb{Q}$. Therefore, we know that $\sqrt{2}^{\sqrt{2}} \in \mathbb{R}$ but can be $\in \mathbb{Q}$ or $\notin \mathbb{Q}$.
+
+Suppose $\sqrt{2}^{\sqrt{2}} \in \mathbb{Q}$, we're done.
+
+Suppose $\sqrt{2}^{\sqrt{2}} \notin \mathbb{Q}$, we can then use this value and raise it to another power of $\sqrt{2}$. 
+
+\[ (\sqrt{2}^{\sqrt{2}})^{\sqrt{2}} = \sqrt{2}^{\sqrt{2} * \sqrt{2}} = \sqrt{2}^2 = 2 \in \mathbb{Q} \]
+..endproof
+
+
+Do the following to create a bullet point list (unnumbered).
+If the type of list is not specified to be "bullet", it'll be defaulted to be 
+ordered. 
+..beginlist bullet
+.. item 1.
+.. item 2. 
+this will go to the end of item 2, and not be in a new line, because it's missing the two dots in the beginning.
+.. item 3.
+/n item 3.5, notice that this doesn't have a bullet in front of it.
+.. item 4.
+..beginlist
+.. nested lists are also allowed!
+.. this one is ordered. 
+..beginlist
+.. and another nested list!
+..endlist
+.. just remember to end as many lists as you started.
+..endlist
+
+
+or it'll be embarassing, just like this here...
+
+..endlist
+
+Oops, wrong indentation! 
+
+Or better yet, it'll transcribe correctly,
+but will not /bd{compile} correctly if an /it{..endlist} is missing!
+
+It might be helpful to indent the lists in the code, so you won't forget what level of indentation you're on. LateX is great in the sense that indentation doesn't matter /bd{that} much. 
+
+..beginthm Note
+The transcribed .tex files will automatically be indented wherever there are items in a list. 
+..endthm Note
+
+..enddoc

@@ -1,5 +1,6 @@
 
 import sys
+from command_replacer import Replacer
 
 if len(sys.argv) == 1:
 	sys.exit(0)
@@ -8,7 +9,6 @@ def load_pairs(fil: str = 'pairs.txt'):
     with open(fil, 'r') as f:
         contents = f.read().split('\n')
         contents = [x for x in contents if x]
-        #print(contents)
 
         pairs = [x.split(' -> ') for x in contents]
         for pair in pairs:
@@ -25,7 +25,7 @@ def find_index(lst, strr):
 def find_content(lst, strr, deff=None):
     for item in lst:
         if strr in item:
-            ret = item[item.index(strr) + len(strr):]
+            ret = item[item.index(strr) + len(strr) + 1:]
             while len(ret) > 0 and ret[-1] == ' ':
                 ret = ret[:-1]
             return ret
@@ -50,10 +50,12 @@ lines = content.split('\n')
 for i in range(len(lines)):
 	if ' %' in lines[i]:
 		lines[i] = lines[i][:lines[i].index(' %')]
+	elif '\t%' in lines[i]:
+		lines[i] = lines[i][:lines[i].index('\t%')]
 	elif len(lines[i]) > 1 and '%' == lines[i][0]:
 		lines[i] = ''
+	lines[i] = lines[i].strip()
 
-lines = [x for x in lines if x]
 
 # Set font
 font = find_content(lines, '..font', '12')
@@ -82,12 +84,18 @@ if spacing.lower() == 'single' or spacing.lower() == '1':
 elif spacing.lower() == 'double' or spacing.lower() == '2':
     line_spread = 1.6
 
-_start = find_index(lines, '..begin')
-_end = find_index(lines, '..end')
-if _end < _start:
-	sys.exit(1)
+qed_symbol = find_content(lines, '..qed', '$\\blacksquare$')
 
-_content = "\n".join(lines[_start + 1: _end])
+theorem_parse = Replacer(lines, find_content, find_index)
+
+theorem_parse.replace()
+
+_start = find_index(lines, '..begindoc')
+_end = find_index(lines, '..enddoc')
+
+main_content = lines[_start + 1: _end]
+
+_content = "\n".join(main_content)
 
 for pair in pairs:
 	_content = _content.replace(pair[0], pair[1])
@@ -98,24 +106,34 @@ for package in packages[:-1]:
 	output += package + ', '
 output += packages[-1] + '}\n'
 
+output += '\n'
+
 output += '\\geometry{{{0}paper, {1}, margin={2}in}}\n'.format(paper, orientation, margin)
 
 output += '\\setlength{{\\parindent}}{{{0}em}}\n'.format(indent)
 
-output += '\\setlength{{\\linespread}}{{{0}}}\n'.format(line_spread)
-
-# Add the stuff regarding creating new commands
+output += '\\linespread{{{0}}}\n'.format(line_spread)
 
 output += '\n'
 
-output += "\\begin{document}\n\n"
+output += '\\newcommand{\\norm}[1]{\\|#1\\|}\n'
+
+output += '\\renewcommand\\qedsymbol{{{0}}}\n'.format(qed_symbol)
+
+output += '\n'
+
+output += theorem_parse.get_output()
+
+output += '\n'
+
+output += "\\begin{document}\n"
 
 output += _content
 
-output += "\n\n\\end{document}\n"
+output += "\n\\end{document}\n"
 
 output += "\n% Created by python -> latex autotranscriber\n"
-print(output)
+#print(output)
 
 with open('output.tex', 'w') as f:
 	f.write(output)

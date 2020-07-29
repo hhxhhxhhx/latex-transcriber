@@ -1,8 +1,0 @@
-
-..package
-..begin
-
-Known: $\vec{b} /dot \vec{c} \neq \vec{0}$.
-If we define $\vec{a} = \vec{b} /cross \vec{c}$, then $\vec{a} /dot \vec{b} = \vec{0} /and \vec{a} /dot \vec{c} = \vec{0}$. 
-
-..end

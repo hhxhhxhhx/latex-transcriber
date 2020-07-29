@@ -1,7 +1,3 @@
-/it (1) -> \emph{#1}
-/bd (1) -> \textbf{#1}
-/n -> \\
-/t -> \quad
 
 /union -> \cup
 /itsc -> \cap % intersection
@@ -15,7 +11,7 @@
 /del -> \nabla
 /<( -> \langle % left angle bracket
 />) -> \rangle % right angle bracket
-/magni (1) -> \| #1 \| % magnitude of #1
+/norm -> \norm
 /dot -> \cdot % dot product
 /cross -> \times
 /=> -> \Rightarrow
@@ -30,3 +26,7 @@
 /or -> \vee
 /def -> \overset{\mathrm{def}}{=}
 
+/it -> \emph
+/bd -> \textbf
+/n -> \\
+/t -> \quad
