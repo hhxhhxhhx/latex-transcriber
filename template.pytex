@@ -1,0 +1,19 @@
+% comment
+%%%
+block comment
+%%%
+
+..font 12 % optional, default 12
+..packages a b c % optional, separate packages by spaces. amsmath, amssymb, amsthm included by default. 
+..paper letter % optional, default letter. 
+..orient portrait % optional, default portrait, can be landscape. 
+..margin 1 % optional, default 1 inch.
+
+..indent 4 % optional, default 4
+
+..begin
+
+Known: $\vec{b} /dot \vec{c} \neq \vec{0}$ \n
+If we define $\vec{a} = \vec{b} /cross \vec{c}$, then $\vec{a} /dot \vec{b} = \vec{0} /and \vec{a} /dot \vec{c} = \vec{0}$. 
+
+..end
