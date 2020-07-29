@@ -25,6 +25,7 @@
 /and -> \wedge
 /or -> \vee
 /def -> \overset{\mathrm{def}}{=}
+/nin -> \notin
 
 /it -> \emph
 /bd -> \textbf
