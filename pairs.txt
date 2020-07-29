@@ -1,0 +1,32 @@
+/it (1) -> \emph{#1}
+/bd (1) -> \textbf{#1}
+/n -> \\
+/t -> \quad
+
+/union -> \cup
+/itsc -> \cap % intersection
+/<= -> \leq
+/>= -> \geq
+/!= -> \neq
+/<< -> \ll
+/>> -> \gg
+/~= -> \approx
+/setdiff -> \setminus
+/del -> \nabla
+/<( -> \langle % left angle bracket
+/>) -> \rangle % right angle bracket
+/magni (1) -> \| #1 \| % magnitude of #1
+/dot -> \cdot % dot product
+/cross -> \times
+/=> -> \Rightarrow
+/!=> -> \nRightarrow
+/==> -> \Longrightarrow % also \implies
+/!==> -> \nLongrightarrow
+/<=> -> \Leftrightarrow
+/<==> -> \iff
+/-> -> \to
+\--> -> \longrightarrow
+/and -> \wedge
+/or -> \vee
+/def -> \overset{\mathrm{def}}{=}
+
