@@ -24,7 +24,8 @@
 \--> -> \longrightarrow
 /and -> \wedge
 /or -> \vee
-/def -> \overset{\mathrm{def}}{=}
+/def -> \pytexdef
+/set -> \pytexset
 /nin -> \notin
 
 /it -> \emph

@@ -7,6 +7,8 @@
 \linespread{1.3}
 
 \newcommand{\norm}[1]{\|#1\|}
+\newcommand{\pytexdef}{\mathrel{\stackrel{\makebox[0pt]{\mbox{\normalfont\tiny def}}}{=}}}
+\newcommand{\pytexset}{\mathrel{\stackrel{\makebox[0pt]{\mbox{\normalfont\tiny set}}}{=}}}
 \renewcommand\qedsymbol{Q.E.D}
 
 \newtheorem*{Theorem}{Theorem}
@@ -16,6 +18,7 @@
 
 \begin{document}
 
+\section{Theorems}
 To create a type of theorem, be it \emph{Theorem}, \emph{Lemma}, \emph{Corollary}, whatever, do this.
 
 \begin{Theorem}
@@ -80,12 +83,14 @@ For a closed surface oriented counter-clockwise,
 It works for \emph{Note}, \emph{Lemma}, etc.
 \end{Note}
 
+\subsection{Proofs}
+
 It's extremely simple to create a proof.
 
 \medskip
 
 \textbf{Claim:} an irrational number raised to an irrational power can be rational.
-..beginproof
+\begin{proof}
 
 Notice that $\sqrt{2} \in \mathbb{R}$, $\notin \mathbb{Q}$. Therefore, we know that $\sqrt{2}^{\sqrt{2}} \in \mathbb{R}$ but can be $\in \mathbb{Q}$ or $\notin \mathbb{Q}$.
 
@@ -94,8 +99,9 @@ Suppose $\sqrt{2}^{\sqrt{2}} \in \mathbb{Q}$, we're done.
 Suppose $\sqrt{2}^{\sqrt{2}} \notin \mathbb{Q}$, we can then use this value and raise it to another power of $\sqrt{2}$.
 
 \[ (\sqrt{2}^{\sqrt{2}})^{\sqrt{2}} = \sqrt{2}^{\sqrt{2} * \sqrt{2}} = \sqrt{2}^2 = 2 \in \mathbb{Q} \]
-..endproof
+\end{proof}
 
+\section{Lists}
 
 Do the following to create a bullet point list (unnumbered).
 If the type of list is not specified to be "bullet", it'll be defaulted to be
@@ -116,7 +122,6 @@ ordered.
         \item just remember to end as many lists as you started.
     \end{enumerate}
     
-    
     or it'll be embarassing, just like this here...
     
 \end{itemize}
@@ -126,12 +131,47 @@ Oops, wrong indentation!
 Or better yet, it'll transcribe correctly,
 but will not \textbf{compile} correctly if an \emph{..endlist} is missing!
 
-It might be helpful to indent the lists in the code, so you won't forget what level of indentation you're on. LateX is great in the sense that indentation doesn't matter \textbf{that} much.
+It might be helpful to indent the lists in the code, so you won't forget what level of indentation you're on. LaTeX is great in the sense that indentation doesn't matter \textbf{that} much.
 
 \begin{Note}
 The transcribed .tex files will automatically be indented wherever there are items in a list.
 \end{Note}
 
+\section{Equations}
+
+LaTeX's equation mode honestly sucks. You can't have a blank line while in equation / gather / align mode. This means that a reasonable person expecting to create a new line would get a ridiculous error like missing \textbf{\$} inserted. The only way to create a line break would be using \emph{\textbackslash\textbackslash}, which I think is a lot less intuitive than it should be.
+
+\medskip
+
+This transcriber will assume all new lines within the gather / align mode are supposed to be in a new line compared to the previous / following line. This means that there is no need to insert \emph{\textbackslash\textbackslash} at the end of each line, but it also means that the only way to continue on the same line in the compiled pdf is to put the equation in the same line. Blank lines will be automatically removed, so feel free to leave blank lines in the file to be transcribed.
+
+\medskip
+
+Only two modes are implemented: \textbf{align} and \textbf{gather}. I honestly don't know what the difference between \textbf{gather} and \textbf{equation} are, so I'm only implementing \textbf{gather}. \textbf{Align} mode allows you to select a symbol, usually the equal sign, to be aligned to other equations; \textbf{gather} mode centers all the equations. Check this document for help if necessary. To select which symbol you want to align with in \textbf{align} mode, prepend the symbol with a \& sign. Most of the time, gather mode will be used.
+
+\medskip
+
+By default, \textbf{gather} mode, and non-numbering mode is used. Enable \textbf{align} by putting the word \emph{align} in it. Enable \textbf{number}ed mode by putting \emph{number} in it.
+
+\medskip
+
+Here's the \textbf{align} mode with no numbering.
+\begin{align*}
+h &\pytexset 2x + 3y + 4z		&	2u + &2v = 10 \\
+x &= y						&	&2v + 4w = 20 \\
+a &= b + c					&	2b + 2c + &7v = 30\\
+f(x, y) &= g(a, b, c)		&	&2v = 4z 
+\end{align*}
+
+\medskip
+
+Here's the \textbf{gather} mode with numbering:
+\begin{gather}
+a = b \\
+2x + 4c = 10 \\
+10 + 4c = 20 
+\end{gather}
+
 \end{document}
 
-% Created by python -> latex autotranscriber
+% Created by Roger Hu, .pytex -> .tex latex transcriber

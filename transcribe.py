@@ -117,6 +117,8 @@ output += '\\linespread{{{0}}}\n'.format(line_spread)
 output += '\n'
 
 output += '\\newcommand{\\norm}[1]{\\|#1\\|}\n'
+output += '\\newcommand{\\pytexdef}{\\mathrel{\\stackrel{\\makebox[0pt]{\\mbox{\\normalfont\\tiny def}}}{=}}}\n'
+output += '\\newcommand{\\pytexset}{\\mathrel{\\stackrel{\\makebox[0pt]{\\mbox{\\normalfont\\tiny set}}}{=}}}\n'
 
 output += '\\renewcommand\\qedsymbol{{{0}}}\n'.format(qed_symbol)
 
@@ -132,8 +134,8 @@ output += _content
 
 output += "\n\\end{document}\n"
 
-output += "\n% Created by python -> latex autotranscriber\n"
+output += "\n% Created by Roger Hu, .pytex -> .tex latex transcriber\n"
 #print(output)
 
-with open('output.tex', 'w') as f:
+with open(sys.argv[1][:sys.argv[1].index('.')] + '.tex', 'w') as f:
 	f.write(output)
