@@ -82,7 +82,9 @@ We can also give names to theorems, like this.
 
 ..begin thm Theorem Stoke's Theorem
 For a closed surface oriented counter-clockwise, 
-\[ \int\limits_C \vec{F} /dot d\vec{r} = \iint\limits_S (/del /cross \vec{F}) /dot d/bd{S} \]
+..begin eq
+\int\limits_C \vec{F} /dot d\vec{r} = \iint\limits_S (/del /cross \vec{F}) /dot d/bd{S}
+..end eq
 ..end thm Theorem
 
 ..begin thm Note Some arbitrary title

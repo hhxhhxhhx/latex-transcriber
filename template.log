@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.7.26)  29 JUL 2020 22:04
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.7.26)  29 JUL 2020 22:09
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -204,23 +204,23 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2]
 LaTeX Font Info:    Trying to load font information for OMS+cmr on input line 1
-43.
+44.
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/it' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 143.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 144.
  [3] [4]
 (./template.aux) ) 
 Here is how much of TeX's memory you used:
  2180 strings out of 483183
  28164 string characters out of 5966292
- 264785 words of memory out of 5000000
+ 263785 words of memory out of 5000000
  17205 multiletter control sequences out of 15000+600000
  541304 words of font info for 55 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 30i,13n,31p,582b,206s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 30i,13n,31p,582b,235s stack positions out of 5000i,500n,10000p,200000b,80000s
  </home/roger/.texlive2019/texmf-var/fonts/pk/ljfour/jknappen
 /ec/tcbx1200.600pk> </home/roger/.texlive2019/texmf-var/fonts/pk/ljfour/jknappe
 n/ec/tcrm1200.600pk></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
