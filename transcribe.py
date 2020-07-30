@@ -90,8 +90,8 @@ theorem_parse = Replacer(lines, find_content, find_index)
 
 theorem_parse.replace()
 
-_start = find_index(lines, '..begindoc')
-_end = find_index(lines, '..enddoc')
+_start = find_index(lines, '..begin main')
+_end = find_index(lines, '..end main')
 
 main_content = lines[_start + 1: _end]
 

@@ -22,71 +22,71 @@ Nothing here will be read or transcribed
 ..initheorem Note Lemma shared 			% Numbered "Note"s that share the same counter as "Lemma".
 
 
-..begindoc								% This is "\begin{document}"
+..begin main							% This is "\begin{document}"
 
 To create a type of theorem, be it /it{Theorem}, /it{Lemma}, /it{Corollary}, whatever, do this.
 
-..beginthm Theorem
+..begin thm Theorem
 This is the contents of Theorem. Notice that it does not have a counter. 
-..endthm Theorem
+..end thm Theorem
 
 That means it doesn't matter how many /it{Theorem}s you have, they'll always show up as /bd{Theorem}.
 
-..beginthm Theorem
+..begin thm Theorem
 Here is another theorem.
-..endthm Theorem
+..end thm Theorem
 
-..beginthm Theorem
+..begin thm Theorem
 And another.
-..endthm Theorem
+..end thm Theorem
 
 On the other hand, /it{Lemma}s have a counter, since it was defined without the asterisk. 
 
-..beginthm Lemma
+..begin thm Lemma
 Yes, I know this isn't a lemma, but see how there's a counter?
-..endthm Lemma
+..end thm Lemma
 
 And since /it{Note} shares the same counter as /it{Lemma}, the counter will change whenever we define
 a new /it{Note} or /it{Lemma}. 
 
-..beginthm Note
+..begin thm Note
 Hello World! New counter!
-..endthm Note
+..end thm Note
 
-..beginthm Lemma
+..begin thm Lemma
 Counter changes again!
-..endthm Lemma
+..end thm Lemma
 
 However, /it{Corollary}s are defined to be subordinate to /it{Lemma} counters, take a look. 
 
-..beginthm Corollary
+..begin thm Corollary
 Hello, I'm a corollary. 
-..endthm Corollary
+..end thm Corollary
 
-..beginthm Corollary
+..begin thm Corollary
 What a coincidence, me too!
-..endthm Corollary
+..end thm Corollary
 
 Once the "superior" counter changes, in this case /it{Lemma}, /it{Corollary}s' counter will also change.
 
-..beginthm Note
+..begin thm Note
 Our counter changed!
-..endthm Note
+..end thm Note
 
-..beginthm Corollary
+..begin thm Corollary
 It should be self-explanatory why my counter is the way it is now. 
-..endthm Corollary
+..end thm Corollary
 
 We can also give names to theorems, like this. 
 
-..beginthm Theorem Stoke's Theorem
+..begin thm Theorem Stoke's Theorem
 For a closed surface oriented counter-clockwise, 
 \[ \int\limits_C \vec{F} /dot d\vec{r} = \iint\limits_S (/del /cross \vec{F}) /dot d/bd{S} \]
-..endthm Theorem
+..end thm Theorem
 
-..beginthm Note Some arbitrary title
+..begin thm Note Some arbitrary title
 It works for /it{Note}, /it{Lemma}, etc.
-..endthm Note
+..end thm Note
 
 It's extremely simple to create a proof. 
 
@@ -108,26 +108,26 @@ Suppose $\sqrt{2}^{\sqrt{2}} \notin \mathbb{Q}$, we can then use this value and 
 Do the following to create a bullet point list (unnumbered).
 If the type of list is not specified to be "bullet", it'll be defaulted to be 
 ordered. 
-..beginlist bullet
+..begin list bullet
 .. item 1.
 .. item 2. 
 this will go to the end of item 2, and not be in a new line, because it's missing the two dots in the beginning.
 .. item 3.
 /n item 3.5, notice that this doesn't have a bullet in front of it.
 .. item 4.
-..beginlist
+..begin list
 .. nested lists are also allowed!
 .. this one is ordered. 
-..beginlist
+..begin list
 .. and another nested list!
-..endlist
+..end list
 .. just remember to end as many lists as you started.
-..endlist
+..end list
 
 
 or it'll be embarassing, just like this here...
 
-..endlist
+..end list
 
 Oops, wrong indentation! 
 
@@ -136,8 +136,8 @@ but will not /bd{compile} correctly if an /it{..endlist} is missing!
 
 It might be helpful to indent the lists in the code, so you won't forget what level of indentation you're on. LateX is great in the sense that indentation doesn't matter /bd{that} much. 
 
-..beginthm Note
+..begin thm Note
 The transcribed .tex files will automatically be indented wherever there are items in a list. 
-..endthm Note
+..end thm Note
 
-..enddoc
+..end main

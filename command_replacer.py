@@ -37,46 +37,46 @@ class Replacer():
 				_initnamedtheorem = self.find_content(self.lines, '..initheorem', None)
 
 		# Replace all '..beginthm' with \begin{theorem}
-		_begintheorem = self.find_index(self.lines, '..beginthm')
+		_begintheorem = self.find_index(self.lines, '..begin thm')
 		while _begintheorem != -1:
-			text = self.lines[_begintheorem][11:].split()
+			text = self.lines[_begintheorem][12:].split()
 			if len(text) == 1:
 				self.lines[_begintheorem] = '\\begin{{{0}}}'.format(text[0][0].upper() + text[0][1:])
 			else:
 				self.lines[_begintheorem] = '\\begin{{{0}}}[{1}]'.format(text[0][0].upper() + text[0][1:], " ".join(text[1:]))
-			_begintheorem = self.find_index(self.lines, '..beginthm')
+			_begintheorem = self.find_index(self.lines, '..begin thm')
 
 		# Replace all '..endthm' with \end{theorem}
-		_endtheorem = self.find_index(self.lines, '..endthm')
+		_endtheorem = self.find_index(self.lines, '..end thm')
 		while _endtheorem != -1:
-			text = self.lines[_endtheorem][9:].split()
+			text = self.lines[_endtheorem][10:].split()
 			self.lines[_endtheorem] = '\\end{{{0}}}'.format(text[0][0].upper() + text[0][1:])
-			_endtheorem = self.find_index(self.lines, '..endthm')
+			_endtheorem = self.find_index(self.lines, '..end thm')
 
-		_beginproof = self.find_index(self.lines, '..beginproof')
+		_beginproof = self.find_index(self.lines, '..begin proof')
 		while _beginproof != -1:
 			self.lines[_beginproof] = '\\begin{proof}'
-			_beginproof = self.find_index(self.lines, '..beginproof')
+			_beginproof = self.find_index(self.lines, '..begin proof')
 
-		_endproof = self.find_index(self.lines, '..endproof')
+		_endproof = self.find_index(self.lines, '..end proof')
 		while _endproof != -1:
 			self.lines[_endproof] = '\\end{proof}'
-			_endproof = self.find_index(self.lines, '..endproof')
+			_endproof = self.find_index(self.lines, '..end proof')
 
 		nested_list_total = 0
 		nested_list_names = []
 		for	i in range(len(self.lines)):
 			if nested_list_total and self.lines[i].strip().startswith('.. '):
 				self.lines[i] = '    '*nested_list_total + '\\item ' + self.lines[i].strip()[3:]
-			elif self.lines[i].strip().startswith('..beginlist'):
-				if len(self.lines[i].strip()) > 11 and self.lines[i].strip()[12:].strip() == 'bullet':
+			elif self.lines[i].strip().startswith('..begin list'):
+				if len(self.lines[i].strip()) > 12 and self.lines[i].strip()[13:].strip() == 'bullet':
 					self.lines[i] = '    '*nested_list_total + '\\begin{itemize}'
 					nested_list_names.append('itemize')
 				else:
 					self.lines[i] = '    '*nested_list_total + '\\begin{enumerate}'
 					nested_list_names.append('enumerate')
 				nested_list_total += 1
-			elif self.lines[i].strip().startswith('..endlist'):
+			elif self.lines[i].strip().startswith('..end list'):
 				nested_list_total -= 1
 				self.lines[i] = '    '*nested_list_total + '\\end{{{0}}}'.format(nested_list_names.pop())
 			elif nested_list_total and not self.lines[i].strip().startswith('.. '):
