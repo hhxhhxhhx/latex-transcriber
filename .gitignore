@@ -1,2 +1,5 @@
-__pycache__/
+
+*.aux
 *.log
+
+__pycache__/
