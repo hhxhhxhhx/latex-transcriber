@@ -1,5 +1,5 @@
 
-*.aux
-*.log
+template.aux
+template.log
 
 __pycache__/
