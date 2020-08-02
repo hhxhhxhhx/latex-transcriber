@@ -125,9 +125,48 @@ class Replacer():
 				self.lines[index] += ' \\\\'
 			index += 1
 
+		start_align = 'flushleft'
+		for i in range(len(self.lines)):
+			lower_case = self.lines[i].lower()
+			if lower_case.startswith('..align left'):
+				if start_align:
+					self.lines[i] = '\\end{{{0}}}'.format(start_align)
+				self.lines.insert(i+1, '')
+				self.lines.insert(i+2, '\\begin{flushleft}')
+				if not start_align:
+					self.lines.pop(i)
+				start_align = 'flushleft'
+			elif lower_case.startswith('..align right'):
+				if start_align:
+					self.lines[i] = '\\end{{{0}}}'.format(start_align)
+				self.lines.insert(i+1, '')
+				self.lines.insert(i+2, '\\begin{flushright}')
+				if not start_align:
+					self.lines.pop(i)
+				start_align = 'flushright'
+			elif lower_case.startswith('..align center'):
+				if start_align:
+					self.lines[i] = '\\end{{{0}}}'.format(start_align)
+				self.lines.insert(i+1, '')
+				self.lines.insert(i+2, '\\begin{center}')
+				if not start_align:
+					self.lines.pop(i)
+				start_align = 'center'
+			elif lower_case.startswith('..align justify'):
+				if start_align:
+					self.lines[i] = '\\end{{{0}}}'.format(start_align)
+				else:
+					self.lines.pop(i)
+				start_align = None
 
+		self.start_align = start_align
 
-	def get_output(self):
+	@property
+	def end_align(self):
+		return self.start_align
+
+	@property
+	def theorem_def(self):
 		output = ''
 		if 'Theorem' not in self.all_theorem_names and 'theorem' not in self.all_theorem_names:
 			output += '\\newtheorem{Theorem}{Theorem}\n'

@@ -124,13 +124,19 @@ output += '\\renewcommand\\qedsymbol{{{0}}}\n'.format(qed_symbol)
 
 output += '\n'
 
-output += theorem_parse.get_output()
+output += theorem_parse.theorem_def
 
 output += '\n'
 
 output += "\\begin{document}\n"
 
+output += "\n\\begin{flushleft}\n"
+
 output += _content
+
+end_align = theorem_parse.end_align
+if end_align:
+	output += '\n\\end{{{0}}}\n'.format(end_align)
 
 output += "\n\\end{document}\n"
 

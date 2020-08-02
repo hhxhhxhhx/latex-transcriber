@@ -183,4 +183,28 @@ a = b
 10 + 4c = 20
 ..end eq
 
+\bigskip
+
+By default, all text are flushed left. However, it is possible to change it to be flushed right, centered, justified, etc. Use the following to set alignment. 
+
+..align center
+This is a line of text that is centered. 
+
+..align right
+This is a line of text that is flushed right. 
+
+..align justify
+This is a long line of text that is justified. If this is only a few words long, we won't be able to see that it is in fact justified. 
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+\medskip
+
+Notice that the text will follow the last setting, so if you want to go back to the default (flushed left), /it{..align left} must be used. 
+
+\medskip
+
+..align left
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. 
+
 ..end main
