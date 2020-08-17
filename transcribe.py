@@ -18,13 +18,13 @@ def load_pairs(fil: str = 'pairs.txt'):
 
 def find_index(lst, strr):
 	for i in range(len(lst)):
-		if strr in lst[i]:
+		if strr in lst[i] and '\\verb|' + strr not in lst[i]:
 			return i
 	return -1
 
 def find_content(lst, strr, deff=None):
     for item in lst:
-        if strr in item:
+        if strr in item and '\\verb|' + strr not in item:
             ret = item[item.index(strr) + len(strr) + 1:]
             while len(ret) > 0 and ret[-1] == ' ':
                 ret = ret[:-1]
@@ -84,11 +84,17 @@ if spacing.lower() == 'single' or spacing.lower() == '1':
 elif spacing.lower() == 'double' or spacing.lower() == '2':
     line_spread = 1.6
 
+pagenumbering = find_content(lines, '..pagenumber', 'bottom')
+if pagenumbering.lower() == 'bottom':
+    pagenumbering = 'plain'
+elif pagenumbering.lower() == 'none':
+    pagenumbering = 'empty'
+
 qed_symbol = find_content(lines, '..qed', '$\\blacksquare$')
 
-theorem_parse = Replacer(lines, find_content, find_index)
+replacer = Replacer(lines, find_content, find_index)
 
-theorem_parse.replace()
+replacer.replace()
 
 _start = find_index(lines, '..begin main')
 _end = find_index(lines, '..end main')
@@ -97,8 +103,15 @@ main_content = lines[_start + 1: _end]
 
 _content = "\n".join(main_content)
 
+# Purposely replace ones with \verb|__pair__| with \verb|random_string + __pair__|
+for pair in pairs:
+    _content = _content.replace('\\verb|{0}'.format(pair[0]), '\\verb|{0}'.format(pair[0][0] + 'afoswj' + pair[0][1:]))
+
 for pair in pairs:
 	_content = _content.replace(pair[0], pair[1])
+
+for pair in pairs:
+    _content = _content.replace('\\verb|{0}'.format(pair[0][0] + 'afoswj' + pair[0][1:]), '\\verb|{0}'.format(pair[0]))
 
 output = '\n\\documentclass[{0}pt]{{article}}\n'.format(font)
 output += '\\usepackage{'
@@ -114,17 +127,22 @@ output += '\\setlength{{\\parindent}}{{{0}em}}\n'.format(indent)
 
 output += '\\linespread{{{0}}}\n'.format(line_spread)
 
+output += '\\pagestyle{{{0}}}\n'.format(pagenumbering)
+
 output += '\n'
 
-output += '\\newcommand{\\norm}[1]{\\|#1\\|}\n'
-output += '\\newcommand{\\pytexdef}{\\mathrel{\\stackrel{\\makebox[0pt]{\\mbox{\\normalfont\\tiny def}}}{=}}}\n'
-output += '\\newcommand{\\pytexset}{\\mathrel{\\stackrel{\\makebox[0pt]{\\mbox{\\normalfont\\tiny set}}}{=}}}\n'
+if '\\norm' in _content:
+    output += '\\newcommand{\\norm}[1]{\\|#1\\|}\n'
+if '\\pytexdef' in _content:
+    output += '\\newcommand{\\pytexdef}{\\mathrel{\\stackrel{\\makebox[0pt]{\\mbox{\\normalfont\\tiny def}}}{=}}}\n'
+if '\\pytexset' in _content:
+    output += '\\newcommand{\\pytexset}{\\mathrel{\\stackrel{\\makebox[0pt]{\\mbox{\\normalfont\\tiny set}}}{=}}}\n'
 
 output += '\\renewcommand\\qedsymbol{{{0}}}\n'.format(qed_symbol)
 
 output += '\n'
 
-output += theorem_parse.theorem_def
+output += replacer.theorem_def
 
 output += '\n'
 
@@ -134,7 +152,7 @@ output += "\n\\begin{flushleft}\n"
 
 output += _content
 
-end_align = theorem_parse.end_align
+end_align = replacer.end_align
 if end_align:
 	output += '\n\\end{{{0}}}\n'.format(end_align)
 

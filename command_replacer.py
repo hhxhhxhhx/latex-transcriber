@@ -13,32 +13,36 @@ class Replacer():
 		INITIALIZING THEOREMS
 		"""
 		self.all_theorem_names = []
-		_initunnamedtheorem = self.find_content(self.lines, '..initheorem*', None)
-		self.unnamed_theorems = []
-		while _initunnamedtheorem:
-			lst = _initunnamedtheorem.split()
+		_initunnumberedtheorem = self.find_content(self.lines, '..initheorem*', None) # Unnumbered theorems to be defined using ..initheorem*
+		self.unnumbered_theorems = []
+		while _initunnumberedtheorem:
+			lst = _initunnumberedtheorem.split()
+			# These theorems must have 1 argument: the name of the type of theorem
 			if len(lst) != 1:
-				print("Error with ..initheorem* {0} command!".format(_initunnamedtheorem))
+				print("Error with ..initheorem* {0} command!".format(_initunnumberedtheorem))
 			else:
-				self.unnamed_theorems.append(lst[0])
+				self.unnumbered_theorems.append(lst[0])
 				self.all_theorem_names.append(lst[0])
 				line_to_remove = self.find_index(self.lines, '..initheorem*')
 				self.lines.pop(line_to_remove)
-				_initunnamedtheorem = self.find_content(self.lines, '..initheorem*', None)
+				_initunnumberedtheorem = self.find_content(self.lines, '..initheorem*', None)
 
-		_initnamedtheorem = self.find_content(self.lines, '..initheorem', None)
-		self.named_theorems = []
-		while _initnamedtheorem:
-			lst = _initnamedtheorem.split()
+		_initnumberedtheorem = self.find_content(self.lines, '..initheorem', None) # Numbered theorems to be defined using ..initheorem
+		self.numbered_theorems = []
+		while _initnumberedtheorem:
+			lst = _initnumberedtheorem.split()
+			# Must have 1 or 3 arguments: 1 if the counter is by itself
+			#							  3 if the counter is subordinate or shared with something else
 			if len(lst) != 1 and len(lst) != 3:
-				print("Error with ..initheorem {0} command!".format(_initnamedtheorem))
+				print("Error with ..initheorem {0} command!".format(_initnumberedtheorem))
 			else:
-				self.named_theorems.append(lst)
+				self.numbered_theorems.append(lst)
 				self.all_theorem_names.append(lst[0])
 				line_to_remove = self.find_index(self.lines, '..initheorem')
 				self.lines.pop(line_to_remove)
-				_initnamedtheorem = self.find_content(self.lines, '..initheorem', None)
+				_initnumberedtheorem = self.find_content(self.lines, '..initheorem', None)
 
+		# Check for ..begin section or ..begin subsection or ..begin subsubsection, etc. 
 		for i in range(5):
 			_beginsection = self.find_index(self.lines, '..begin {0}section'.format('sub' * i))
 			while _beginsection != -1:
@@ -82,16 +86,16 @@ class Replacer():
 		"""
 		LISTS
 		"""
-		nested_list_total = 0
+		nested_list_total = 0 # Used to indent
 		nested_list_names = []
 		for	i in range(len(self.lines)):
-			if nested_list_total and self.lines[i].strip().startswith('.. '):
+			if nested_list_total and self.lines[i].strip().startswith('.. '): # Each item to begin with ".. "
 				self.lines[i] = '    '*nested_list_total + '\\item ' + self.lines[i].strip()[3:]
 			elif self.lines[i].strip().startswith('..begin list'):
-				if len(self.lines[i].strip()) > 12 and self.lines[i].strip()[13:].strip() == 'bullet':
+				if len(self.lines[i].strip()) > 12 and self.lines[i].strip()[13:].strip() == 'bullet': # Bullet point lists don't have numbering
 					self.lines[i] = '    '*nested_list_total + '\\begin{itemize}'
 					nested_list_names.append('itemize')
-				else:
+				else: # Other lists do have numbering
 					self.lines[i] = '    '*nested_list_total + '\\begin{enumerate}'
 					nested_list_names.append('enumerate')
 				nested_list_total += 1
@@ -109,7 +113,7 @@ class Replacer():
 		while index < len(self.lines) - 1:
 			if self.lines[index].startswith('..begin eq'):
 				eq_type = ('align' if 'align' in self.lines[index].lower() else 'gather')
-				if 'number' not in self.lines[index].lower():
+				if 'number' not in self.lines[index].lower(): # If no numbering, add *
 					eq_type += '*'
 				self.lines[index] = '\\begin{{{0}}}'.format(eq_type)
 			elif self.lines[index].startswith('..end eq'):
@@ -121,38 +125,20 @@ class Replacer():
 				self.lines.pop(index)
 				continue
 			elif eq_type and not self.lines[index].strip().endswith('\\\\') \
-						 and not self.lines[index].strip().endswith('/n'):
+						 and not self.lines[index].strip().endswith('..n'): # Add newline character after each line break because LaTeX is dumb
 				self.lines[index] += ' \\\\'
 			index += 1
 
+		"""
+		ALIGNMENT
+		"""
 		start_align = 'flushleft'
 		for i in range(len(self.lines)):
 			lower_case = self.lines[i].lower()
-			if lower_case.startswith('..align left'):
-				if start_align:
-					self.lines[i] = '\\end{{{0}}}'.format(start_align)
-				self.lines.insert(i+1, '')
-				self.lines.insert(i+2, '\\begin{flushleft}')
-				if not start_align:
-					self.lines.pop(i)
-				start_align = 'flushleft'
-			elif lower_case.startswith('..align right'):
-				if start_align:
-					self.lines[i] = '\\end{{{0}}}'.format(start_align)
-				self.lines.insert(i+1, '')
-				self.lines.insert(i+2, '\\begin{flushright}')
-				if not start_align:
-					self.lines.pop(i)
-				start_align = 'flushright'
-			elif lower_case.startswith('..align center'):
-				if start_align:
-					self.lines[i] = '\\end{{{0}}}'.format(start_align)
-				self.lines.insert(i+1, '')
-				self.lines.insert(i+2, '\\begin{center}')
-				if not start_align:
-					self.lines.pop(i)
-				start_align = 'center'
-			elif lower_case.startswith('..align justify'):
+			start_align = self._align_helper(lower_case, i, 'left', 'flushleft', start_align)
+			start_align = self._align_helper(lower_case, i, 'right', 'flushright', start_align)
+			start_align = self._align_helper(lower_case, i, 'center', 'center', start_align)
+			if lower_case.startswith('..align justify'):
 				if start_align:
 					self.lines[i] = '\\end{{{0}}}'.format(start_align)
 				else:
@@ -160,6 +146,17 @@ class Replacer():
 				start_align = None
 
 		self.start_align = start_align
+
+	def _align_helper(self, lower_case, i, word, second_word, start_align):
+		if lower_case.startswith('..align ' + word):
+			if start_align:
+				self.lines[i] = '\\end{{{0}}}'.format(start_align)
+			self.lines.insert(i+1, '')
+			self.lines.insert(i+2, '\\begin{' + second_word + '}')
+			if not start_align:
+				self.lines.pop(i)
+			start_align = second_word
+		return start_align
 
 	@property
 	def end_align(self):
@@ -175,9 +172,9 @@ class Replacer():
 		if 'Lemma' not in self.all_theorem_names and 'lemma' not in self.all_theorem_names:
 			output += '\\newtheorem{Lemma}[Theorem]{Lemma}\n'
 
-		for theorem in self.unnamed_theorems:
+		for theorem in self.unnumbered_theorems:
 			output += '\\newtheorem*{{{0}}}{{{0}}}\n'.format(theorem[0].upper() + theorem[1:])
-		for theorem in self.named_theorems:
+		for theorem in self.numbered_theorems:
 			if len(theorem) == 1:
 				output += '\\newtheorem{{{0}}}{{{0}}}\n'.format(theorem[0][0].upper() + theorem[0][1:])
 			elif 'sub' in theorem[2].lower():

@@ -1,34 +1,33 @@
 
-/union -> \cup
-/itsc -> \cap % intersection
-/<= -> \leq
-/>= -> \geq
-/!= -> \neq
-/<< -> \ll
-/>> -> \gg
-/~= -> \approx
-/setdiff -> \setminus
-/del -> \nabla
-/<( -> \langle % left angle bracket
-/>) -> \rangle % right angle bracket
-/norm -> \norm
-/dot -> \cdot % dot product
-/cross -> \times
-/=> -> \Rightarrow
-/!=> -> \nRightarrow
-/==> -> \Longrightarrow % also \implies
-/!==> -> \nLongrightarrow
-/<=> -> \Leftrightarrow
-/<==> -> \iff
-/-> -> \to
-\--> -> \longrightarrow
-/and -> \wedge
-/or -> \vee
-/def -> \pytexdef
-/set -> \pytexset
-/nin -> \notin
+..union -> \cup
+..itsc -> \cap % intersection
+..<< -> \ll
+..>> -> \gg
+..~= -> \approx
+..setdiff -> \setminus
+..del -> \nabla
+..<( -> \langle % left angle bracket
+..>) -> \rangle % right angle bracket
+..norm -> \norm
+..dot -> \cdot % dot product
+..cross -> \times
+..<=> -> \Leftrightarrow
+..<==> -> \iff
+..!=> -> \nRightarrow
+..=> -> \Rightarrow
+..==> -> \Longrightarrow % also \implies
+..-> -> \to
+..--> -> \longrightarrow
+..!= -> \neq
+..<= -> \leq
+..>= -> \geq
+..and -> \wedge
+..or -> \vee
+..def -> \pytexdef
+..set -> \pytexset
+..nin -> \notin
 
-/it -> \emph
-/bd -> \textbf
-/n -> \\
-/t -> \quad
+..it -> \emph
+..bd -> \textbf
+..n -> \\
+..t -> \quad

@@ -1,9 +1,3 @@
-% this is a single line comment
-
-%%%
-This is a block comment.
-Nothing here will be read or transcribed
-%%%
 
 ..font 12								% Optional, default 12.
 ..packages								% Optional, default amsmath, amssymb, amsthm, geometry
@@ -13,6 +7,7 @@ Nothing here will be read or transcribed
 ..margin 1								% Optional, default 1. Can be 2, 3, 1.5, etc.
 ..indent 0								% Optional, default 4 (paragraph indent). 
 ..spacing 1.5							% Optional, default 1.5. Can be "single", "1", "double", "2"
+..pagenumber none						% Optional, default "bottom"
 
 ..qed Q.E.D								% Optional, default black square. 
 
@@ -23,15 +18,32 @@ Nothing here will be read or transcribed
 
 
 ..begin main							% This is "\begin{document}"
+To begin the document: \verb|..begin main|
+
+A list of all keywords the transcriber can see will be at the very end of this document. 
+
+\medskip
 
 ..begin section Theorems
-To create a type of theorem, be it /it{Theorem}, /it{Lemma}, /it{Corollary}, whatever, do this.
+To begin a section with heading ..bd{XYZ}: \verb|..begin section XYZ|
 
+So in this case, it's \verb|..begin section Theorems|
+
+\bigskip
+
+To begin a type of theorem defined in the header, such as ..bd{XYZ}: \verb|..begin thm XYZ|. When you're done with the theorem, \verb|..end thm XYZ| must be used as well. 
+
+\medskip
+
+\verb|..begin thm Theorem|
 ..begin thm Theorem
 This is the contents of Theorem. Notice that it does not have a counter. 
 ..end thm Theorem
+\verb|.. end thm Theorem|
 
-That means it doesn't matter how many /it{Theorem}s you have, they'll always show up as /bd{Theorem}.
+\medskip
+
+That means it doesn't matter how many ..it{Theorem}s you have, they'll always show up as ..bd{Theorem}.
 
 ..begin thm Theorem
 Here is another theorem.
@@ -41,34 +53,46 @@ Here is another theorem.
 And another.
 ..end thm Theorem
 
-On the other hand, /it{Lemma}s have a counter, since it was defined without the asterisk. 
+On the other hand, ..it{Lemma}s have a counter, since it was defined without the asterisk. 
 
+\medskip
+\verb|..begin thm Lemma|
 ..begin thm Lemma
 Yes, I know this isn't a lemma, but see how there's a counter?
 ..end thm Lemma
+\verb|.. end thm Lemma|
+\medskip
 
-And since /it{Note} shares the same counter as /it{Lemma}, the counter will change whenever we define
-a new /it{Note} or /it{Lemma}. 
+And since ..it{Note} shares the same counter as ..it{Lemma}, the counter will change whenever we define
+a new ..it{Note} or ..it{Lemma}. 
 
+\medskip
+\verb|..begin thm Note|
 ..begin thm Note
 Hello World! New counter!
 ..end thm Note
+\verb|..end thm Note|
+\medskip
 
 ..begin thm Lemma
 Counter changes again!
 ..end thm Lemma
 
-However, /it{Corollary}s are defined to be subordinate to /it{Lemma} counters, take a look. 
+However, ..it{Corollary}s are defined to be subordinate to ..it{Lemma} counters, take a look. 
 
+\medskip
+\verb|..begin thm Corollary|
 ..begin thm Corollary
 Hello, I'm a corollary. 
 ..end thm Corollary
+\verb|..end thm Corollary|
+\medskip
 
 ..begin thm Corollary
 What a coincidence, me too!
 ..end thm Corollary
 
-Once the "superior" counter changes, in this case /it{Lemma}, /it{Corollary}s' counter will also change.
+Once the "superior" counter changes, in this case ..it{Lemma}, ..it{Corollary}s' counter will also change.
 
 ..begin thm Note
 Our counter changed!
@@ -78,26 +102,38 @@ Our counter changed!
 It should be self-explanatory why my counter is the way it is now. 
 ..end thm Corollary
 
-We can also give names to theorems, like this. 
+\bigskip
+To begin a theorem ..bd{XYZ} with specific heading ..bd{..ABC DEF}: \verb|..begin thm XYZ ..ABC DEF|. To end the theorem, using \verb|..end thm XYZ| is enough. 
 
+\medskip
+\verb|..begin thm Theorem Stoke's Theorem|
 ..begin thm Theorem Stoke's Theorem
 For a closed surface oriented counter-clockwise, 
 ..begin eq
-\int\limits_C \vec{F} /dot d\vec{r} = \iint\limits_S (/del /cross \vec{F}) /dot d/bd{S}
+\int\limits_C \vec{F} ..dot d\vec{r} = \iint\limits_S (..del ..cross \vec{F}) ..dot d..bd{S}
 ..end eq
 ..end thm Theorem
-
-..begin thm Note Some arbitrary title
-It works for /it{Note}, /it{Lemma}, etc.
-..end thm Note
-
-..begin subsection Proofs
-
-It's extremely simple to create a proof. 
-
+\verb|..end thm Theorem|
 \medskip
 
-/bd{Claim:} an irrational number raised to an irrational power can be rational.  
+..begin thm Note Some arbitrary title
+It works for ..it{Note}, ..it{Lemma}, etc.
+..end thm Note
+\verb|..end thm Note|
+
+..begin subsection Proofs
+\verb|..begin subsection Proofs|
+
+To begin a subsection ..bd{XYZ}, use \verb|begin subsection XYZ|. You can also have subsubsections, subsubsubsections, etc.
+
+To create a proof, surround the contents of the proof with \verb|..begin proof| and \verb|..end proof|
+
+\bigskip
+
+..bd{Claim:} an irrational number raised to an irrational power can be rational. 
+
+\medskip
+\verb|..begin proof| 
 ..begin proof
 
 Notice that $\sqrt{2} \in \mathbb{R}$, $\notin \mathbb{Q}$. Therefore, we know that $\sqrt{2}^{\sqrt{2}} \in \mathbb{R}$ but can be $\in \mathbb{Q}$ or $\notin \mathbb{Q}$.
@@ -108,21 +144,25 @@ Suppose $\sqrt{2}^{\sqrt{2}} \notin \mathbb{Q}$, we can then use this value and 
 
 \[ (\sqrt{2}^{\sqrt{2}})^{\sqrt{2}} = \sqrt{2}^{\sqrt{2} * \sqrt{2}} = \sqrt{2}^2 = 2 \in \mathbb{Q} \]
 ..end proof
+\verb|..end proof|
 
 ..begin section Lists
 
-Do the following to create a bullet point list (unnumbered).
-If the type of list is not specified to be "bullet", it'll be defaulted to be 
-ordered. 
+Lists can be nested. 
+
+Do this to create a bullet-point (unnumbered) type of list: \verb|..begin list bullet|.
+
+As expected?, \verb|..end list| must be used at the very end. 
 ..begin list bullet
+.. For each item in the list, it must be on a separate line, and it must be preceded with a \verb|.. |.
 .. item 1.
 .. item 2. 
-this will go to the end of item 2, and not be in a new line, because it's missing the two dots in the beginning.
+this will go to the end of item 2, and not be in a new line, because it's missing \verb|.. | in the beginning.
 .. item 3.
-/n item 3.5, notice that this doesn't have a bullet in front of it.
+..n Notice that this doesn't have the bullet point in front, because a newline character is used instead of \verb|.. |
 .. item 4.
+.. ..bd{To create an ordered list, use} \verb|..begin list|
 ..begin list
-.. nested lists are also allowed!
 .. this one is ordered. 
 ..begin list
 .. and another nested list!
@@ -133,13 +173,14 @@ this will go to the end of item 2, and not be in a new line, because it's missin
 or it'll be embarassing, just like this here...
 
 ..end list
+\verb|..end list|
 
 Oops, wrong indentation! 
 
 Or better yet, it'll transcribe correctly,
-but will not /bd{compile} correctly if an /it{..endlist} is missing!
+but will not ..bd{compile} correctly if a \verb|..end list| is missing!
 
-It might be helpful to indent the lists in the code, so you won't forget what level of indentation you're on. LaTeX is great in the sense that indentation doesn't matter /bd{that} much. 
+It might be helpful to indent the lists in the code, so you won't forget what level of indentation you're on. LaTeX is great in the sense that indentation doesn't matter ..it{that} much. 
 
 ..begin thm Note
 The transcribed .tex files will automatically be indented wherever there are items in a list. 
@@ -147,25 +188,37 @@ The transcribed .tex files will automatically be indented wherever there are ite
 
 ..begin section Equations
 
-LaTeX's equation mode honestly sucks. You can't have a blank line while in equation / gather / align mode. This means that a reasonable person expecting to create a new line would get a ridiculous error like missing /bd{\$} inserted. The only way to create a line break would be using /it{\textbackslash\textbackslash}, which I think is a lot less intuitive than it should be.
+LaTeX's equation mode honestly sucks. You can't have a blank line while in equation .. gather .. align mode. This means that a reasonable person expecting to create a new line would get a ridiculous error like missing \verb|$| inserted. The only way to create a line break would be using \verb|\\|, which I think is a lot less intuitive than it should be.
 
 \medskip
 
-This transcriber will assume all new lines within the gather / align mode are supposed to be in a new line compared to the previous / following line. This means that there is no need to insert /it{\textbackslash\textbackslash} at the end of each line, but it also means that the only way to continue on the same line in the compiled pdf is to put the equation in the same line. Blank lines will be automatically removed, so feel free to leave blank lines in the file to be transcribed. 
+This transcriber will assume all new lines within the gather or align mode are supposed to be in a new line compared to the previous and following line. This means that there is no need to insert \verb|\\| at the end of each line, but it also means that the only way to continue on the same line in the compiled pdf is to put the equation in the same line. Blank lines will be automatically removed, so feel free to leave blank lines in the file to be transcribed. 
 
 \medskip
 
-Only two modes are implemented: /bd{align} and /bd{gather}. I honestly don't know what the difference between /bd{gather} and /bd{equation} are, so I'm only implementing /bd{gather}. /bd{Align} mode allows you to select a symbol, usually the equal sign, to be aligned to other equations; /bd{gather} mode centers all the equations. Check this document for help if necessary. To select which symbol you want to align with in /bd{align} mode, prepend the symbol with a \& sign. Most of the time, gather mode will be used. 
+Only two modes are implemented: ..bd{align} and ..bd{gather}. I honestly don't know what the difference between ..bd{gather} and ..bd{equation} are, so I'm only implementing ..bd{gather}. ..bd{Align} mode allows you to select a symbol, usually the equal sign, to be aligned to other equations; ..bd{gather} mode centers all the equations. Check this document for help if necessary. ..bd{To select which symbol you want to align with in align mode, prepend the symbol with a \& sign.} Most of the time, gather mode will be used. 
 
 \medskip
 
-By default, /bd{gather} mode, and non-numbering mode is used. Enable /bd{align} by putting the word /it{align} in it. Enable /bd{number}ed mode by putting /it{number} in it. 
+By default, ..bd{gather} mode, and non-numbering mode is used. Enable ..bd{align} by putting the word ..it{align} in it. Enable ..bd{numbered} mode by putting ..it{number} in it. 
 
 \medskip
 
-Here's the /bd{align} mode with no numbering. 
+Here's the ..bd{gather} mode with no numbering: ..n
+\verb|..begin eq|
+..begin eq
+a = b + c
+d = e + f
+a + d = b + c
+..end eq
+\verb|..end eq|
+
+\medskip
+
+Here's the ..bd{align} mode with no numbering: ..n
+\verb|..begin eq align|
 ..begin eq align
-h &/set 2x + 3y + 4z		&	2u + &2v = 10
+h &..set 2x + 3y + 4z		&	2u + &2v = 10
 
 x &= y						&	&2v + 4w = 20
 
@@ -173,38 +226,120 @@ a &= b + c					&	2b + 2c + &7v = 30\\
 f(x, y) &= g(a, b, c)		&	&2v = 4z
 
 ..end eq
+\verb|..end eq|
 
 \medskip
 
-Here's the /bd{gather} mode with numbering:
+Here's the ..bd{gather} mode with numbering: ..n
+\verb|..begin eq number|
 ..begin eq number
 a = b
 2x + 4c = 10
 10 + 4c = 20
 ..end eq
+\verb|..end eq|
 
-\bigskip
+\medskip
+
+Here's how to do ..bd{align} with numbering: ..n
+\verb|..begin eq align number|
+..begin eq align number
+a &= b + c
+a &= 2b + d
+a &= 3c + e
+..end eq
+\verb|..end eq|
+
+..begin section Text Alignment
 
 By default, all text are flushed left. However, it is possible to change it to be flushed right, centered, justified, etc. Use the following to set alignment. 
 
 ..align center
+\verb|..align center|..n
 This is a line of text that is centered. 
 
 ..align right
+\verb|..align right|..n
 This is a line of text that is flushed right. 
 
 ..align justify
-This is a long line of text that is justified. If this is only a few words long, we won't be able to see that it is in fact justified. 
-
+\verb|..align justify|..n
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
 \medskip
 
-Notice that the text will follow the last setting, so if you want to go back to the default (flushed left), /it{..align left} must be used. 
+..align left
+\verb|..align left|..n
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. 
+
+..begin section Creating the Document
+
+..begin thm Note
+EVERY single thing here is optional and does not need to be defined.
+..end thm Note
+
+\verb|..font XYZ| will set font to ..bd{XYZ}. Defaulted to 12..n
+\verb|..packages A B C| will include packages ..bd{A, B, C} in addition to amsmath, amssymb, amsthm, geometry ..n
+\verb|..paper letter| will set page size to letter. Can be "legal", "a4", and some others..n
+\verb|..orient landscape| will set page to be landscape. Default "portrait"..n
+
+\bigskip
+\verb|..margin XYZ| will set margin size to ..bd{XYZ} inches. Default 1...n
+\verb|..indent XYZ| will set paragraph indent to ..bd{XYZ}. Default 4, can be 0, 1, etc...n
+\verb|..spacing XYZ| will set line spacing to ..bd{XYZ}. Default 1.5, can be "single", "1", "double", "2"..n
+\verb|..pagenumber none| will make each page not have a number. Default "bottom" or "plain"..n
+
+\bigskip
+\verb|..initheorem* XYZ| will create theorem type ..bd{XYZ} with no numbering..n
+\verb|..initheorem XYZ| will create theorem type ..bd{XYZ} with a counter that increments each time ..bd{XYZ} is created..n
+\verb|..initheorem XYZ ..ABC sub| will create theorem type ..bd{XYZ} that is ..bd{SUBORDINATE} to counter type ..bd{..ABC}..n
+\verb|..initheorem XYZ ..ABC shared| will create theorem type ..bd{XYZ} that is ..bd{SHARED} with counter type ..bd{..ABC}..n
+\verb|..qed XYZ| will change the symbol that sits at the end of a proof to be the text ..bd{XYZ}. Default is a black square
+
+..begin section Keywords
+
+Line comment: \verb|%|..n
+Block comment: \verb|%|\verb|%|\verb|%|\verb| something here |\verb|%|\verb|%|\verb|%|
 
 \medskip
 
-..align left
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. 
+\verb|..union         ->        |$..union$..n
+\verb|..itsc          ->        |$..itsc$..n
+\verb|..<=            ->        |$..<=$..n
+\verb|..>=            ->        |$..>=$..n
+\verb|..!=            ->        |$..!=$..n
+\verb|..<<            ->        |$..<<$..n
+\verb|..>>            ->        |$..>>$..n
+\verb|..~=            ->        |$..~=$..n
+\verb|..setdiff       ->        |$..setdiff$..n
+\verb|..del           ->        |$..del$..n
+\verb|..<(            ->        |$..<($..n
+\verb|..>)            ->        |$..>)$..n
+\verb|..norm{\vec{a}} ->        |$..norm{\vec{a}}$..n
+\verb|..dot           ->        |$..dot$..n
+\verb|..cross         ->        |$..cross$..n
+\verb|..=>            ->        |$..=>$..n
+\verb|..!=>           ->        |$..!=>$..n
+\verb|..==>           ->        |$..==>$..n
+\verb|..<=>           ->        |$..<=>$..n
+\verb|..<==>          ->        |$..<==>$..n
+\verb|..->            ->        |$..->$..n
+\verb|..-->           ->        |$..-->$..n
+\verb|..and           ->        |$..and$..n
+\verb|..or            ->        |$..or$..n
+\verb|..def           ->        |$..def$..n
+\verb|..set           ->        |$..set$..n
+\verb|..nin           ->        |$..nin$..n
+\bigskip
+\verb|..it{a}         ->        |..it{a}..n
+\verb|..bd{a}         ->        |..bd{a}..n
+\verb|..n             ->           New line character|..n
+\verb|..t             ->           Tab character|..n
 
+\bigskip
+Check pairs.txt for what exactly they're changed to.
+
+\bigskip
+
+To end the entire document, use \verb|..end main|
 ..end main
