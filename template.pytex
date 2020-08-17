@@ -103,7 +103,7 @@ It should be self-explanatory why my counter is the way it is now.
 ..end thm Corollary
 
 \bigskip
-To begin a theorem ..bd{XYZ} with specific heading ..bd{..ABC DEF}: \verb|..begin thm XYZ ..ABC DEF|. To end the theorem, using \verb|..end thm XYZ| is enough. 
+To begin a theorem ..bd{XYZ} with specific heading ..bd{ABC DEF}: \verb|..begin thm XYZ ABC DEF|. To end the theorem, using \verb|..end thm XYZ| is enough. 
 
 \medskip
 \verb|..begin thm Theorem Stoke's Theorem|
@@ -119,7 +119,8 @@ For a closed surface oriented counter-clockwise,
 ..begin thm Note Some arbitrary title
 It works for ..it{Note}, ..it{Lemma}, etc.
 ..end thm Note
-\verb|..end thm Note|
+
+\newpage
 
 ..begin subsection Proofs
 \verb|..begin subsection Proofs|
@@ -146,49 +147,65 @@ Suppose $\sqrt{2}^{\sqrt{2}} \notin \mathbb{Q}$, we can then use this value and 
 ..end proof
 \verb|..end proof|
 
+\newpage
+
 ..begin section Lists
 
 Lists can be nested. 
 
-Do this to create a bullet-point (unnumbered) type of list: \verb|..begin list bullet|.
+Do this to create a bullet-point (unnumbered) type of list: \verb|..begin list bullet|...n
+To create a numbered list: \verb|..begin list|..n
+\verb|..end list| must be used at the very end. ..n
 
-As expected?, \verb|..end list| must be used at the very end. 
+\bigskip
+This is the syntax for a sample list. ..n
+
+\verb|..begin list bullet|..n
+\verb|.. item 1|..n
+\verb|.. item 2|..n
+\verb|This line will be appended to the end of item 2|..n
+\verb|..n So will this one, but we just added a new line character, so it visually looks like|..n
+\verb|it's on a different line, but there just would not be a bullet point in front of it.|..n
+\verb|..begin list|..n
+\verb|.. Nested lists can be created.|..n
+\verb|..begin list|..n
+\verb|.. So can nested lists inside nested lists.|..n
+\verb|..end list|..n
+\verb|.. The above line must be used to indicate that a list is ended.|..n
+\verb|.. It'll transcribe correctly, but it will not compile to .pdf|..n
+\verb|..end list|..n
+\verb|.. an end list must be used for each list created.|..n
+\verb|..end list|..n
+
+\bigskip
+
+Here is the above code compiled. ..n
+
 ..begin list bullet
-.. For each item in the list, it must be on a separate line, and it must be preceded with a \verb|.. |.
-.. item 1.
-.. item 2. 
-this will go to the end of item 2, and not be in a new line, because it's missing \verb|.. | in the beginning.
-.. item 3.
-..n Notice that this doesn't have the bullet point in front, because a newline character is used instead of \verb|.. |
-.. item 4.
-.. ..bd{To create an ordered list, use} \verb|..begin list|
+.. item 1
+.. item 2
+This line will be appended to the end of item 2
+..n So will this one, but we just added a new line character
 ..begin list
-.. this one is ordered. 
+.. Nested lists can be created.
 ..begin list
-.. and another nested list!
+.. So can nested lists inside nested lists.
 ..end list
-.. just remember to end as many lists as you started.
+.. The above line must be used to indicate that a list is ended.
+.. It'll transcribe correctly, but it will not compile to .pdf
 ..end list
-
-or it'll be embarassing, just like this here...
-
+.. an end list must be used for each list.
 ..end list
-\verb|..end list|
-
-Oops, wrong indentation! 
-
-Or better yet, it'll transcribe correctly,
-but will not ..bd{compile} correctly if a \verb|..end list| is missing!
-
-It might be helpful to indent the lists in the code, so you won't forget what level of indentation you're on. LaTeX is great in the sense that indentation doesn't matter ..it{that} much. 
 
 ..begin thm Note
 The transcribed .tex files will automatically be indented wherever there are items in a list. 
 ..end thm Note
 
+\newpage
+
 ..begin section Equations
 
-LaTeX's equation mode honestly sucks. You can't have a blank line while in equation .. gather .. align mode. This means that a reasonable person expecting to create a new line would get a ridiculous error like missing \verb|$| inserted. The only way to create a line break would be using \verb|\\|, which I think is a lot less intuitive than it should be.
+LaTeX's equation mode honestly sucks. You can't have a blank line while in equation / gather / align mode. This means that a reasonable person expecting to create a new line would get a ridiculous error like missing \verb|$| inserted. The only way to create a line break would be using \verb|\\|, which I think is a lot less intuitive than it should be.
 
 \medskip
 
@@ -196,7 +213,7 @@ This transcriber will assume all new lines within the gather or align mode are s
 
 \medskip
 
-Only two modes are implemented: ..bd{align} and ..bd{gather}. I honestly don't know what the difference between ..bd{gather} and ..bd{equation} are, so I'm only implementing ..bd{gather}. ..bd{Align} mode allows you to select a symbol, usually the equal sign, to be aligned to other equations; ..bd{gather} mode centers all the equations. Check this document for help if necessary. ..bd{To select which symbol you want to align with in align mode, prepend the symbol with a \& sign.} Most of the time, gather mode will be used. 
+Only two modes are implemented: ..bd{align} and ..bd{gather}. I honestly don't know what the difference between ..bd{gather} and ..bd{equation} are, so I'm only implementing ..bd{gather}. ..bd{Align} mode allows you to select a symbol, usually the equal sign, to be aligned to other equations; ..bd{gather} mode centers all the equations. ..bd{To select which symbol you want to align with in align mode, prepend the symbol with a \& sign.} Most of the time, gather mode will be used. 
 
 \medskip
 
@@ -205,50 +222,65 @@ By default, ..bd{gather} mode, and non-numbering mode is used. Enable ..bd{align
 \medskip
 
 Here's the ..bd{gather} mode with no numbering: ..n
-\verb|..begin eq|
+\verb|..begin eq|..n
+\verb|a = b + c|..n
+\verb|d = e + f|..n
+\verb|a + d = b + c|..n
+\verb|..end eq|
+
 ..begin eq
 a = b + c
 d = e + f
 a + d = b + c
 ..end eq
-\verb|..end eq|
 
 \medskip
 
 Here's the ..bd{align} mode with no numbering: ..n
-\verb|..begin eq align|
+\verb|..begin eq align|..n
+\verb|h &= 2x + 3y + 4z     &   2u + &2v = 10|..n
+\verb|x &= y                &   &2v + 4w = 20|..n
+\verb|a &= b + c            &   2b + 2c + &7v = 30|..n
+\verb|f(x, y) &= g(a, b, c) &   &2v = 4z|..n
+\verb|..end eq|
+
 ..begin eq align
-h &..set 2x + 3y + 4z		&	2u + &2v = 10
-
+h &= 2x + 3y + 4z	      	&	2u + &2v = 10
 x &= y						&	&2v + 4w = 20
-
-a &= b + c					&	2b + 2c + &7v = 30\\
+a &= b + c					&	2b + 2c + &7v = 30
 f(x, y) &= g(a, b, c)		&	&2v = 4z
 
 ..end eq
-\verb|..end eq|
 
 \medskip
 
 Here's the ..bd{gather} mode with numbering: ..n
-\verb|..begin eq number|
+\verb|..begin eq number|..n
+\verb|a = b|..n
+\verb|2x + 4c = 10|..n
+\verb|10 + 4c = 20|..n
+\verb|..end eq|
 ..begin eq number
 a = b
 2x + 4c = 10
 10 + 4c = 20
 ..end eq
-\verb|..end eq|
 
 \medskip
 
 Here's how to do ..bd{align} with numbering: ..n
-\verb|..begin eq align number|
+\verb|..begin eq align number|..n
+\verb|a &= b + c|..n
+\verb|a &= 2b + d|..n
+\verb|a &= 3c + e|..n
+\verb|..end eq|
 ..begin eq align number
 a &= b + c
 a &= 2b + d
 a &= 3c + e
 ..end eq
-\verb|..end eq|
+
+\newpage
 
 ..begin section Text Alignment
 
@@ -272,29 +304,33 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 \verb|..align left|..n
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. 
 
+\newpage
+
 ..begin section Creating the Document
 
 ..begin thm Note
-EVERY single thing here is optional and does not need to be defined.
+EVERYTHING here is optional.
 ..end thm Note
 
 \verb|..font XYZ| will set font to ..bd{XYZ}. Defaulted to 12..n
-\verb|..packages A B C| will include packages ..bd{A, B, C} in addition to amsmath, amssymb, amsthm, geometry ..n
-\verb|..paper letter| will set page size to letter. Can be "legal", "a4", and some others..n
-\verb|..orient landscape| will set page to be landscape. Default "portrait"..n
+\verb|..packages A B C| will include packages ..bd{A}, ..bd{B}, ..bd{C} in addition to amsmath, amssymb, amsthm, and geometry ..n
+\verb|..paper letter| will set page size to letter. Can be ``legal'', ``a4'', and some others..n
+\verb|..orient landscape| will set page to be landscape. Default ``portrait''..n
 
 \bigskip
 \verb|..margin XYZ| will set margin size to ..bd{XYZ} inches. Default 1...n
 \verb|..indent XYZ| will set paragraph indent to ..bd{XYZ}. Default 4, can be 0, 1, etc...n
-\verb|..spacing XYZ| will set line spacing to ..bd{XYZ}. Default 1.5, can be "single", "1", "double", "2"..n
-\verb|..pagenumber none| will make each page not have a number. Default "bottom" or "plain"..n
+\verb|..spacing XYZ| will set line spacing to ..bd{XYZ}. Default 1.5, can be ``single'', ``1'', ``double'', ``2''..n
+\verb|..pagenumber none| will make each page not have a number. Default ``bottom'' or ``plain''..n
 
 \bigskip
 \verb|..initheorem* XYZ| will create theorem type ..bd{XYZ} with no numbering..n
 \verb|..initheorem XYZ| will create theorem type ..bd{XYZ} with a counter that increments each time ..bd{XYZ} is created..n
-\verb|..initheorem XYZ ..ABC sub| will create theorem type ..bd{XYZ} that is ..bd{SUBORDINATE} to counter type ..bd{..ABC}..n
-\verb|..initheorem XYZ ..ABC shared| will create theorem type ..bd{XYZ} that is ..bd{SHARED} with counter type ..bd{..ABC}..n
+\verb|..initheorem XYZ ABC sub| will create theorem type ..bd{XYZ} that is ..bd{SUBORDINATE} to counter type ..bd{ABC}..n
+\verb|..initheorem XYZ ABC shared| will create theorem type ..bd{XYZ} that is ..bd{SHARED} with counter type ..bd{ABC}..n
 \verb|..qed XYZ| will change the symbol that sits at the end of a proof to be the text ..bd{XYZ}. Default is a black square
+
+\newpage
 
 ..begin section Keywords
 

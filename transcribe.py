@@ -174,8 +174,8 @@ print("Compiling", tex_file_name, "to a pdf . . .")
 
 print()
 
-exe = subprocess.run(['pdflatex', tex_file_name], timeout=5, capture_output=True)
-print("Output:", exe.stdout.decode('utf-8'))
-
-if exe.stderr.decode('utf-8'):
-    print("Errors:", exe.stderr.decode('utf-8'))
+try:
+    exe = subprocess.run(['pdflatex', tex_file_name], timeout=5, capture_output=True)
+    print("Output:", exe.stdout.decode('utf-8'))
+except Exception:
+    print("An error has occured. Please manually compile the file.")
