@@ -1,5 +1,7 @@
 
 template.aux
 template.log
+template.tex
+template.pdf
 
 __pycache__/
