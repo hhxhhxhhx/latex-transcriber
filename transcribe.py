@@ -1,5 +1,8 @@
 
 import sys
+import subprocess
+from datetime import datetime
+import pytz
 from command_replacer import Replacer
 
 if len(sys.argv) == 1:
@@ -32,10 +35,8 @@ def find_content(lst, strr, deff=None):
     return deff
 
 pytex = sys.argv[1]
-print("File to transcribe from:", pytex)
 
 pairs = load_pairs()
-#print(pairs)
 
 with open(pytex, 'r') as f:
 	content = f.read()
@@ -113,7 +114,11 @@ for pair in pairs:
 for pair in pairs:
     _content = _content.replace('\\verb|{0}'.format(pair[0][0] + 'afoswj' + pair[0][1:]), '\\verb|{0}'.format(pair[0]))
 
-output = '\n\\documentclass[{0}pt]{{article}}\n'.format(font)
+output = "\n% Created by Roger Hu's .pytex -> .tex latex transcriber\n"
+time_rn = datetime.now(pytz.timezone('America/Los_Angeles'))
+output += "% Compiled on {0}-{1}-{2} {3}:{4}:{5} PDT\n\n".format(time_rn.year , time_rn.month, time_rn.day, time_rn.hour, time_rn.minute, time_rn.second)
+
+output += '\n\\documentclass[{0}pt]{{article}}\n'.format(font)
 output += '\\usepackage{'
 for package in packages[:-1]:
 	output += package + ', '
@@ -158,8 +163,19 @@ if end_align:
 
 output += "\n\\end{document}\n"
 
-output += "\n% Created by Roger Hu, .pytex -> .tex latex transcriber\n"
-#print(output)
+tex_file_name = sys.argv[1][:sys.argv[1].index('.')] + '.tex'
 
-with open(sys.argv[1][:sys.argv[1].index('.')] + '.tex', 'w') as f:
+with open(tex_file_name, 'w') as f:
 	f.write(output)
+
+print("Successfully transcribed to", tex_file_name)
+
+print("Compiling", tex_file_name, "to a pdf . . .")
+
+print()
+
+exe = subprocess.run(['pdflatex', tex_file_name], timeout=5, capture_output=True)
+print("Output:", exe.stdout.decode('utf-8'))
+
+if exe.stderr.decode('utf-8'):
+    print("Errors:", exe.stderr.decode('utf-8'))
