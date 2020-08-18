@@ -2,8 +2,15 @@
 import sys
 import subprocess
 from datetime import datetime
+import time
 import pytz
 from command_replacer import Replacer
+
+def _print(*args):
+    for item in args:
+        sys.stdout.write(item + ' ')
+    sys.stdout.write('\n')
+    sys.stdout.flush()
 
 if len(sys.argv) == 1:
 	sys.exit(0)
@@ -168,14 +175,12 @@ tex_file_name = sys.argv[1][:sys.argv[1].index('.')] + '.tex'
 with open(tex_file_name, 'w') as f:
 	f.write(output)
 
-print("Successfully transcribed to", tex_file_name)
-
-print("Compiling", tex_file_name, "to a pdf . . .")
-
-print()
+_print()
+_print("Successfully transcribed to {0}!".format(tex_file_name))
 
 try:
-    exe = subprocess.run(['pdflatex', tex_file_name], timeout=5, capture_output=True)
-    print("Output:", exe.stdout.decode('utf-8'))
+    exe = subprocess.run(['pdflatex', tex_file_name], timeout=3, capture_output=True)
+    _print()
+    _print("Successfully compiled to {0}.pdf!".format(tex_file_name[:-4]))
 except Exception:
-    print("An error has occured. Please manually compile the file.")
+    _print("An error has occured. Please manually compile the file.")
