@@ -377,5 +377,9 @@ Check pairs.txt for what exactly they're changed to.
 
 \bigskip
 
-To end the entire document, use \verb|..end main|
+To end the document, use \verb|..end main|..n
+This is actually entirely optional, but may cause some problems if there are extra lines that you want the transcriber to ignore. 
+
 ..end main
+
+Stuff here after ..end main doesn't matter at all, so anything can go here. It'll never show up on document. 

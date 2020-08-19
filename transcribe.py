@@ -107,7 +107,10 @@ replacer.replace()
 _start = find_index(lines, '..begin main')
 _end = find_index(lines, '..end main')
 
-main_content = lines[_start + 1: _end]
+if _end != -1:
+    main_content = lines[_start + 1: _end]
+else:
+    main_content = lines[_start + 1:]
 
 _content = "\n".join(main_content)
 
@@ -123,7 +126,7 @@ for pair in pairs:
 
 output = "\n% Created by Roger Hu's .pytex -> .tex latex transcriber\n"
 time_rn = datetime.now(pytz.timezone('America/Los_Angeles'))
-output += "% Compiled on {0}-{1}-{2} {3}:{4}:{5} PDT\n\n".format(time_rn.year , time_rn.month, time_rn.day, time_rn.hour, time_rn.minute, time_rn.second)
+output += "% Compiled on {0} PDT\n\n".format(str(time_rn)[:-13])
 
 output += '\n\\documentclass[{0}pt]{{article}}\n'.format(font)
 output += '\\usepackage{'
