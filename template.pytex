@@ -373,7 +373,7 @@ Block comment: \verb|%|\verb|%|\verb|%|\verb| something here |\verb|%|\verb|%|\v
 \verb|..t             ->           Tab character|..n
 
 \bigskip
-Check pairs.txt for what exactly they're changed to.
+Check transcribe.py for what exactly they're changed to.
 
 \bigskip
 
