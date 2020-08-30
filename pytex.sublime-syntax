@@ -2,19 +2,18 @@
 ---
 # This would never have been possible if it was not for the following:
 # https://github.com/sublimehq/Packages/blob/master/LaTeX/LaTeX.sublime-syntax
+# https://github.com/sublimehq/Packages/blob/master/LaTeX/TeX.sublime-syntax
 # http://www.sublimetext.com/docs/3/syntax.html
 # https://regex101.com/
 
 # Everything here was originally from the github link to LaTeX.sublime-syntax, and
-# a search and replace was used to change all "latex" to "pytex".
+# a search and replace was used to change many "latex" to "pytex".
 
 # This is still a work in progress, since the only things that are implemented are
 # implemented quite poorly. I don't even know where to begin understanding how this
 # works to be honest.
 
-# There is some interferance with math-mode, both in-line and block, so the syntax
-# for those blocks are disabled. A temporary solution has been implemented which
-# highlights all "$".
+# Math mode now also highlights commands specific to PyTeX files.
 
 name: PyTeX
 file_extensions:
@@ -25,15 +24,15 @@ contexts:
     - include: comments
 
   main:
-    - include: roger-custom-pytex # Look here
     - include: unique-pytex
+    - include: unique-latex
     - include: packages
     - include: plain-tex
     - include: begin-end-commands
     - include: general-commands
     - include: global-braces
 
-  roger-custom-pytex:
+  unique-pytex:
     - match: '((\.\.)begin (main|(sub){0,5}section( [^\n]*)+|eq(( align| number)){0,2}|thm ([^\n]*)|proof|list( bullet)?))\b'
       captures:
         1: support.function.begin.pytex keyword.control.flow.begin.pytex
@@ -42,28 +41,29 @@ contexts:
         1: support.function.end.pytex keyword.control.flow.end.pytex
     - match: '((\.\.)align (left|right|center|justify))\b'
       captures:
-        1: support.function.begin.pytex keyword.control.flow.begin.pytex
+        1: keyword.control.flow.begin.pytex
     - match: '((\.\.)(font|margin|indent|spacing) [0-9\.]*)\b'
       captures:
-        1: support.function.begin.pytex keyword.control.flow.begin.pytex
+        1: keyword.control.flow.begin.pytex
     - match: '((\.\.)(paper (letter\b|legal\b|a4\b)?|orient (portrait\b|landscape\b)?))'
       captures:
-        1: support.function.begin.pytex keyword.control.flow.begin.pytex
+        1: keyword.control.flow.begin.pytex
     - match: '((\.\.)(usepackage\b|pagenumber (none\b|bottom\b)|qed\b))'
       captures:
-        1: support.function.begin.pytex keyword.control.flow.begin.pytex
+        1: keyword.control.flow.begin.pytex
     - match: '((\.\.)(initheorem\* \w*|initheorem \w* \w* (shared|sub)|initheorem \w*))\b'
       captures:
-        1: support.function.begin.pytex keyword.control.flow.begin.pytex
+        1: keyword.control.flow.begin.pytex
     - match: '((\.\. ))'
       scope: support.function.general.pytex
       captures:
         1: punctuation.definition.backslash.pytex
-    - match: '(\$)'
+    - match: '(\.\.)[A-Za-z@<>=!\(\)~-]+\*?'
+      scope: support.function.general.pytex
       captures:
-        1: support.function.begin.pytex keyword.control.flow.begin.pytex
+        1: punctuation.definition.backslash.pytex
 
-  unique-pytex:
+  unique-latex:
     - include: preamble
     - include: structure
     - include: includes
@@ -82,8 +82,8 @@ contexts:
     - include: scope:text.tex#controls
     - include: scope:text.tex#catcode
     - include: boxes
-    #- include: block-math
-    #- include: inline-math
+    - include: block-math
+    - include: inline-math
     - include: general-constants
 
   comments:
@@ -220,10 +220,6 @@ contexts:
 
   general-commands:
     - match: '(\\)[A-Za-z@]+'
-      scope: support.function.general.pytex
-      captures:
-        1: punctuation.definition.backslash.pytex
-    - match: '(\.\.)[A-Za-z@<>=!\(\)~-]+\*?'
       scope: support.function.general.pytex
       captures:
         1: punctuation.definition.backslash.pytex
@@ -471,6 +467,7 @@ contexts:
     - include: scope:text.tex#math-brackets
     - include: math-braces
     - include: boxes
+    - include: scope:text.tex.pytex#unique-pytex
     - include: scope:text.tex#math-commands
     - include: scope:text.tex#math-operators
     - include: scope:text.tex#math-characters
