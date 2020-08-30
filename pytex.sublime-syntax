@@ -6,14 +6,15 @@
 # https://regex101.com/
 
 # Everything here was originally from the github link to LaTeX.sublime-syntax, and
-# a search and replace was used with to change all "latex" to "pytex".
+# a search and replace was used to change all "latex" to "pytex".
 
 # This is still a work in progress, since the only things that are implemented are
-# implemented quite poorly. I don't even know where to begin understanding what this
-# does to be honest.
+# implemented quite poorly. I don't even know where to begin understanding how this
+# works to be honest.
 
 # There is some interferance with math-mode, both in-line and block, so the syntax
-# for those blocks are disabled. A temporary fix for viewing "$" has been implemented.
+# for those blocks are disabled. A temporary solution has been implemented which
+# highlights all "$".
 
 name: PyTeX
 file_extensions:
