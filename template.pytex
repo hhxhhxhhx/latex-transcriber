@@ -137,13 +137,15 @@ To create a proof, surround the contents of the proof with \verb|..begin proof| 
 \verb|..begin proof| 
 ..begin proof
 
-Notice that $\sqrt{2} \in \mathbb{R}$, $\notin \mathbb{Q}$. Therefore, we know that $\sqrt{2}^{\sqrt{2}} \in \mathbb{R}$ but can be $\in \mathbb{Q}$ or $\notin \mathbb{Q}$.
+Notice that $\sqrt{2} \in ..set{R}$, $\notin ..set{Q}$. Therefore, we know that $\sqrt{2}^{\sqrt{2}} \in ..set{R}$ but can be $\in ..set{Q}$ or $\notin ..set{Q}$.
 
-Suppose $\sqrt{2}^{\sqrt{2}} \in \mathbb{Q}$, we're done.
+Suppose $\sqrt{2}^{\sqrt{2}} \in ..set{Q}$, we're done.
 
-Suppose $\sqrt{2}^{\sqrt{2}} \notin \mathbb{Q}$, we can then use this value and raise it to another power of $\sqrt{2}$. 
+Suppose $\sqrt{2}^{\sqrt{2}} \notin ..set{Q}$, we can then use this value and raise it to another power of $\sqrt{2}$. 
 
-\[ (\sqrt{2}^{\sqrt{2}})^{\sqrt{2}} = \sqrt{2}^{\sqrt{2} * \sqrt{2}} = \sqrt{2}^2 = 2 \in \mathbb{Q} \]
+..begin eq
+(\sqrt{2}^{\sqrt{2}})^{\sqrt{2}} = \sqrt{2}^{\sqrt{2} * \sqrt{2}} = \sqrt{2}^2 = 2 \in ..set{Q}
+..end eq
 ..end proof
 \verb|..end proof|
 
@@ -364,7 +366,8 @@ Block comment: \verb|%|\verb|%|\verb|%|\verb| something here |\verb|%|\verb|%|\v
 \verb|..and           ->        |$..and$..n
 \verb|..or            ->        |$..or$..n
 \verb|..def           ->        |$..def$..n
-\verb|..set           ->        |$..set$..n
+\verb|..set=          ->        |$..set=$..n
+\verb|..set{R}        ->        |$..set{R}$..n
 \verb|..nin           ->        |$..nin$..n
 \bigskip
 \verb|..it{a}         ->        |..it{a}..n
