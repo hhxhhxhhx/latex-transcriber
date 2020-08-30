@@ -1,12 +1,12 @@
 
 ..font 12								% Optional, default 12.
-..packages								% Optional, default amsmath, amssymb, amsthm, geometry
+..usepackage							% Optional, default amsmath, amssymb, amsthm, geometry
 ..paper letter							% Optional, default letter. Can be "legal", "a4", etc.
 ..orient portrait						% Optional, default portrait. Can be "landscape"
 
 ..margin 1								% Optional, default 1. Can be 2, 3, 1.5, etc.
 ..indent 0								% Optional, default 4 (paragraph indent). 
-..spacing 1.5							% Optional, default 1.5. Can be "single", "1", "double", "2"
+..spacing 1.5							% Optional, default 1.5. Can be "1", "2", or "1.5"
 ..pagenumber none						% Optional, default "bottom"
 
 ..qed Q.E.D								% Optional, default black square. 

@@ -58,7 +58,7 @@ def main():
 
     # Set packages
     packages = ['amsmath', 'amssymb', 'amsthm', 'geometry']
-    packages.extend(find_content(lines, '..package', '').split())
+    packages.extend(find_content(lines, '..usepackage', '').split())
 
     # Set page size
     paper = find_content(lines, '..paper', 'letter')
@@ -75,9 +75,9 @@ def main():
     # Set spacing
     spacing = find_content(lines, '..spacing', '1.5')
     line_spread = 1.3
-    if spacing.lower() == 'single' or spacing.lower() == '1':
+    if spacing == '1':
         line_spread = 1.0
-    elif spacing.lower() == 'double' or spacing.lower() == '2':
+    elif spacing == '2':
         line_spread = 1.6
 
     pagenumbering = find_content(lines, '..pagenumber', 'bottom')

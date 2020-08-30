@@ -1,0 +1,1767 @@
+%YAML 1.2
+---
+# This would never have been possible if it was not for the following:
+# https://github.com/sublimehq/Packages/blob/master/LaTeX/LaTeX.sublime-syntax
+# http://www.sublimetext.com/docs/3/syntax.html
+# https://regex101.com/
+
+# Everything here was originally from the github link to LaTeX.sublime-syntax, and
+# a search and replace was used with to change all "latex" to "pytex".
+
+# This is still a work in progress, since the only things that are implemented are
+# implemented quite poorly. I don't even know where to begin understanding what this
+# does to be honest.
+
+# There is some interferance with math-mode, both in-line and block, so the syntax
+# for those blocks are disabled. A temporary fix for viewing "$" has been implemented.
+
+name: PyTeX
+file_extensions:
+  - pytex
+scope: text.tex.pytex
+contexts:
+  prototype:
+    - include: comments
+
+  main:
+    - include: roger-custom-pytex # Look here
+    - include: unique-pytex
+    - include: packages
+    - include: plain-tex
+    - include: begin-end-commands
+    - include: general-commands
+    - include: global-braces
+
+  roger-custom-pytex:
+    - match: '((\.\.)begin (main|(sub){0,5}section( [^\n]*)+|eq(( align| number)){0,2}|thm ([^\n]*)|proof|list( bullet)?))\b'
+      captures:
+        1: support.function.begin.pytex keyword.control.flow.begin.pytex
+    - match: '((\.\.)end (eq|proof|list|main|thm (\w*)?))\b'
+      captures:
+        1: support.function.end.pytex keyword.control.flow.end.pytex
+    - match: '((\.\.)align (left|right|center|justify))\b'
+      captures:
+        1: support.function.begin.pytex keyword.control.flow.begin.pytex
+    - match: '((\.\.)(font|margin|indent|spacing) [0-9\.]*)\b'
+      captures:
+        1: support.function.begin.pytex keyword.control.flow.begin.pytex
+    - match: '((\.\.)(paper (letter\b|legal\b|a4\b)?|orient (portrait\b|landscape\b)?))'
+      captures:
+        1: support.function.begin.pytex keyword.control.flow.begin.pytex
+    - match: '((\.\.)(usepackage\b|pagenumber (none\b|bottom\b)|qed\b))'
+      captures:
+        1: support.function.begin.pytex keyword.control.flow.begin.pytex
+    - match: '((\.\.)(initheorem\* \w*|initheorem \w* \w* (shared|sub)|initheorem \w*))\b'
+      captures:
+        1: support.function.begin.pytex keyword.control.flow.begin.pytex
+    - match: '((\.\. ))'
+      scope: support.function.general.pytex
+      captures:
+        1: punctuation.definition.backslash.pytex
+    - match: '(\$)'
+      captures:
+        1: support.function.begin.pytex keyword.control.flow.begin.pytex
+
+  unique-pytex:
+    - include: preamble
+    - include: structure
+    - include: includes
+    - include: sections
+    - include: text-decorators
+    - include: footnote
+    - include: references
+    - include: verbatim
+    - include: verb
+    - include: url
+    - include: graphics
+    - include: lists
+
+  plain-tex:
+    - include: macros
+    - include: scope:text.tex#controls
+    - include: scope:text.tex#catcode
+    - include: boxes
+    #- include: block-math
+    #- include: inline-math
+    - include: general-constants
+
+  comments:
+    - include: scope:text.tex#comments
+
+  global-braces:
+    - match: '\{'
+      scope: punctuation.definition.group.brace.begin.pytex
+      push:
+        - meta_scope: meta.group.brace.pytex
+        - match: '\}'
+          scope: punctuation.definition.group.brace.end.pytex
+          pop: true
+        - include: main
+
+  # these are used to identify arguments in commands
+  general-optional-arguments:
+    - match: '\['
+      scope: punctuation.definition.group.bracket.begin.pytex
+      push:
+        - meta_scope: meta.group.bracket.pytex
+        - match: '\]'
+          scope: punctuation.definition.group.bracket.end.pytex
+          pop: true
+        - include: general-constants
+        - include: general-commands
+        - include: global-braces
+        - match: '[A-Za-z[:digit:]-]*(?=\s*\=)'
+          scope: variable.parameter.bracket.pytex
+
+  argument-brace:
+    - meta_scope: meta.group.brace.pytex
+    - match: '\}'
+      scope: punctuation.definition.group.brace.end.pytex
+      pop: true
+    - include: main
+
+  argument:
+    - match: '\{'
+      scope: punctuation.definition.group.brace.begin.pytex
+      set: argument-brace
+    - match: '(?=\S)'
+      pop: true
+
+  optional-arguments:
+    - include: general-optional-arguments
+    - match: '(?=\S)'
+      pop: true
+
+  # used in macros to prevent matching of \begin{env}...\end{env}
+  macro-braces:
+    - match: '\{'
+      scope: punctuation.definition.group.brace.begin.pytex
+      push:
+        - meta_scope: meta.group.brace.pytex
+        - match: '\}'
+          scope: punctuation.definition.group.brace.end.pytex
+          pop: true
+        - include: general-constants
+        - include: general-commands
+        - include: macro-braces
+
+  macros:
+    - include: scope:text.tex#macros
+    - match: |-
+        (?x)
+        (
+          (\\)
+          (?:(?:re)?newcommand\*?)
+        )
+        (?:
+          (\{)(\\[A-Za-z@]+)(\})
+          | (\\[A-Za-z@])+
+        )
+        (?:(\[)(?:[^\]]*)(\]))*
+        (\{)
+      captures:
+        1: support.function.newcommand.pytex storage.modifier.newcommand.pytex
+        2: punctuation.definition.backslash.pytex
+        3: punctuation.definition.group.brace.begin.pytex
+        4: support.function.pytex entity.name.newcommand.pytex
+        5: punctuation.definition.group.brace.end.pytex
+        6: support.function.pytex
+        7: punctuation.definition.group.bracket.begin.pytex
+        8: punctuation.definition.group.bracket.end.pytex
+        9: punctuation.definition.group.brace.begin.pytex
+      push:
+        - meta_scope: meta.function.newcommand.pytex
+        - match: '\}'
+          scope: punctuation.definition.group.brace.end.pytex
+          pop: true
+        - include: general-constants
+        - include: general-commands
+        - include: macro-braces
+    - match: |-
+        (?x)
+        (
+          (\\)
+          DeclareMathOperator\*?
+        )
+        (?:
+          (\{)(\\[A-Za-z@]+)(\})
+          | (\\[A-Za-z@])+
+        )
+        (?:(\[)(?:[^\]]*)(\]))?
+        (\{)
+      captures:
+        1: support.function.declare-math-operator.pytex storage.modifier.declare-math-operator.pytex
+        2: punctuation.definition.backslash.pytex
+        3: punctuation.definition.group.brace.begin.pytex
+        4: support.function.pytex entity.name.declare-math-operator.pytex
+        5: punctuation.definition.group.brace.end.pytex
+        6: support.function.pytex
+        7: punctuation.definition.group.bracket.begin.pytex
+        8: punctuation.definition.group.bracket.end.pytex
+        9: punctuation.definition.group.brace.begin.pytex
+      push:
+        - meta_scope: meta.function.declare-math-operator.pytex
+        - match: '\}'
+          scope: punctuation.definition.group.brace.end.pytex
+          pop: true
+        - include: general-constants
+        - include: general-commands
+        - include: macro-braces
+  general-constants:
+    - match: '(\\\\)(?:(\[)\s*-?((?:[[:digit:]]|\.)*)\s*(\w*)\s*(\]))?'
+      captures:
+        1: constant.character.newline.pytex
+        2: punctuation.definition.group.bracket.begin.newline.pytex
+        3: constant.numeric.newline.pytex
+        4: keyword.other.newline.pytex
+        5: punctuation.definition.group.bracket.begin.newline.pytex
+    - include: scope:text.tex#general-constants
+
+  general-commands:
+    - match: '(\\)[A-Za-z@]+'
+      scope: support.function.general.pytex
+      captures:
+        1: punctuation.definition.backslash.pytex
+    - match: '(\.\.)[A-Za-z@<>=!\(\)~-]+\*?'
+      scope: support.function.general.pytex
+      captures:
+        1: punctuation.definition.backslash.pytex
+
+  boxes:
+    - match: '((\\)[hvmf]box)\s*(\{)'
+      captures:
+        1: support.function.box.pytex
+        2: punctuation.definition.backslash.pytex
+        3: punctuation.definition.group.brace.begin.pytex
+      push:
+        - meta_scope: meta.function.box.pytex
+        - match: '\}'
+          scope: punctuation.definition.group.brace.end.pytex
+          pop: true
+        - include: main
+    - match: '((\\)(?:framebox|makebox))\b'
+      captures:
+        1: support.function.box.pytex
+        2: punctuation.definition.backslash.pytex
+      push:
+        - [{meta_scope: meta.function.box.pytex}, {match: '', pop: true}]
+        - argument
+        - optional-arguments
+    - match: '((\\)parbox)\b'
+      captures:
+        1: support.function.box.pytex
+        2: punctuation.definition.backslash.pytex
+      push:
+        - [{meta_scope: meta.function.box.pytex}, {match: '', pop: true}]
+        - argument
+        - argument
+        - optional-arguments
+    - match: '((\\)raisebox)\b'
+      captures:
+        1: support.function.box.pytex
+        2: punctuation.definition.backslash.pytex
+      push:
+        - [{meta_scope: meta.function.box.pytex}, {match: '', pop: true}]
+        - argument
+        - optional-arguments
+
+  preamble:
+    - match: '(\\)documentclass\b'
+      captures:
+        0: keyword.control.preamble.pytex
+        1: punctuation.definition.backslash.pytex
+      push:
+        - meta_scope: meta.preamble.documentclass.pytex
+        - include: general-optional-arguments
+        - match: '\{'
+          scope: punctuation.definition.group.brace.begin.pytex
+          set:
+            - meta_scope: meta.preamble.documentclass.pytex meta.group.brace.pytex
+            - match: '[A-Za-z[:digit:]-]'
+              scope: support.class.pytex
+            - match: '\}'
+              scope: punctuation.definition.group.brace.end.pytex
+              pop: true
+        - match: ''
+          pop: true
+
+    - match: '(\\)usepackage\b'
+      captures:
+        0: keyword.control.preamble.pytex
+        1: punctuation.definition.backslash.pytex
+      push:
+        - meta_scope: meta.preamble.usepackage.pytex
+        - include: general-optional-arguments
+        - match: '\{'
+          scope: punctuation.definition.group.brace.begin.pytex
+          set:
+            - meta_scope: meta.preamble.usepackage.pytex meta.group.brace.pytex
+            - match: '\}'
+              scope: punctuation.definition.group.brace.end.pytex
+              pop: true
+            - match: '[A-Za-z[:digit:]-]*'
+              scope: support.class.pytex
+        - match: ''
+          pop: true
+
+  includes:
+    - match: '((\\)(?:include|includeonly))(\{)'
+      scope: meta.function.include.pytex
+      captures:
+        1: keyword.control.include.pytex
+        2: punctuation.definition.backslash.pytex
+        3: punctuation.definition.group.brace.begin.pytex
+      push:
+        - meta_scope: meta.include.pytex
+        - match: '\}'
+          scope: punctuation.definition.group.brace.end.pytex
+          pop: true
+
+  sections:
+    - match: |-
+        (?x)
+        (
+          (\\)
+          (?:
+            (?:sub){0,2}section
+            | (?:sub)?paragraph
+            | chapter|part|addpart
+            | addchap|addsec|minisec
+          )
+          (?:\*)?
+        )
+        (?:
+          (\[)([^\[]*?)(\])               # optional Title
+        )?
+        (\{)
+      captures:
+        1: support.function.section.pytex
+        2: punctuation.definition.backslash.pytex
+        3: punctuation.definition.group.brace.begin.pytex
+        4: entity.name.section.pytex
+        5: punctuation.definition.group.brace.end.pytex
+        6: punctuation.definition.group.brace.begin.pytex
+      push:
+        - meta_scope: meta.section.pytex
+        - meta_content_scope: entity.name.section.pytex
+        - match: '\}'
+          scope: punctuation.definition.group.brace.end.pytex
+          pop: true
+        - include: main
+  structure:
+    - match: ((\\)(?:frontmatter|mainmatter|backmatter|appendix|printindex))\b
+      captures:
+        1: keyword.control.pytex
+        2: punctuation.definition.backslash.pytex
+
+  verbatim:
+    - match: '((\\)begin)(\{)\s*((?:[vV]erbatim|alltt)\*?)\s*(\})'
+      captures:
+        1: support.function.begin.pytex keyword.control.flow.begin.pytex
+        2: punctuation.definition.backslash.pytex
+        3: punctuation.definition.group.brace.begin.pytex
+        4: variable.parameter.function.pytex
+        5: punctuation.definition.group.brace.end.pytex
+      push:
+        - meta_include_prototype: false
+        - meta_scope: meta.environment.verbatim.verbatim.pytex
+        - meta_content_scope: markup.raw.verbatim.pytex
+        - match: '((\\)end)(\{)\s*(\4)\s*(\})'
+          captures:
+            1: support.function.end.pytex keyword.control.flow.begin.pytex
+            2: punctuation.definition.backslash.pytex
+            3: punctuation.definition.group.brace.begin.pytex
+            4: variable.parameter.function.pytex
+            5: punctuation.definition.group.brace.end.pytex
+          pop: true
+
+  lists:
+    - match: '((\\)begin)(\{)\s*(itemize\*?)\s*(\})'
+      captures:
+        1: support.function.begin.pytex keyword.control.flow.begin.pytex
+        2: punctuation.definition.backslash.pytex
+        3: punctuation.definition.group.brace.begin.pytex
+        4: variable.parameter.function.pytex
+        5: punctuation.definition.group.brace.end.pytex
+      push:
+        - meta_scope: meta.environment.list.itemize.pytex
+        - match: '((\\)end)(\{)\s*(\4)\s*(\})'
+          captures:
+            1: support.function.end.pytex keyword.control.flow.begin.pytex
+            2: punctuation.definition.backslash.pytex
+            3: punctuation.definition.group.brace.begin.pytex
+            4: variable.parameter.function.pytex
+            5: punctuation.definition.group.brace.end.pytex
+          pop: true
+        - include: main
+    - match: '((\\)begin)(\{)\s*(enumerate\*?)\s*(\})'
+      captures:
+        1: support.function.begin.pytex keyword.control.flow.begin.pytex
+        2: punctuation.definition.backslash.pytex
+        3: punctuation.definition.group.brace.begin.pytex
+        4: variable.parameter.function.pytex
+        5: punctuation.definition.group.brace.end.pytex
+      push:
+        - meta_scope: meta.environment.list.enumerate.pytex
+        - match: '((\\)end)(\{)\s*(\4)\s*(\})'
+          captures:
+            1: support.function.end.pytex keyword.control.flow.begin.pytex
+            2: punctuation.definition.backslash.pytex
+            3: punctuation.definition.group.brace.begin.pytex
+            4: variable.parameter.function.pytex
+            5: punctuation.definition.group.brace.end.pytex
+          pop: true
+        - include: main
+    - match: '((\\)begin)(\{)\s*(list\*?)\s*(\})'
+      captures:
+        1: support.function.begin.pytex keyword.control.flow.begin.pytex
+        2: punctuation.definition.backslash.pytex
+        3: punctuation.definition.group.brace.begin.pytex
+        4: variable.parameter.function.pytex
+        5: punctuation.definition.group.brace.end.pytex
+      push:
+        - meta_scope: meta.environment.list.list.pytex
+        - match: '((\\)end)(\{)\s*(\4)\s*(\})'
+          captures:
+            1: support.function.end.pytex keyword.control.flow.begin.pytex
+            2: punctuation.definition.backslash.pytex
+            3: punctuation.definition.group.brace.begin.pytex
+            4: variable.parameter.function.pytex
+            5: punctuation.definition.group.brace.end.pytex
+          pop: true
+        - include: main
+    - match: '((\\)begin)(\{)\s*(description\*?)\s*(\})'
+      captures:
+        1: support.function.begin.pytex keyword.control.flow.begin.pytex
+        2: punctuation.definition.backslash.pytex
+        3: punctuation.definition.group.brace.begin.pytex
+        4: variable.parameter.function.pytex
+        5: punctuation.definition.group.brace.end.pytex
+      push:
+        - meta_scope: meta.environment.list.description.pytex
+        - match: '((\\)end)(\{)\s*(\4)\s*(\})'
+          captures:
+            1: support.function.end.pytex keyword.control.flow.begin.pytex
+            2: punctuation.definition.backslash.pytex
+            3: punctuation.definition.group.brace.begin.pytex
+            4: variable.parameter.function.pytex
+            5: punctuation.definition.group.brace.end.pytex
+          pop: true
+        - include: main
+
+  math-braces:
+    - match: '\{'
+      scope: punctuation.definition.group.brace.begin.pytex
+      push:
+        - meta_scope: meta.group.brace.pytex
+        - match: '\}'
+          scope: punctuation.definition.group.brace.end.pytex
+          pop: true
+        - include: math-content
+
+  math-content:
+    # unique to pytex
+    - include: verb
+    - include: text-decorators
+    - include: references
+    - include: begin-end-commands
+    # extended from tex
+    - include: scope:text.tex#greeks
+    - include: scope:text.tex#math-brackets
+    - include: math-braces
+    - include: boxes
+    - include: scope:text.tex#math-commands
+    - include: scope:text.tex#math-operators
+    - include: scope:text.tex#math-characters
+    - include: scope:text.tex#math-numerics
+    - include: general-constants
+    - match: (?=\})
+      pop: true
+
+  inline-math:
+    - match: \$
+      scope: string.other.math.pytex punctuation.definition.string.begin.pytex
+      push:
+        - meta_scope: meta.environment.math.inline.dollar.pytex
+        - match: \$
+          scope: string.other.math.pytex punctuation.definition.string.end.pytex
+          pop: true
+        - include: math-content
+    - match: '((\\)ensuremath)(\{)'
+      captures:
+        1: support.function.ensuremath.pytex
+        2: punctuation.definition.backslash.pytex
+        3: punctuation.definition.group.brace.begin.pytex
+      push:
+        - meta_scope: meta.function.ensuremath.pytex
+        - meta_content_scope: meta.environment.math.inline.ensuremath.pytex
+        - match: '\}'
+          scope: punctuation.definition.group.brace.end.pytex
+          pop: true
+        - include: math-content
+
+    - match: (\\\()
+      scope: string.other.math.pytex
+      captures:
+        1: punctuation.definition.string.begin.pytex
+      push:
+        - meta_scope: meta.environment.math.inline.paren.pytex
+        - match: (\\\))
+          scope: string.other.math.pytex punctuation.definition.string.end.pytex
+          pop: true
+        - include: math-content
+
+  block-math:
+    - match: \$\$
+      scope: string.other.math.pytex punctuation.definition.string.begin.pytex
+      push:
+        - meta_scope: meta.environment.math.block.dollar.pytex
+        - match: \$\$
+          scope: string.other.math.pytex punctuation.definition.string.end.pytex
+          pop: true
+        - include: math-content
+
+    - match: '(\\\[)'
+      scope: string.other.math.pytex punctuation.definition.string.begin.pytex
+      push:
+        - meta_scope: meta.environment.math.block.bracket.pytex
+        - match: '(\\\])'
+          scope: string.other.math.pytex punctuation.definition.string.end.pytex
+          pop: true
+        - include: math-content
+
+    - match: |-
+        (?x)
+        ((\\)begin)(\{)\s*((?:
+          align|alignat|aligned|alignedat|displaymath
+          |eqnarray|equation|flalign|gather|gathered
+          |math|multline|x?xalignat|split
+          |dmath|dseries|dgroup|darray|dsuspend
+        )\*?)\s*(\})
+      captures:
+        1: support.function.begin.pytex keyword.control.flow.begin.pytex
+        2: punctuation.definition.backslash.pytex
+        3: punctuation.definition.group.brace.begin.pytex
+        4: variable.parameter.function.pytex
+        5: punctuation.definition.group.brace.end.pytex
+      push:
+        - meta_content_scope: meta.environment.math.block.be.pytex
+        - match: '((\\)end)(\{)\s*(\4)\s*(\})'
+          captures:
+            1: support.function.end.pytex keyword.control.flow.begin.pytex
+            2: punctuation.definition.backslash.pytex
+            3: punctuation.definition.group.brace.begin.pytex
+            4: variable.parameter.function.pytex
+            5: punctuation.definition.group.brace.end.pytex
+          pop: true
+        - include: math-content
+
+  graphics:
+    - match: '((\\)includegraphics)\b'
+      captures:
+        1: support.function.includegraphics.pytex
+        2: punctuation.definition.backslash.pytex
+      push:
+        - [{meta_scope: meta.function.includegraphics.pytex}, {match: '', pop: true}]
+        - argument
+        - optional-arguments
+
+  url:
+    - match: '((\\)(?:url|href|path))(\{)([^}]*)(\})'
+      scope: meta.function.link.url.pytex
+      captures:
+        1: support.function.url.pytex
+        2: punctuation.definition.backslash.pytex
+        3: punctuation.definition.group.brace.begin.pytex
+        4: markup.underline.link.pytex
+        5: punctuation.definition.group.brace.end.pytex
+
+  verb:
+    - match: ((\\)verb)(\W)
+      captures:
+        1: support.function.verb.pytex
+        2: punctuation.definition.backslash.pytex
+        3: punctuation.definition.verb.pytex
+      push:
+        - meta_include_prototype: false
+        - meta_scope: meta.environment.verbatim.verb.pytex
+        - meta_content_scope: markup.raw.verb.pytex
+        - match: '\3'
+          scope: punctuation.definition.verb.pytex
+          pop: true
+
+
+  text-decorators:
+    - match: '((\\)emph)(\{)'
+      captures:
+        1: support.function.emph.pytex
+        2: punctuation.definition.backslash.pytex
+        3: punctuation.definition.group.brace.begin.pytex
+      push:
+        - meta_scope: meta.function.emph.pytex
+        - meta_content_scope: markup.italic.emph.pytex
+        - match: '\}'
+          scope: punctuation.definition.group.brace.end.pytex
+          pop: true
+        - include: main
+    - match: '((\.\.)it)(\{)'
+      captures:
+        1: support.function.emph.pytex
+        2: punctuation.definition.backslash.pytex
+        3: punctuation.definition.group.brace.begin.pytex
+      push:
+        - meta_scope: meta.function.emph.pytex
+        - meta_content_scope: markup.italic.emph.pytex
+        - match: '\}'
+          scope: punctuation.definition.group.brace.end.pytex
+          pop: true
+        - include: main
+    - match: '((\\)textit)(\{)'
+      captures:
+        1: support.function.textit.pytex
+        2: punctuation.definition.backslash.pytex
+        3: punctuation.definition.group.brace.begin.pytex
+      push:
+        - meta_scope: meta.function.textit.pytex
+        - meta_content_scope: markup.italic.textit.pytex
+        - match: '\}'
+          scope: punctuation.definition.group.brace.end.pytex
+          pop: true
+        - include: main
+    - match: '((\\)textbf)(\{)'
+      captures:
+        1: support.function.textbf.pytex
+        2: punctuation.definition.backslash.pytex
+        3: punctuation.definition.group.brace.begin.pytex
+      push:
+        - meta_scope: meta.function.textbf.pytex
+        - meta_content_scope: markup.bold.textbf.pytex
+        - match: '\}'
+          scope: punctuation.definition.group.brace.end.pytex
+          pop: true
+        - include: main
+    - match: '((\.\.)bd)(\{)'
+      captures:
+        1: support.function.textbf.pytex
+        2: punctuation.definition.backslash.pytex
+        3: punctuation.definition.group.brace.begin.pytex
+      push:
+        - meta_scope: meta.function.textbf.pytex
+        - meta_content_scope: markup.bold.textbf.pytex
+        - match: '\}'
+          scope: punctuation.definition.group.brace.end.pytex
+          pop: true
+        - include: main
+    - match: '((\\)texttt)(\{)'
+      captures:
+        1: support.function.texttt.pytex
+        2: punctuation.definition.backslash.pytex
+        3: punctuation.definition.group.brace.begin.pytex
+      push:
+        - meta_scope: meta.function.texttt.pytex
+        - meta_content_scope: markup.raw.texttt.pytex
+        - match: '\}'
+          scope: punctuation.definition.group.brace.end.pytex
+          pop: true
+        - include: main
+    - match: '((\\)textsl)(\{)'
+      captures:
+        1: support.function.textsl.pytex
+        2: punctuation.definition.backslash.pytex
+        3: punctuation.definition.group.brace.begin.pytex
+      push:
+        - meta_scope: meta.function.textsl.pytex
+        - meta_content_scope: markup.italic.textsl.pytex
+        - match: '\}'
+          scope: punctuation.definition.group.brace.end.pytex
+          pop: true
+        - include: main
+    - match: '((\\)text)(\{)'
+      captures:
+        1: support.function.text.pytex
+        2: punctuation.definition.backslash.pytex
+        3: punctuation.definition.group.brace.begin.pytex
+      push:
+        - match: '\}'
+          scope: punctuation.definition.group.brace.end.pytex
+          pop: true
+        - include: main
+    - match: '((\\)underline)(\{)'
+      captures:
+        1: support.function.text.pytex
+        2: punctuation.definition.backslash.pytex
+        3: punctuation.definition.group.brace.begin.pytex
+      push:
+        - meta_scope: meta.function.underline.pytex
+        - meta_content_scope: markup.underline.underline.pytex
+        - match: '\}'
+          scope: punctuation.definition.group.brace.end.pytex
+          pop: true
+        - include: main
+
+  footnote:
+    - match: ((\\)footnote(?:text)?)\b
+      captures:
+        1: support.function.footnote.pytex
+        2: punctuation.definition.backslash.pytex
+      push:
+        - meta_scope: meta.function.footnote.pytex
+        - include: general-optional-arguments
+        - match: '\{'
+          scope: punctuation.definition.group.brace.begin.pytex
+          set:
+            - meta_scope: meta.function.footnote.pytex meta.group.brace.pytex
+            - meta_content_scope: markup.italic.footnote.pytex
+            - match: '\}'
+              scope: punctuation.definition.group.brace.end.pytex
+              pop: true
+            - include: main
+        - match: '(?=\S)'
+          pop: true
+    - match: |-
+        (?x)
+        ((\\)footnotemark)\b
+      captures:
+        1: support.function.footnote.pytex
+        2: punctuation.definition.backslash.pytex
+      push: optional-arguments
+  references:
+    - match: |-
+        (?x)
+        (\\)
+        (?:
+          # bibpytex commands
+          #   http://mirrors.ibiblio.org/CTAN/macros/pytex/exptl/bibpytex/doc/bibpytex.pdf section 3.8
+          # commands with multicite variant
+            (?:[aA]uto|foot|[pP]aren|[sS]mart|super|[tT]ext)cites?
+          | [Cc]ites?
+          | footcitetexts?
+          # text commands
+          | [cC]ite(?:author)
+          | cite(?:title|year|date)
+          | citeurl
+          # special
+          | (?:[aA]|no|full|footfull)cites?
+          | [vV]olcites?
+          | (?:[pPfFsStTaA]|ft)volcites?
+          | (?:[pPf]?n|N)otecite
+          # non-bibpytex
+          | [aA]cite
+          | [cC]ite(?:t|p|alt|alp|text|yearpar)
+        )\b
+        # For simplicity with using \b, we match a star for all variants
+        \*?
+      scope: support.function.cite.pytex keyword.other.cite.pytex
+      captures:
+        1: punctuation.definition.backslash.pytex
+      push:
+        - meta_scope: meta.function.citation.pytex
+        - include: general-optional-arguments
+        - match: '\{'
+          scope: punctuation.definition.group.brace.begin.pytex
+          # Some commands, e.g. \parencites, allow multiple [][]{} argument sequences,
+          # so we `push` instead of `set`.
+          push:
+            - meta_scope: meta.group.brace.pytex
+            - match: '[a-zA-Z0-9\.:/*!^_-]+'
+              scope: constant.other.citation.pytex
+            - match: '\}'
+              scope: punctuation.definition.group.brace.end.pytex
+              pop: true
+        - match: ''
+          pop: true
+    - match: |-
+        (?x)
+        (
+          (\\)
+          (?:eq|c?page|[vV]|auto|name|[cC])?ref
+          \*?
+        )\b
+      captures:
+        1: support.function.reference.pytex keyword.other.reference.pytex
+        2: punctuation.definition.backslash.pytex
+      push:
+        - meta_scope: meta.function.reference.pytex
+        - include: general-optional-arguments
+        - match: '\{'
+          scope: punctuation.definition.group.brace.begin.pytex
+          set:
+            - meta_scope: meta.function.reference.pytex meta.group.brace.pytex
+            - match: '[a-zA-Z0-9\.:/*!^_-]+'
+              scope: constant.other.reference.pytex
+            - match: '\}'
+              scope: punctuation.definition.group.brace.end.pytex
+              pop: true
+        - match: ''
+          pop: true
+    - match: '((\\)label)(\{)'
+      captures:
+        1: support.function.label.pytex storage.type.label.pytex
+        2: punctuation.definition.backslash.pytex
+        3: punctuation.definition.group.brace.begin.pytex
+      push:
+        - meta_scope: meta.function.label.pytex
+        - match: '[a-zA-Z0-9\.:/*!^_-]+'
+          scope: entity.name.label.pytex
+        - match: '\}'
+          scope: punctuation.definition.group.brace.end.pytex
+          pop: true
+
+  begin-end-commands:
+    - match: '((\\)begin)(\{)\s*(\w*)\*?\s*(\})'
+      captures:
+        1: support.function.begin.pytex keyword.control.flow.begin.pytex
+        2: punctuation.definition.backslash.pytex
+        3: punctuation.definition.group.brace.begin.pytex
+        4: variable.parameter.function.pytex
+        5: punctuation.definition.group.brace.end.pytex
+      push:
+        - include: general-optional-arguments
+        - match: ''
+          pop: true
+    - match: '((\\)end)(\{)\s*(\w*)\*?\s*(\})'
+      captures:
+        1: support.function.end.pytex keyword.control.flow.end.pytex
+        2: punctuation.definition.backslash.pytex
+        3: punctuation.definition.group.brace.begin.pytex
+        4: variable.parameter.function.pytex
+        5: punctuation.definition.group.brace.end.pytex
+
+  # external packages
+  packages:
+    - include: pkglistings
+    - include: minted
+    - include: pkgcomment
+    - include: beamer
+    - include: pkgarray
+
+  # listings package
+  pkglistings:
+    - match: (\\)lstinline\b
+      captures:
+        0: support.function.lstinline.pytex
+        1: punctuation.definition.backslash.pytex
+      push:
+        - meta_include_prototype: false
+        - meta_scope: meta.environment.verbatim.lstinline.pytex
+        - include: general-optional-arguments
+        - match: '\{'
+          scope: punctuation.definition.group.brace.begin.pytex
+          set:
+            - meta_include_prototype: false
+            - meta_scope: meta.group.brace.pytex
+            - meta_content_scope: meta.environment.verbatim.lstinline.pytex markup.raw.verb.pytex
+            - match: '\}'
+              scope: meta.environment.verbatim.lstinline.pytex punctuation.definition.group.brace.end.pytex
+              pop: true
+        - match: '(\W)'
+          scope: punctuation.definition.verb.pytex
+          set:
+            - meta_include_prototype: false
+            - meta_content_scope: meta.environment.verbatim.lstinline.pytex markup.raw.verb.pytex
+            - match: '\1'
+              scope: meta.environment.verbatim.lstinline.pytex punctuation.definition.verb.pytex
+              pop: true
+
+    - match: ((\\)begin)(\{)(lstlisting)(\})
+      captures:
+        1: support.function.begin.pytex keyword.control.flow.begin.pytex
+        2: punctuation.definition.backslash.pytex
+        3: punctuation.definition.group.brace.begin.pytex
+        4: variable.parameter.function.pytex
+        5: punctuation.definition.group.brace.end.pytex
+      push:
+        - meta_include_prototype: false
+        - meta_scope: meta.environment.verbatim.lstlisting.pytex
+        - match: '((\\)end)(\{)(lstlisting)(\})'
+          captures:
+            1: support.function.end.pytex keyword.control.flow.end.pytex
+            2: punctuation.definition.backslash.pytex
+            3: punctuation.definition.group.brace.begin.pytex
+            4: variable.parameter.function.pytex
+            5: punctuation.definition.group.brace.end.pytex
+          pop: true
+        - include: general-optional-arguments
+        - match: '.*(%\s*(?i:c))$'
+          captures:
+            1: comment.line.percentage.pytex
+          embed: scope:source.c
+          embed_scope: meta.environment.embedded.c.pytex source.c.embedded
+          escape: '(?=\\end\{lstlisting\})'
+        - match: '.*(%\s*(?i:cpp|c\+\+))$'
+          captures:
+            1: comment.line.percentage.pytex
+          embed: scope:source.c++
+          embed_scope: meta.environment.embedded.c++.pytex source.c++.embedded
+          escape: '(?=\\end\{lstlisting\})'
+        - match: '.*(%\s*(?i:haskell|hs))$'
+          captures:
+            1: comment.line.percentage.pytex
+          embed: scope:source.haskell
+          embed_scope: meta.environment.embedded.haskell.pytex source.haskell.embedded
+          escape: '(?=\\end\{lstlisting\})'
+        - match: '.*(%\s*(?i:java))$'
+          captures:
+            1: comment.line.percentage.pytex
+          embed: scope:source.java
+          embed_scope: meta.environment.embedded.java.pytex source.java.embedded
+          escape: '(?=\\end\{lstlisting\})'
+        - match: '.*(%\s*(?i:html))$'
+          captures:
+            1: comment.line.percentage.pytex
+          embed: scope:text.html.basic
+          embed_scope: meta.environment.embedded.html.pytex source.html.embedded
+          escape: '(?=\\end\{lstlisting\})'
+        - match: '.*(%\s*(?i:tex|pytex))$'
+          captures:
+            1: comment.line.percentage.pytex
+          embed: scope:text.tex.pytex
+          embed_scope: meta.environment.embedded.pytex.pytex source.pytex.embedded
+          escape: '(?=\\end\{lstlisting\})'
+        - match: '.*(%\s*(?i:lisp))$'
+          captures:
+            1: comment.line.percentage.pytex
+          embed: scope:source.lisp
+          embed_scope: meta.environment.embedded.lisp.pytex source.lisp.embedded
+          escape: '(?=\\end\{lstlisting\})'
+        - match: '.*(%\s*(?i:lua))$'
+          captures:
+            1: comment.line.percentage.pytex
+          embed: scope:source.lua
+          embed_scope: meta.environment.embedded.lua.pytex source.lua.embedded
+          escape: '(?=\\end\{lstlisting\})'
+        - match: '.*(%\s*(?i:perl))$'
+          captures:
+            1: comment.line.percentage.pytex
+          embed: scope:source.perl
+          embed_scope: meta.environment.embedded.perl.pytex source.perl.embedded
+          escape: '(?=\\end\{lstlisting\})'
+        - match: '.*(%\s*(?i:php))$'
+          captures:
+            1: comment.line.percentage.pytex
+          embed: scope:source.php
+          embed_scope: meta.environment.embedded.php.pytex source.php.embedded
+          escape: '(?=\\end\{lstlisting\})'
+        - match: '.*(%\s*(?i:python|py))$'
+          captures:
+            1: comment.line.percentage.pytex
+          embed: scope:source.python
+          embed_scope: meta.environment.embedded.python.pytex source.python.embedded
+          escape: '(?=\\end\{lstlisting\})'
+        - match: '.*(%\s*(?i:r))$'
+          captures:
+            1: comment.line.percentage.pytex
+          embed: scope:source.r
+          embed_scope: meta.environment.embedded.r.pytex source.r.embedded
+          escape: '(?=\\end\{lstlisting\})'
+        - match: '.*(%\s*(?i:ruby))$'
+          captures:
+            1: comment.line.percentage.pytex
+          embed: scope:source.ruby
+          embed_scope: meta.environment.embedded.ruby.pytex source.ruby.embedded
+          escape: '(?=\\end\{lstlisting\})'
+        - match: '.*(%\s*(?i:sh|shell|bash ))$'
+          captures:
+            1: comment.line.percentage.pytex
+          embed: scope:source.shell
+          embed_scope: meta.environment.embedded.shell.pytex source.shell.embedded
+          escape: '(?=\\end\{lstlisting\})'
+        - match: '.*(%\s*(?i:sql|mysql|ddl|dml))$'
+          captures:
+            1: comment.line.percentage.pytex
+          embed: scope:source.sql
+          embed_scope: meta.environment.embedded.sql.pytex source.sql.embedded
+          escape: '(?=\\end\{lstlisting\})'
+        - match: '.*(%\s*(?i:xml))$'
+          captures:
+            1: comment.line.percentage.pytex
+          embed: scope:text.xml
+          embed_scope: meta.environment.embedded.xml.pytex source.xml.embedded
+          escape: '(?=\\end\{lstlisting\})'
+        - match: '.*(%\s*(?i:yaml))$'
+          captures:
+            1: comment.line.percentage.pytex
+          embed: scope:source.yaml
+          embed_scope: meta.environment.embedded.yaml.pytex source.yaml.embedded
+          escape: '(?=\\end\{lstlisting\})'
+        - match: ''
+          push:
+            - meta_scope: meta.environment.embedded.generic.pytex markup.raw.verb.pytex
+            - match: '(?=\\end\{lstlisting\})'
+              pop: true
+
+  minted:
+    - include: minted-env
+    - include: mint
+
+  minted-env:
+    - match: ((\\)begin)(\{)(minted)(\})
+      captures:
+        1: support.function.begin.pytex keyword.control.flow.begin.pytex
+        2: punctuation.definition.backslash.pytex
+        3: punctuation.definition.group.brace.begin.pytex
+        4: variable.parameter.function.pytex
+        5: punctuation.definition.group.brace.end.pytex
+      push:
+        - meta_include_prototype: false
+        - meta_scope: meta.environment.verbatim.minted.pytex
+        - match: '((\\)end)(\{)(minted)(\})'
+          captures:
+            1: support.function.end.pytex keyword.control.flow.end.pytex
+            2: punctuation.definition.backslash.pytex
+            3: punctuation.definition.group.brace.begin.pytex
+            4: variable.parameter.function.pytex
+            5: punctuation.definition.group.brace.end.pytex
+          pop: true
+        - include: general-optional-arguments
+        - match: '(\{)(c)(\})'
+          captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: variable.parameter.function.pytex
+            3: punctuation.definition.group.brace.end.pytex
+          embed: scope:source.c
+          embed_scope: meta.environment.embedded.c.pytex source.c.embedded
+          escape: '(?=\\end\{minted\})'
+        - match: '(\{)(cpp|c\+\+)(\})'
+          captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: variable.parameter.function.pytex
+            3: punctuation.definition.group.brace.end.pytex
+          embed: scope:source.c++
+          embed_scope: meta.environment.embedded.c++.pytex source.c++.embedded
+          escape: '(?=\\end\{minted\})'
+        - match: '(\{)(diff)(\})'
+          captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: variable.parameter.function.pytex
+            3: punctuation.definition.group.brace.end.pytex
+          embed: scope:source.diff
+          embed_scope: meta.environment.embedded.diff.pytex source.diff.embedded
+          escape: '(?=\\end\{minted\})'
+        - match: '(\{)(go|golang)(\})'
+          captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: variable.parameter.function.pytex
+            3: punctuation.definition.group.brace.end.pytex
+          embed: scope:source.go
+          embed_scope: meta.environment.embedded.go.pytex source.go.embedded
+          escape: '(?=\\end\{minted\})'
+        - match: '(\{)(haskell|hs)(\})'
+          captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: variable.parameter.function.pytex
+            3: punctuation.definition.group.brace.end.pytex
+          embed: scope:source.haskell
+          embed_scope: meta.environment.embedded.haskell.pytex source.haskell.embedded
+          escape: '(?=\\end\{minted\})'
+        - match: '(\{)(html)(\})'
+          captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: variable.parameter.function.pytex
+            3: punctuation.definition.group.brace.end.pytex
+          embed: scope:text.html.basic
+          embed_scope: meta.environment.embedded.html.pytex text.html.embedded
+          escape: '(?=\\end\{minted\})'
+        - match: '(\{)(java)(\})'
+          captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: variable.parameter.function.pytex
+            3: punctuation.definition.group.brace.end.pytex
+          embed: scope:source.java
+          embed_scope: meta.environment.embedded.java.pytex source.java.embedded
+          escape: '(?=\\end\{minted\})'
+        - match: '(\{)(javascript|js)(\})'
+          captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: variable.parameter.function.pytex
+            3: punctuation.definition.group.brace.end.pytex
+          embed: scope:source.js
+          embed_scope: meta.environment.embedded.js.pytex source.js.embedded
+          escape: '(?=\\end\{minted\})'
+        - match: '(\{)(json)(\})'
+          captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: variable.parameter.function.pytex
+            3: punctuation.definition.group.brace.end.pytex
+          embed: scope:source.json
+          embed_scope: meta.environment.embedded.json.pytex source.json.embedded
+          escape: '(?=\\end\{minted\})'
+        - match: '(\{)(tex|pytex)(\})'
+          captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: variable.parameter.function.pytex
+            3: punctuation.definition.group.brace.end.pytex
+          embed: scope:text.tex.pytex
+          embed_scope: meta.environment.embedded.pytex.pytex text.tex.pytex.embedded
+          escape: '(?=\\end\{minted\})'
+        - match: '(\{)(lisp)(\})'
+          captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: variable.parameter.function.pytex
+            3: punctuation.definition.group.brace.end.pytex
+          embed: scope:source.lisp
+          embed_scope: meta.environment.embedded.lisp.pytex source.lisp.embedded
+          escape: '(?=\\end\{minted\})'
+        - match: '(\{)(lua)(\})'
+          captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: variable.parameter.function.pytex
+            3: punctuation.definition.group.brace.end.pytex
+          embed: scope:source.lua
+          embed_scope: meta.environment.embedded.lua.pytex source.lua.embedded
+          escape: '(?=\\end\{minted\})'
+        - match: '(\{)(obj(?:ective\-|)c)(\})'
+          captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: variable.parameter.function.pytex
+            3: punctuation.definition.group.brace.end.pytex
+          embed: scope:source.objc
+          embed_scope: meta.environment.embedded.objc.pytex source.objc.embedded
+          escape: '(?=\\end\{minted\})'
+        - match: '(\{)(obj(?:ective\-|)c\+\+)(\})'
+          captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: variable.parameter.function.pytex
+            3: punctuation.definition.group.brace.end.pytex
+          embed: scope:source.objc++
+          embed_scope: meta.environment.embedded.objc++.pytex source.objc++.embedded
+          escape: '(?=\\end\{minted\})'
+        - match: '(\{)(perl)(\})'
+          captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: variable.parameter.function.pytex
+            3: punctuation.definition.group.brace.end.pytex
+          embed: scope:source.perl
+          embed_scope: meta.environment.embedded.perl.pytex source.perl.embedded
+          escape: '(?=\\end\{minted\})'
+        - match: '(\{)(php)(\})'
+          captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: variable.parameter.function.pytex
+            3: punctuation.definition.group.brace.end.pytex
+          embed: scope:source.php
+          embed_scope: meta.environment.embedded.php.pytex source.php.embedded
+          escape: '(?=\\end\{minted\})'
+        - match: '(\{)(python|py)(\})'
+          captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: variable.parameter.function.pytex
+            3: punctuation.definition.group.brace.end.pytex
+          embed: scope:source.python
+          embed_scope: meta.environment.embedded.python.pytex source.python.embedded
+          escape: '(?=\\end\{minted\})'
+        - match: '(\{)(r)(\})'
+          captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: variable.parameter.function.pytex
+            3: punctuation.definition.group.brace.end.pytex
+          embed: scope:source.r
+          embed_scope: meta.environment.embedded.r.pytex source.r.embedded
+          escape: '(?=\\end\{minted\})'
+        - match: '(\{)(ruby)(\})'
+          captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: variable.parameter.function.pytex
+            3: punctuation.definition.group.brace.end.pytex
+          embed: scope:source.ruby
+          embed_scope: meta.environment.embedded.ruby.pytex source.ruby.embedded
+          escape: '(?=\\end\{minted\})'
+        - match: '(\{)(sh|shell|bash )(\})'
+          captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: variable.parameter.function.pytex
+            3: punctuation.definition.group.brace.end.pytex
+          embed: scope:source.shell
+          embed_scope: meta.environment.embedded.shell.pytex source.shell.embedded
+          escape: '(?=\\end\{minted\})'
+        - match: '(\{)(sql|mysql|ddl|dml)(\})'
+          captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: variable.parameter.function.pytex
+            3: punctuation.definition.group.brace.end.pytex
+          embed: scope:source.sql
+          embed_scope: meta.environment.embedded.sql.pytex source.sql.embedded
+          escape: '(?=\\end\{minted\})'
+        - match: '(\{)(xml)(\})'
+          captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: variable.parameter.function.pytex
+            3: punctuation.definition.group.brace.end.pytex
+          embed: scope:text.xml
+          embed_scope: meta.environment.embedded.xml.pytex text.xml.embedded
+          escape: '(?=\\end\{minted\})'
+        - match: '(\{)(yaml)(\})'
+          captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: variable.parameter.function.pytex
+            3: punctuation.definition.group.brace.end.pytex
+          embed: scope:source.yaml
+          embed_scope: meta.environment.embedded.yaml.pytex source.yaml.embedded
+          escape: '(?=\\end\{minted\})'
+        - match: ''
+          push:
+            - meta_scope: meta.environment.embedded.generic.pytex markup.raw.verb.pytex
+            - match: '(?=\\end\{minted\})'
+              pop: true
+
+  mint:
+    - match: ((\\)mint)\b|((\\)mintinline)\b
+      captures:
+        1: support.function.mint.pytex
+        2: punctuation.definition.backslash.pytex
+        3: support.function.mintinline.pytex
+        4: punctuation.definition.backslash.pytex
+      push:
+        - meta_scope: meta.environment.verbatim.minted.pytex
+        - include: general-optional-arguments
+        - match: '(\{)(c)(\})((\{)|(\W))'
+          scope: meta.environment.verbatim.minted.pytex
+          captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: variable.parameter.function.pytex
+            3: punctuation.definition.group.brace.end.pytex
+            5: punctuation.definition.group.brace.begin.pytex
+            6: punctuation.definition.verb.pytex
+          embed: scope:source.c
+          embed_scope: meta.environment.verbatim.minted.pytex meta.environment.embedded.c.pytex source.c.embedded
+          escape: '(\})|(\4)'
+          escape_captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: punctuation.definition.verb.pytex
+        - match: '(\{)(cpp|c\+\+)(\})((\{)|(\W))'
+          scope: meta.environment.verbatim.minted.pytex
+          captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: variable.parameter.function.pytex
+            3: punctuation.definition.group.brace.end.pytex
+            5: punctuation.definition.group.brace.begin.pytex
+            6: punctuation.definition.verb.pytex
+          embed: scope:source.c++
+          embed_scope: meta.environment.verbatim.minted.pytex meta.environment.embedded.c++.pytex source.c++.embedded
+          escape: '(\})|(\4)'
+          escape_captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: punctuation.definition.verb.pytex
+        - match: '(\{)(diff)(\})((\{)|(\W))'
+          scope: meta.environment.verbatim.minted.pytex
+          captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: variable.parameter.function.pytex
+            3: punctuation.definition.group.brace.end.pytex
+            5: punctuation.definition.group.brace.begin.pytex
+            6: punctuation.definition.verb.pytex
+          embed: scope:source.diff
+          embed_scope: meta.environment.verbatim.minted.pytex meta.environment.embedded.diff.pytex source.diff.embedded
+          escape: '(\})|(\4)'
+          escape_captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: punctuation.definition.verb.pytex
+        - match: '(\{)(go|golang)(\})((\{)|(\W))'
+          scope: meta.environment.verbatim.minted.pytex
+          captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: variable.parameter.function.pytex
+            3: punctuation.definition.group.brace.end.pytex
+            5: punctuation.definition.group.brace.begin.pytex
+            6: punctuation.definition.verb.pytex
+          embed: scope:source.go
+          embed_scope: meta.environment.verbatim.minted.pytex meta.environment.embedded.go.pytex source.go.embedded
+          escape: '(\})|(\4)'
+          escape_captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: punctuation.definition.verb.pytex
+        - match: '(\{)(haskell|hs)(\})((\{)|(\W))'
+          scope: meta.environment.verbatim.minted.pytex
+          captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: variable.parameter.function.pytex
+            3: punctuation.definition.group.brace.end.pytex
+            5: punctuation.definition.group.brace.begin.pytex
+            6: punctuation.definition.verb.pytex
+          embed: scope:source.haskell
+          embed_scope: meta.environment.verbatim.minted.pytex meta.environment.embedded.haskell.pytex source.haskell.embedded
+          escape: '(\})|(\4)'
+          escape_captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: punctuation.definition.verb.pytex
+        - match: '(\{)(html)(\})((\{)|(\W))'
+          scope: meta.environment.verbatim.minted.pytex
+          captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: variable.parameter.function.pytex
+            3: punctuation.definition.group.brace.end.pytex
+            5: punctuation.definition.group.brace.begin.pytex
+            6: punctuation.definition.verb.pytex
+          embed: scope:text.html.basic
+          embed_scope: meta.environment.verbatim.minted.pytex meta.environment.embedded.html.pytex text.html.embedded
+          escape: '(\})|(\4)'
+          escape_captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: punctuation.definition.verb.pytex
+        - match: '(\{)(java)(\})((\{)|(\W))'
+          scope: meta.environment.verbatim.minted.pytex
+          captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: variable.parameter.function.pytex
+            3: punctuation.definition.group.brace.end.pytex
+            5: punctuation.definition.group.brace.begin.pytex
+            6: punctuation.definition.verb.pytex
+          embed: scope:source.java
+          embed_scope: meta.environment.verbatim.minted.pytex meta.environment.embedded.java.pytex source.java.embedded
+          escape: '(\})|(\4)'
+          escape_captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: punctuation.definition.verb.pytex
+        - match: '(\{)(javascript|js)(\})((\{)|(\W))'
+          scope: meta.environment.verbatim.minted.pytex
+          captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: variable.parameter.function.pytex
+            3: punctuation.definition.group.brace.end.pytex
+            5: punctuation.definition.group.brace.begin.pytex
+            6: punctuation.definition.verb.pytex
+          embed: scope:source.js
+          embed_scope: meta.environment.verbatim.minted.pytex meta.environment.embedded.js.pytex source.js.embedded
+          escape: '(\})|(\4)'
+          escape_captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: punctuation.definition.verb.pytex
+        - match: '(\{)(json)(\})((\{)|(\W))'
+          scope: meta.environment.verbatim.minted.pytex
+          captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: variable.parameter.function.pytex
+            3: punctuation.definition.group.brace.end.pytex
+            5: punctuation.definition.group.brace.begin.pytex
+            6: punctuation.definition.verb.pytex
+          embed: scope:source.json
+          embed_scope: meta.environment.verbatim.minted.pytex meta.environment.embedded.json.pytex source.json.embedded
+          escape: '(\})|(\4)'
+          escape_captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: punctuation.definition.verb.pytex
+        - match: '(\{)(tex|pytex)(\})((\{)|(\W))'
+          scope: meta.environment.verbatim.minted.pytex
+          captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: variable.parameter.function.pytex
+            3: punctuation.definition.group.brace.end.pytex
+            5: punctuation.definition.group.brace.begin.pytex
+            6: punctuation.definition.verb.pytex
+          embed: scope:text.tex.pytex
+          embed_scope: meta.environment.verbatim.minted.pytex meta.environment.embedded.pytex.pytex text.tex.pytex.embedded
+          escape: '(\})|(\4)'
+          escape_captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: punctuation.definition.verb.pytex
+        - match: '(\{)(lisp)(\})((\{)|(\W))'
+          scope: meta.environment.verbatim.minted.pytex
+          captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: variable.parameter.function.pytex
+            3: punctuation.definition.group.brace.end.pytex
+            5: punctuation.definition.group.brace.begin.pytex
+            6: punctuation.definition.verb.pytex
+          embed: scope:source.lisp
+          embed_scope: meta.environment.verbatim.minted.pytex meta.environment.embedded.lisp.pytex source.lisp.embedded
+          escape: '(\})|(\4)'
+          escape_captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: punctuation.definition.verb.pytex
+        - match: '(\{)(lua)(\})((\{)|(\W))'
+          scope: meta.environment.verbatim.minted.pytex
+          captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: variable.parameter.function.pytex
+            3: punctuation.definition.group.brace.end.pytex
+            5: punctuation.definition.group.brace.begin.pytex
+            6: punctuation.definition.verb.pytex
+          embed: scope:source.lua
+          embed_scope: meta.environment.verbatim.minted.pytex meta.environment.embedded.lua.pytex source.lua.embedded
+          escape: '(\})|(\4)'
+          escape_captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: punctuation.definition.verb.pytex
+        - match: '(\{)(obj(?:ective\-|)c)(\})((\{)|(\W))'
+          scope: meta.environment.verbatim.minted.pytex
+          captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: variable.parameter.function.pytex
+            3: punctuation.definition.group.brace.end.pytex
+            5: punctuation.definition.group.brace.begin.pytex
+            6: punctuation.definition.verb.pytex
+          embed: scope:source.objc
+          embed_scope: meta.environment.verbatim.minted.pytex meta.environment.embedded.objc.pytex source.objc.embedded
+          escape: '(\})|(\4)'
+          escape_captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: punctuation.definition.verb.pytex
+        - match: '(\{)(obj(?:ective\-|)c\+\+)(\})((\{)|(\W))'
+          scope: meta.environment.verbatim.minted.pytex
+          captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: variable.parameter.function.pytex
+            3: punctuation.definition.group.brace.end.pytex
+            5: punctuation.definition.group.brace.begin.pytex
+            6: punctuation.definition.verb.pytex
+          embed: scope:source.objc++
+          embed_scope: meta.environment.verbatim.minted.pytex meta.environment.embedded.objc++.pytex source.objc++.embedded
+          escape: '(\})|(\4)'
+          escape_captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: punctuation.definition.verb.pytex
+        - match: '(\{)(perl)(\})((\{)|(\W))'
+          scope: meta.environment.verbatim.minted.pytex
+          captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: variable.parameter.function.pytex
+            3: punctuation.definition.group.brace.end.pytex
+            5: punctuation.definition.group.brace.begin.pytex
+            6: punctuation.definition.verb.pytex
+          embed: scope:source.perl
+          embed_scope: meta.environment.verbatim.minted.pytex meta.environment.embedded.perl.pytex source.perl.embedded
+          escape: '(\})|(\4)'
+          escape_captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: punctuation.definition.verb.pytex
+        - match: '(\{)(php)(\})((\{)|(\W))'
+          scope: meta.environment.verbatim.minted.pytex
+          captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: variable.parameter.function.pytex
+            3: punctuation.definition.group.brace.end.pytex
+            5: punctuation.definition.group.brace.begin.pytex
+            6: punctuation.definition.verb.pytex
+          embed: scope:source.php
+          embed_scope: meta.environment.verbatim.minted.pytex meta.environment.embedded.php.pytex source.php.embedded
+          escape: '(\})|(\4)'
+          escape_captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: punctuation.definition.verb.pytex
+        - match: '(\{)(python|py)(\})((\{)|(\W))'
+          scope: meta.environment.verbatim.minted.pytex
+          captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: variable.parameter.function.pytex
+            3: punctuation.definition.group.brace.end.pytex
+            5: punctuation.definition.group.brace.begin.pytex
+            6: punctuation.definition.verb.pytex
+          embed: scope:source.python
+          embed_scope: meta.environment.verbatim.minted.pytex meta.environment.embedded.python.pytex source.python.embedded
+          escape: '(\})|(\4)'
+          escape_captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: punctuation.definition.verb.pytex
+        - match: '(\{)(r)(\})((\{)|(\W))'
+          scope: meta.environment.verbatim.minted.pytex
+          captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: variable.parameter.function.pytex
+            3: punctuation.definition.group.brace.end.pytex
+            5: punctuation.definition.group.brace.begin.pytex
+            6: punctuation.definition.verb.pytex
+          embed: scope:source.r
+          embed_scope: meta.environment.verbatim.minted.pytex meta.environment.embedded.r.pytex source.r.embedded
+          escape: '(\})|(\4)'
+          escape_captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: punctuation.definition.verb.pytex
+        - match: '(\{)(ruby)(\})((\{)|(\W))'
+          scope: meta.environment.verbatim.minted.pytex
+          captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: variable.parameter.function.pytex
+            3: punctuation.definition.group.brace.end.pytex
+            5: punctuation.definition.group.brace.begin.pytex
+            6: punctuation.definition.verb.pytex
+          embed: scope:source.ruby
+          embed_scope: meta.environment.verbatim.minted.pytex meta.environment.embedded.ruby.pytex source.ruby.embedded
+          escape: '(\})|(\4)'
+          escape_captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: punctuation.definition.verb.pytex
+        - match: '(\{)(sh|shell|bash )(\})((\{)|(\W))'
+          scope: meta.environment.verbatim.minted.pytex
+          captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: variable.parameter.function.pytex
+            3: punctuation.definition.group.brace.end.pytex
+            5: punctuation.definition.group.brace.begin.pytex
+            6: punctuation.definition.verb.pytex
+          embed: scope:source.shell
+          embed_scope: meta.environment.verbatim.minted.pytex meta.environment.embedded.shell.pytex source.shell.embedded
+          escape: '(\})|(\4)'
+          escape_captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: punctuation.definition.verb.pytex
+        - match: '(\{)(sql|mysql|ddl|dml)(\})((\{)|(\W))'
+          scope: meta.environment.verbatim.minted.pytex
+          captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: variable.parameter.function.pytex
+            3: punctuation.definition.group.brace.end.pytex
+            5: punctuation.definition.group.brace.begin.pytex
+            6: punctuation.definition.verb.pytex
+          embed: scope:source.sql
+          embed_scope: meta.environment.verbatim.minted.pytex meta.environment.embedded.sql.pytex source.sql.embedded
+          escape: '(\})|(\4)'
+          escape_captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: punctuation.definition.verb.pytex
+        - match: '(\{)(xml)(\})((\{)|(\W))'
+          scope: meta.environment.verbatim.minted.pytex
+          captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: variable.parameter.function.pytex
+            3: punctuation.definition.group.brace.end.pytex
+            5: punctuation.definition.group.brace.begin.pytex
+            6: punctuation.definition.verb.pytex
+          embed: scope:text.xml
+          embed_scope: meta.environment.verbatim.minted.pytex meta.environment.embedded.xml.pytex text.xml.embedded
+          escape: '(\})|(\4)'
+          escape_captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: punctuation.definition.verb.pytex
+        - match: '(\{)(yaml)(\})((\{)|(\W))'
+          scope: meta.environment.verbatim.minted.pytex
+          captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: variable.parameter.function.pytex
+            3: punctuation.definition.group.brace.end.pytex
+            5: punctuation.definition.group.brace.begin.pytex
+            6: punctuation.definition.verb.pytex
+          embed: scope:source.yaml
+          embed_scope: meta.environment.verbatim.minted.pytex meta.environment.embedded.yaml.pytex source.yaml.embedded
+          escape: '(\})|(\4)'
+          escape_captures:
+            1: punctuation.definition.group.brace.begin.pytex
+            2: punctuation.definition.verb.pytex
+        - match: ''
+          pop: true
+
+  # comment package
+  pkgcomment:
+    - match: '^(\\)comment\b'
+      captures:
+        0: punctuation.definition.comment.start.pytex
+        1: punctuation.definition.backslash.pytex
+      push:
+        - meta_scope: meta.environment.comment.pytex comment.block.command.comment.pytex
+        - match: '^(\\)endcomment\b'
+          captures:
+            0: punctuation.definition.comment.end.pytex
+            1: punctuation.definition.backslash.pytex
+          pop: true
+    - match: '((\\)begin)(\{)\s*(comment)\s*(\})'
+      captures:
+        1: support.function.begin.pytex keyword.control.flow.begin.pytex
+        2: punctuation.definition.backslash.pytex
+        3: punctuation.definition.group.brace.begin.pytex
+        4: variable.parameter.function.pytex
+        5: punctuation.definition.group.brace.end.pytex
+      push:
+        - meta_scope: meta.environment.comment.pytex
+        - meta_content_scope: comment.block.environment.comment.pytex
+        - match: '((\\)end)(\{)\s*(comment)\s*(\})'
+          captures:
+            1: support.function.end.pytex keyword.control.flow.end.pytex
+            2: punctuation.definition.backslash.pytex
+            3: punctuation.definition.group.brace.begin.pytex
+            4: variable.parameter.function.pytex
+            5: punctuation.definition.group.brace.end.pytex
+          pop: true
+
+  # beamer support
+  beamer:
+    - match: '((\\)begin)(\{)(frame)(\})'
+      captures:
+        1: support.function.begin.pytex keyword.control.flow.begin.pytex
+        2: punctuation.definition.backslash.pytex
+        3: punctuation.definition.group.brace.begin.pytex
+        4: variable.parameter.function.pytex
+        5: punctuation.definition.group.brace.end.pytex
+      push:
+        - meta_scope: meta.environment.frame.pytex
+        - match: '((\\)end)(\{)(frame)(\})'
+          captures:
+            1: support.function.end.pytex keyword.control.flow.end.pytex
+            2: punctuation.definition.backslash.pytex
+            3: punctuation.definition.group.brace.begin.pytex
+            4: variable.parameter.function.pytex
+            5: punctuation.definition.group.brace.end.pytex
+          pop: true
+        - include: frametitles
+        - include: main
+
+  frametitles:
+    - match: '((\\)frametitle)(\{)(.*)(\})'
+      scope: meta.function.frametitle.pytex
+      captures:
+       1: support.function.frametitle.pytex
+       2: punctuation.definition.backslash.pytex
+       3: punctuation.definition.group.brace.begin.pytex
+       4: entity.name.function.frame.pytex
+       5: punctuation.definition.group.brace.end.pytex
+
+  # support for array package
+  pkgarray:
+    - match: |-
+        (?x)
+        (
+          (\\)newcolumntype
+        )
+        (?:
+          (\{)
+          (
+            (?:\\[A-Za-z@]+)
+            | (?:[A-Za-z@])
+          )
+          (\})
+        )
+        (?:(\[)(?:[^\]]*)(\]))*
+        (\{)
+      captures:
+        1: support.function.newcolumntype.pytex
+        2: punctuation.definition.backslash.pytex
+        3: punctuation.definition.group.brace.begin.pytex
+        4: support.function.pytex entity.name.newcolumntype.pytex
+        5: punctuation.definition.group.brace.end.pytex
+        6: punctuation.definition.group.bracket.begin.pytex
+        7: punctuation.definition.group.bracket.end.pytex
+        8: punctuation.definition.group.brace.begin.pytex
+      push:
+        - meta_include_prototype: false
+        - meta_scope: meta.function.newcolumntype.pytex
+        - match: '\}'
+          scope: punctuation.definition.group.brace.end.pytex
+          pop: true
+        - include: array-preamble
+    - match: |-
+        (?x)
+        ((\\)begin)(\{)(tabular)(\})
+        (?:(\[)(?:b|c|t)(\]))?
+        (?=\s*\{)
+      captures:
+        1: support.function.begin.pytex keyword.control.flow.begin.pytex
+        2: punctuation.definition.backslash.pytex
+        3: punctuation.definition.group.brace.begin.pytex
+        4: variable.parameter.function.pytex
+        5: punctuation.definition.group.brace.end.pytex
+        6: punctuation.definition.group.bracket.begin.pytex
+        7: punctuation.definition.group.bracket.end.pytex
+      push:
+        - meta_scope: meta.environment.tabular.pytex
+        - match: '\{'
+          scope: meta.function.column-spec.pytex punctuation.definition.group.brace.begin.pytex
+          set:
+            - meta_content_scope: meta.environment.tabular.pytex meta.function.column-spec.pytex
+            - include: array-preamble
+            - match: '\}'
+              scope: punctuation.definition.group.brace.end.pytex
+              set:
+                - meta_content_scope: meta.environment.tabular.pytex
+                - match: '((\\)end)(\{)(tabular)(\})'
+                  scope: meta.environment.tabular.pytex
+                  captures:
+                    1: support.function.end.pytex keyword.control.flow.end.pytex
+                    2: punctuation.definition.backslash.pytex
+                    3: punctuation.definition.group.brace.begin.pytex
+                    4: variable.parameter.function.pytex
+                    5: punctuation.definition.group.brace.end.pytex
+                  pop: true
+                - include: main
+  array-preamble:
+    - match: '\{'
+      scope: punctuation.definition.group.brace.begin.pytex
+      push:
+        - match: '\}'
+          scope: punctuation.definition.group.brace.end.pytex
+          pop: true
+        - include: array-preamble
+
+    - match: 'l|r|c'
+      scope: keyword.other.column-type.pytex
+
+    - match: '(?:p|m|b)(?=\s*\{)'
+      scope: support.function.parbox-column.pytex
+      push:
+        - [{meta_scope: meta.function.parbox-column.pytex}, {match: '', pop: true}]
+        - argument
+
+    - match: '(>)\s*(\{)'
+      captures:
+        1: support.function.insert-before-column.pytex
+        2: punctuation.definition.group.brace.begin.pytex
+      push:
+        - meta_scope: meta.function.before-column-decl.pytex
+        - match: '\}'
+          scope: punctuation.definition.group.brace.end.pytex
+          pop: true
+        - include: general-constants
+        - include: general-commands
+        - include: macro-braces
+
+    - match: '(<)\s*(\{)'
+      captures:
+        1: support.function.insert-after-column.pytex
+        2: punctuation.definition.group.brace.begin.pytex
+      push:
+        - meta_scope: meta.function.after-column-decl.pytex
+        - match: '\}'
+          scope: punctuation.definition.group.brace.end.pytex
+          pop: true
+        - include: general-constants
+        - include: general-commands
+        - include: macro-braces
+
+    - match: '\|'
+      scope: keyword.operator.inter-column-line.pytex
+
+    - match: '(@)\s*(\{)'
+      captures:
+        1: support.function.inter-column-nospace.pytex
+        2: punctuation.definition.group.brace.begin.pytex
+      push:
+        - meta_scope: meta.function.inter-column-decl.pytex
+        - match: '\}'
+          scope: punctuation.definition.group.brace.end.pytex
+          pop: true
+        - include: general-constants
+        - include: general-commands
+        - include: macro-braces
+
+    - match: '(!)\s*(\{)'
+      captures:
+        1: support.function.inter-column.pytex
+        2: punctuation.definition.group.brace.begin.pytex
+      push:
+        - meta_scope: meta.function.inter-column-decl.pytex
+        - match: '\}'
+          scope: punctuation.definition.group.brace.end.pytex
+          pop: true
+        - include: general-constants
+        - include: general-commands
+        - include: macro-braces
+
+    - match: '(\*)\s*(\{)'
+      captures:
+        1: support.function.insert-repeated.pytex
+        2: meta.function.insert-repeated-count.pytex punctuation.definition.group.brace.begin.pytex
+      push:
+        - meta_content_scope: meta.function.insert-repeated-count.pytex
+        - match: '\d+'
+          scope: constant.numeric.array-count.pytex
+        - include: general-commands
+        - match: '\}'
+          scope: punctuation.definition.group.brace.end.pytex
+          set:
+            - match: '\{'
+              scope: meta.function.insert-repeated-content.pytex punctuation.definition.group.brace.begin.pytex
+              set:
+                - meta_content_scope: meta.function.insert-repeated-content.pytex
+                - include: array-preamble
+                - match: '\}'
+                  scope: meta.function.insert-repeated-content.pytex punctuation.definition.group.brace.end.pytex
+                  pop: true
+            - match: ''
+              pop: true
