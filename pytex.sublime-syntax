@@ -458,6 +458,8 @@ contexts:
 
   math-content:
     # unique to pytex
+    - include: scope:text.tex.pytex#unique-pytex
+    # unique to latex
     - include: verb
     - include: text-decorators
     - include: references
@@ -467,7 +469,6 @@ contexts:
     - include: scope:text.tex#math-brackets
     - include: math-braces
     - include: boxes
-    - include: scope:text.tex.pytex#unique-pytex
     - include: scope:text.tex#math-commands
     - include: scope:text.tex#math-operators
     - include: scope:text.tex#math-characters
@@ -728,8 +729,8 @@ contexts:
         (?x)
         (\\)
         (?:
-          # bibpytex commands
-          #   http://mirrors.ibiblio.org/CTAN/macros/pytex/exptl/bibpytex/doc/bibpytex.pdf section 3.8
+          # biblatex commands
+          #   http://mirrors.ibiblio.org/CTAN/macros/latex/exptl/biblatex/doc/biblatex.pdf section 3.8
           # commands with multicite variant
             (?:[aA]uto|foot|[pP]aren|[sS]mart|super|[tT]ext)cites?
           | [Cc]ites?
@@ -743,7 +744,7 @@ contexts:
           | [vV]olcites?
           | (?:[pPfFsStTaA]|ft)volcites?
           | (?:[pPf]?n|N)otecite
-          # non-bibpytex
+          # non-biblatex
           | [aA]cite
           | [cC]ite(?:t|p|alt|alp|text|yearpar)
         )\b
