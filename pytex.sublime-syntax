@@ -33,10 +33,10 @@ contexts:
     - include: global-braces
 
   unique-pytex:
-    - match: '((\.\.)begin (main|(sub){0,4}section|thm|proof|list( bullet)?))\b'
+    - match: '((\.\.)begin (preamble|main|(sub){0,4}section|thm|proof|list( bullet)?))\b'
       captures:
         1: support.function.begin.pytex keyword.control.flow.begin.pytex
-    - match: '((\.\.)end (eq|proof|list|main|thm))\b'
+    - match: '((\.\.)end (preamble|eq|proof|list|main|thm))\b'
       captures:
         1: support.function.end.pytex keyword.control.flow.end.pytex
 
@@ -665,19 +665,7 @@ contexts:
 
 
   text-decorators:
-    - match: '((\\)emph)(\{)'
-      captures:
-        1: support.function.emph.pytex
-        2: punctuation.definition.backslash.pytex
-        3: punctuation.definition.group.brace.begin.pytex
-      push:
-        - meta_scope: meta.function.emph.pytex
-        - meta_content_scope: markup.italic.emph.pytex
-        - match: '\}'
-          scope: punctuation.definition.group.brace.end.pytex
-          pop: true
-        - include: main
-    - match: '((\.\.)it)(\{)'
+    - match: '((\\)(emph|ital))(\{)'
       captures:
         1: support.function.emph.pytex
         2: punctuation.definition.backslash.pytex
@@ -701,19 +689,7 @@ contexts:
           scope: punctuation.definition.group.brace.end.pytex
           pop: true
         - include: main
-    - match: '((\\)textbf)(\{)'
-      captures:
-        1: support.function.textbf.pytex
-        2: punctuation.definition.backslash.pytex
-        3: punctuation.definition.group.brace.begin.pytex
-      push:
-        - meta_scope: meta.function.textbf.pytex
-        - meta_content_scope: markup.bold.textbf.pytex
-        - match: '\}'
-          scope: punctuation.definition.group.brace.end.pytex
-          pop: true
-        - include: main
-    - match: '((\.\.)bd)(\{)'
+    - match: '((\\)(textbf|bold))(\{)'
       captures:
         1: support.function.textbf.pytex
         2: punctuation.definition.backslash.pytex

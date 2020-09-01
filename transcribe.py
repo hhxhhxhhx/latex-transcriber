@@ -452,7 +452,7 @@ def load_pairs():
                 '\\nin -> \\notin', 
                 '\\ital -> \\emph', 
                 '\\bold -> \\textbf', 
-                '\\contradiction -> $\\spadesuit$', 
+                '\\contradiction -> $\\Rightarrow\\Leftarrow$', 
                 '..<< -> \\ll', 
                 '..>> -> \\gg', 
                 '..~= -> \\approx', 
