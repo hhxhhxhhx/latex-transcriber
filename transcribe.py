@@ -36,6 +36,7 @@ def main():
 
     with open(pytex, 'r') as f:
         content = f.read()
+        unedited = content.split('\n')
 
     # Remove comments
     while '%%%' in content:
@@ -90,7 +91,7 @@ def main():
 
     replacer = Replacer(lines)
 
-    replacer.replace()
+    replacer.replace(unedited_for_preamble_check=unedited)
 
     _start = find_index(lines, '..begin main')
     _end = find_index(lines, '..end main')
@@ -150,6 +151,11 @@ def main():
 
     output += '\n'
 
+    if replacer.preamble:
+        output += '% This part is unaffected by transcription\n\n'
+        output += replacer.preamble
+        output += '\n% End of unaffected portion\n\n'
+
     output += "\\begin{document}\n"
 
     output += "\n\\begin{flushleft}\n"
@@ -187,7 +193,9 @@ class Replacer():
     def __init__(self, lines):
         self.lines = lines
 
-    def replace(self):
+    def replace(self, unedited_for_preamble_check=[]):
+
+        self.set_aside_preamble(unedited_for_preamble_check)
 
         """
         INITIALIZING THEOREMS
@@ -381,6 +389,29 @@ class Replacer():
             start_align = second_word
         return start_align
 
+    def set_aside_preamble(self, not_self_lines=[]):
+        self._preamble = ''
+        index = 0
+        set_aside = False
+        while index < len(not_self_lines):
+            if not_self_lines[index].startswith('..begin preamble'):
+                set_aside = True
+                not_self_lines.pop(index)
+                continue
+            elif not_self_lines[index].startswith('..end preamble'):
+                set_aside = False
+                not_self_lines.pop(index)
+                continue
+            elif set_aside:
+                self._preamble += not_self_lines[index] + '\n'
+                not_self_lines.pop(index)
+                continue
+            index += 1
+
+    @property
+    def preamble(self):
+        return self._preamble
+
     @property
     def end_align(self):
         return self.start_align
@@ -446,9 +477,6 @@ def load_pairs():
                 '..n -> \\\\', 
                 '..t -> \\quad']
     pairs = [x.split(' -> ') for x in contents]
-    for pair in pairs:
-        if ' %' in pair[1]:
-            pair[1] = pair[1][:pair[1].index(' %')]
     return pairs
 
 if __name__ == "__main__":
