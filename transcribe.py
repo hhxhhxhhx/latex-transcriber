@@ -254,7 +254,10 @@ class Replacer():
         """
         _beginproof = find_index(self.lines, '..begin proof')
         while _beginproof != -1:
-            self.lines[_beginproof] = '\\begin{proof}'
+            if self.lines[_beginproof][13:].strip():
+                self.lines[_beginproof] = '\\begin{{{0}}}[Proof {1}]'.format('proof', self.lines[_beginproof][13:].strip())
+            else:
+                self.lines[_beginproof] = '\\begin{proof}'
             _beginproof = find_index(self.lines, '..begin proof')
 
         _endproof = find_index(self.lines, '..end proof')

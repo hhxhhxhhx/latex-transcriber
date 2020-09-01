@@ -33,10 +33,10 @@ contexts:
     - include: global-braces
 
   unique-pytex:
-    - match: '((\.\.)begin (main|(sub){0,5}section( [^\n]*)+|thm ([^\n]*)|proof|list( bullet)?))\b'
+    - match: '((\.\.)begin (main|(sub){0,4}section|thm|proof|list( bullet)?))\b'
       captures:
         1: support.function.begin.pytex keyword.control.flow.begin.pytex
-    - match: '((\.\.)end (eq|proof|list|main|thm (\w*)?))\b'
+    - match: '((\.\.)end (eq|proof|list|main|thm))\b'
       captures:
         1: support.function.end.pytex keyword.control.flow.end.pytex
 
@@ -58,26 +58,81 @@ contexts:
           pop: true
         - include: math-content
 
-    - match: '((\.\.)align (left|right|center|justify))\b'
+    - match: '((\.\.)align)\b'
       captures:
         1: keyword.control.flow.begin.pytex
-    - match: '((\.\.)(font|margin|indent|spacing) [0-9\.]*)\b'
+    - match: '((\.\.)(font|margin|indent|spacing))\b'
       captures:
         1: keyword.control.flow.begin.pytex
-    - match: '((\.\.)(paper (letter\b|legal\b|a4\b)?|orient (portrait\b|landscape\b)?))'
+    - match: '((\.\.)(paper|orient))\b'
       captures:
         1: keyword.control.flow.begin.pytex
-    - match: '((\.\.)(usepackage\b|pagenumber (none\b|bottom\b)|qed\b))'
+    - match: '((\.\.)(usepackage|pagenumber|qed))\b'
       captures:
         1: keyword.control.flow.begin.pytex
-    - match: '((\.\.)(initheorem\* \w*|initheorem \w* \w* (shared|sub)|initheorem \w*))\b'
+    - match: '((\.\.)(initheorem\*|initheorem)(?= ))'
       captures:
         1: keyword.control.flow.begin.pytex
+
+    # Blue
+    - match: '(((?<=(\.\.begin section ))|(?<=(\.\.begin subsection ))|(?<=(\.\.begin subsubsection )))[^%\n]*)'
+      scope: support.function.general.pytex
+      captures:
+        1: punctuation.definition.backslash.pytex
+    - match: '(((?<=(\.\.begin subsubsubsection ))|(?<=(\.\.begin subsubsubsubsection )))[^%\n]*)'
+      scope: support.function.general.pytex
+      captures:
+        1: punctuation.definition.backslash.pytex
+    - match: '((?<=(\.\.paper ))(letter|legal|a4))\b'
+      scope: support.function.general.pytex
+      captures:
+        1: punctuation.definition.backslash.pytex
+    - match: '((?<=(\.\.orient ))(portrait|landscape))\b'
+      scope: support.function.general.pytex
+      captures:
+        1: punctuation.definition.backslash.pytex
+    - match: '(((?<=(\.\.usepackage ))|(?<=(\.\.qed )))[^%\n]*)'
+      scope: support.function.general.pytex
+      captures:
+        1: punctuation.definition.backslash.pytex
+    - match: '((?<=(\.\.pagenumber ))(none|bottom))\b'
+      scope: support.function.general.pytex
+      captures:
+        1: punctuation.definition.backslash.pytex
+    - match: '((((?<=(\.\.font ))|(?<=(\.\.margin ))|(?<=(\.\.indent ))|(?<=(\.\.spacing )))[0-9\.]*))'
+      scope: support.function.general.pytex
+      captures:
+        1: punctuation.definition.backslash.pytex
+    - match: '((?<=(\.\.begin thm ))([^%\n]*)|(?<=(\.\.end thm ))([^%\n]*))'
+      scope: support.function.general.pytex
+      captures:
+        1: punctuation.definition.backslash.pytex
+    - match: '((?<=(\.\.align ))(left|right|center|justify))\b'
+      scope: support.function.general.pytex
+      captures:
+        1: punctuation.definition.backslash.pytex
+    - match: '((?<=(\.\.initheorem\* ))\w*)\b'
+      scope: support.function.general.pytex
+      captures:
+        1: punctuation.definition.backslash.pytex
+    - match: '((?<=(\.\.initheorem ))((\w* \w* (shared|sub)|(\w*))))\b'
+      scope: support.function.general.pytex
+      captures:
+        1: punctuation.definition.backslash.pytex
     - match: '((\.\. ))'
       scope: support.function.general.pytex
       captures:
         1: punctuation.definition.backslash.pytex
     - match: '(\.\.)[A-Za-z@<>=!\(\)~-]+\*?'
+      scope: support.function.general.pytex
+      captures:
+        1: punctuation.definition.backslash.pytex
+    - match: '((?<=(\.\.begin proof ))[^%\n]*)'
+      scope: support.function.general.pytex
+      captures:
+        1: punctuation.definition.backslash.pytex
+
+    - match: '(((?<=(\.\.begin list ))[^%\n]*)|((?<=(\.\.begin list bullet))[^%\n]*))'
       scope: support.function.general.pytex
       captures:
         1: punctuation.definition.backslash.pytex

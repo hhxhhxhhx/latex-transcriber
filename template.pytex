@@ -338,7 +338,7 @@ Here's the \bold{align} mode with no numbering: ..n
 \verb|..end eq|
 
 ..begin eq align
-h &= 2x + 3y + 4z	      	&	2u + &2v = 10
+h &= 2x + 3y + 4z			&	2u + &2v = 10
 x &= y						&	&2v + 4w = 20
 a &= b + c					&	2b + 2c + &7v = 30
 f(x, y) &= g(a, b, c)		&	&2v = 4z
