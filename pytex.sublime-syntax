@@ -74,6 +74,18 @@ contexts:
       captures:
         1: keyword.control.flow.begin.pytex
 
+    - match: '((\.\.)begin ignore.*\n)'
+      captures:
+        1: keyword.control.flow.begin.pytex
+      push:
+        - meta_include_prototype: false
+        - meta_scope: meta.environment.verbatim.verb.pytex
+        - meta_content_scope: markup.raw.verb.pytex
+        - match: '((\.\.)end ignore)\b'
+          captures:
+            1: keyword.control.flow.end.pytex
+          pop: true
+
     # Blue
     - match: '(((?<=(\.\.begin section ))|(?<=(\.\.begin subsection ))|(?<=(\.\.begin subsubsection )))[^%\n]*)'
       scope: support.function.general.pytex
