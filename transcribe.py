@@ -36,7 +36,10 @@ def main():
 
     with open(pytex, 'r') as f:
         content = f.read()
-        unedited = content.split('\n')
+
+    replacer = Replacer()
+    content = replacer.set_aside_preamble(content)
+    content = replacer.set_aside_ignore_markers(content)
 
     # Remove comments
     while '%%%' in content:
@@ -89,9 +92,7 @@ def main():
 
     qed_symbol = find_content(lines, '..qed', None)
 
-    replacer = Replacer(lines)
-
-    replacer.replace(unedited_for_preamble_check=unedited)
+    replacer.replace(lines)
 
     _start = find_index(lines, '..begin main')
     _end = find_index(lines, '..end main')
@@ -160,6 +161,9 @@ def main():
 
     output += "\n\\begin{flushleft}\n"
 
+    for i in range(len(replacer.ignored_contents)):
+        _content = _content.replace('\\\\marker{0}//'.format(i), '% Ignored by transcriber\n' + replacer.ignored_contents[i] + '% End ignored region')
+    
     output += _content
 
     end_align = replacer.end_align
@@ -190,12 +194,10 @@ def main():
 class Replacer():
 
     # Set up \newtheorem and \newtheorem* commands
-    def __init__(self, lines):
+
+    def replace(self, lines):
+
         self.lines = lines
-
-    def replace(self, unedited_for_preamble_check=[]):
-
-        self.set_aside_preamble(unedited_for_preamble_check)
 
         """
         INITIALIZING THEOREMS
@@ -389,7 +391,8 @@ class Replacer():
             start_align = second_word
         return start_align
 
-    def set_aside_preamble(self, not_self_lines=[]):
+    def set_aside_preamble(self, _not_self_lines=''):
+        not_self_lines = _not_self_lines.split('\n')
         self._preamble = ''
         index = 0
         set_aside = False
@@ -407,7 +410,35 @@ class Replacer():
                 not_self_lines.pop(index)
                 continue
             index += 1
+        return '\n'.join(not_self_lines)
 
+    def set_aside_ignore_markers(self, _not_self_lines=''):
+        not_self_lines = _not_self_lines.split('\n')
+        self._ignored_contents = []
+        marker_index = 0
+        index = 0
+        set_aside = False
+        while index < len(not_self_lines):
+            if not_self_lines[index].startswith('..begin ignore'):
+                set_aside = True
+                self.ignored_contents.append('')
+                not_self_lines[index] = '\\\\marker{0}//'.format(marker_index)
+            elif not_self_lines[index].startswith('..end ignore'):
+                set_aside = False
+                marker_index += 1
+                not_self_lines.pop(index)
+                continue
+            elif set_aside:
+                self._ignored_contents[marker_index] += not_self_lines[index] + '\n'
+                not_self_lines.pop(index)
+                continue
+            index += 1
+        return '\n'.join(not_self_lines)
+
+    @property
+    def ignored_contents(self):
+        return self._ignored_contents
+    
     @property
     def preamble(self):
         return self._preamble

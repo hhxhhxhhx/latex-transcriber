@@ -16,11 +16,16 @@
 ..initheorem Corollary Lemma sub 		% Numbered "Corollary"s that are subordinate to "Lemma" counters. 
 ..initheorem Note Lemma shared 			% Numbered "Note"s that share the same counter as "Lemma".
 
+..begin preamble
+% Things here between ..begin preamble and ..end preamble, including comments, will not be transcribed. 
+% It will automatically go to the transcribed file, directly before the \begin{document}
+% This is used primarily for declaring \newcommand. 
+..end preamble
 
 ..begin main							% This is "\begin{document}"
 To begin the document: \verb|..begin main|
 
-\medskip
+\bigskip
 
 To begin a section with heading \bold{XYZ}: \verb|..begin section XYZ|
 
@@ -28,9 +33,28 @@ So in this case, it's \verb|..begin section Theorems|
 
 ..begin section Creating the Document
 
-..begin thm Note
-EVERYTHING here is optional.
-..end thm Note
+Use \verb|..begin preamble| and \verb|..end preamble| to signal a part of the \bold{preamble} to be ignored by the transcriber, including comments. The contents within them will automatically be inserted before the \verb|\begin{document}| in the transcribed file. This is completely optional. 
+
+\bigskip
+
+Use \verb|..begin ignore| and \verb|..end ignore| to signal a part of the \bold{document} to be ignored by the transcriber, including comments. The contents will be placed exactly where they were defined relative to everything else in the document. 
+
+\verb|..begin ignore|
+..begin ignore
+% Here is a comment that would be ignored by the transcriber, and will be present in template.tex
+It's somewhat like \verb|\verb| in LaTeX, where commands are ignored. ..n
+..begin main \\
+..end main \\
+..n \\
+..t \\
+..end ignore
+\verb|..end ignore|
+% Here is a comment that would be removed by the transcriber. 
+
+\bigskip
+\bigskip
+
+All of the following are optional. 
 
 \verb|..font XYZ| will set font to \bold{XYZ}. Defaulted to 12..n
 \verb|..packages A B C| will include packages \bold{A}, \bold{B}, \bold{C} in addition to amsmath, amssymb, amsthm, geometry, and enumitem ..n
