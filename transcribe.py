@@ -57,7 +57,7 @@ def main():
     font = find_content(lines, '..font', '12')
 
     # Set packages
-    packages = ['amsmath', 'amssymb', 'amsthm', 'geometry']
+    packages = ['amsmath', 'amssymb', 'amsthm', 'geometry', 'enumitem']
     packages.extend(find_content(lines, '..usepackage', '').split())
 
     # Set page size
@@ -86,7 +86,7 @@ def main():
     elif pagenumbering.lower() == 'none':
         pagenumbering = 'empty'
 
-    qed_symbol = find_content(lines, '..qed', '$\\blacksquare$')
+    qed_symbol = find_content(lines, '..qed', None)
 
     replacer = Replacer(lines)
 
@@ -141,7 +141,8 @@ def main():
     if '\\pytexset' in _content:
         output += '\\newcommand{\\pytexset}{\\mathrel{\\stackrel{\\makebox[0pt]{\\mbox{\\normalfont\\tiny set}}}{=}}}\n'
 
-    output += '\\renewcommand\\qedsymbol{{{0}}}\n'.format(qed_symbol)
+    if qed_symbol:
+        output += '\\renewcommand\\qedsymbol{{{0}}}\n'.format(qed_symbol)
 
     output += '\n'
 
@@ -272,10 +273,21 @@ class Replacer():
                 self.lines[i] = '    '*nested_list_total + '\\item ' + self.lines[i].strip()[3:]
             elif self.lines[i].strip().startswith('..begin list'):
                 if len(self.lines[i].strip()) > 12 and self.lines[i].strip()[13:].strip() == 'bullet': # Bullet point lists don't have numbering
-                    self.lines[i] = '    '*nested_list_total + '\\begin{itemize}'
+                    self.lines[i] = '    '*nested_list_total + '\\begin{{{0}}}'.format('itemize')
                     nested_list_names.append('itemize')
-                else: # Other lists do have numbering
-                    self.lines[i] = '    '*nested_list_total + '\\begin{enumerate}'
+                elif len(self.lines[i].strip()) > 12 and self.lines[i].strip()[13:].strip().find('bullet') != -1: # Stuff after the 'bullet' are the optional labels
+                    label_type = self.lines[i][self.lines[i].find('bullet') + 6:].strip()
+                    self.lines[i] = '    '*nested_list_total + '\\begin{{{0}}}[label={1}]'.format('itemize', label_type)
+                    nested_list_names.append('itemize')
+                elif len(self.lines[i].strip()) <= 12: # If the entire line is '..begin list'
+                    self.lines[i] = '    '*nested_list_total + '\\begin{{{0}}}'.format('enumerate')
+                    nested_list_names.append('enumerate')
+                else: # If there is something after '..begin list' and it's not 'bullet', that's also a label
+                    label_type = self.lines[i].strip()[12:].strip()
+                    label_type = label_type.replace('a', '\\alph*') # Use 'a' to represent the alphabet
+                    label_type = label_type.replace('i', '\\roman*') # Use 'i' to use roman numerals
+                    label_type = label_type.replace('1', '\\arabic*') # Use '1' to use arabic numerals
+                    self.lines[i] = '    '*nested_list_total + '\\begin{{{0}}}[label={1}]'.format('enumerate', label_type)
                     nested_list_names.append('enumerate')
                 nested_list_total += 1
             elif self.lines[i].strip().startswith('..end list'):
@@ -306,6 +318,35 @@ class Replacer():
             elif eq_type and not self.lines[index].strip().endswith('\\\\') \
                          and not self.lines[index].strip().endswith('..n'): # Add newline character after each line break because LaTeX is dumb
                 self.lines[index] += ' \\\\'
+            index += 1
+
+        """
+        MATRICES
+        """
+        within_matrix = False
+        index = 0
+        while index < len(self.lines) - 1:
+            if self.lines[index].startswith('..begin matrix'):
+                within_matrix = True
+                self.lines[index] = '$\\begin{bmatrix}'
+            elif self.lines[index].startswith('..end matrix'):
+                within_matrix = False
+                if self.lines[index - 1].endswith('\\\\'): # Remove newline character at the final line
+                    self.lines[index - 1] = self.lines[index - 1][:-2]
+                self.lines[index] = '\\end{bmatrix}$'
+            elif within_matrix and not self.lines[index].strip():
+                self.lines.pop(index)
+                continue
+            elif within_matrix: # Automatically changes spaces to be breaks between items
+                while self.lines[index].find('  ') != -1: # Get rid of double spaces
+                    self.lines[index].replace('  ', ' ')
+                self.lines[index] = self.lines[index].strip() # Remove newline characters at the end
+                if self.lines[index].endswith('\\\\'):
+                    self.lines[index] = self.lines[index][:-2].strip()
+                elif self.lines[index].endswith('..n'):
+                    self.lines[index] = self.lines[index][:-3].strip()
+                self.lines[index] = self.lines[index].replace(' ', ' & ') # Replace spaces with ' & '
+                self.lines[index] += ' \\\\' # Re-add newline characters after each line
             index += 1
 
         """
@@ -365,16 +406,24 @@ class Replacer():
 # End of Replacer class
 
 def load_pairs():
-    contents = ['..union -> \\cup', 
-                '..itsc -> \\cap', 
+    contents = ['\\union -> \\cup', 
+                '\\itsc -> \\cap', 
+                '\\setdiff -> \\setminus', 
+                '\\del -> \\nabla', 
+                '\\Q -> \\mathbb{Q}',
+                '\\R -> \\mathbb{R}', 
+                '\\Z -> \\mathbb{Z}', 
+                '\\N -> \\mathbb{N}', 
+                '\\C -> \\mathbb{C}', 
+                '\\nin -> \\notin', 
+                '\\ital -> \\emph', 
+                '\\bold -> \\textbf', 
+                '\\contradiction -> $\\spadesuit$', 
                 '..<< -> \\ll', 
                 '..>> -> \\gg', 
                 '..~= -> \\approx', 
-                '..setdiff -> \\setminus', 
-                '..del -> \\nabla', 
                 '..<( -> \\langle', 
                 '..>) -> \\rangle', 
-                '..norm -> \\norm', 
                 '..dot -> \\cdot', 
                 '..cross -> \\times', 
                 '..<=> -> \\Leftrightarrow', 
@@ -390,11 +439,7 @@ def load_pairs():
                 '..and -> \\wedge', 
                 '..or -> \\vee', 
                 '..def -> \\pytexdef', 
-                '..set= -> \\pytexset', 
-                '..set -> \\mathbb',
-                '..nin -> \\notin', 
-                '..it -> \\emph', 
-                '..bd -> \\textbf', 
+                '..set -> \\pytexset', 
                 '..n -> \\\\', 
                 '..t -> \\quad']
     pairs = [x.split(' -> ') for x in contents]

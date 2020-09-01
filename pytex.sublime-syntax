@@ -49,6 +49,15 @@ contexts:
           pop: true
         - include: math-content
 
+    - match: '((\.\.)begin matrix)\b'
+      scope: string.other.math.pytex punctuation.definition.string.begin.pytex
+      push:
+        - meta_scope: meta.environment.math.inline.dollar.pytex
+        - match: '((\.\.)end matrix)\b'
+          scope: string.other.math.pytex punctuation.definition.string.end.pytex
+          pop: true
+        - include: math-content
+
     - match: '((\.\.)align (left|right|center|justify))\b'
       captures:
         1: keyword.control.flow.begin.pytex
@@ -468,6 +477,8 @@ contexts:
 
   math-content:
     # unique to pytex
+    - include: scope:text.tex.pytex#unique-pytex
+    # unique to latex
     - include: verb
     - include: text-decorators
     - include: references
@@ -477,7 +488,6 @@ contexts:
     - include: scope:text.tex#math-brackets
     - include: math-braces
     - include: boxes
-    - include: scope:text.tex.pytex#unique-pytex
     - include: scope:text.tex#math-commands
     - include: scope:text.tex#math-operators
     - include: scope:text.tex#math-characters

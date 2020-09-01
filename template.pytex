@@ -20,18 +20,94 @@
 ..begin main							% This is "\begin{document}"
 To begin the document: \verb|..begin main|
 
-A list of all keywords the transcriber can see will be at the very end of this document. 
-
 \medskip
 
-..begin section Theorems
-To begin a section with heading ..bd{XYZ}: \verb|..begin section XYZ|
+To begin a section with heading \bold{XYZ}: \verb|..begin section XYZ|
 
 So in this case, it's \verb|..begin section Theorems|
 
+..begin section Creating the Document
+
+..begin thm Note
+EVERYTHING here is optional.
+..end thm Note
+
+\verb|..font XYZ| will set font to \bold{XYZ}. Defaulted to 12..n
+\verb|..packages A B C| will include packages \bold{A}, \bold{B}, \bold{C} in addition to amsmath, amssymb, amsthm, geometry, and enumitem ..n
+\verb|..paper letter| will set page size to letter. Can be ``legal'', ``a4'', and some others..n
+\verb|..orient landscape| will set page to be landscape. Default ``portrait''..n
+
+\bigskip
+\verb|..margin XYZ| will set margin size to \bold{XYZ} inches. Default 1...n
+\verb|..indent XYZ| will set paragraph indent to \bold{XYZ}. Default 4, can be 0, 1, etc...n
+\verb|..spacing XYZ| will set line spacing to \bold{XYZ}. Default 1.5, can be ``1'', ``2''..n
+\verb|..pagenumber none| will make each page not have a number. Default ``bottom'' or ``plain''..n
+
+\bigskip
+\verb|..initheorem* XYZ| will create theorem type \bold{XYZ} with no numbering..n
+\verb|..initheorem XYZ| will create theorem type \bold{XYZ} with a counter that increments each time \bold{XYZ} is created..n
+\verb|..initheorem XYZ ABC sub| will create theorem type \bold{XYZ} that is \bold{SUBORDINATE} to counter type \bold{ABC}..n
+\verb|..initheorem XYZ ABC shared| will create theorem type \bold{XYZ} that is \bold{SHARED} with counter type \bold{ABC}..n
+\verb|..qed XYZ| will change the symbol that sits at the end of a proof to be the text \bold{XYZ}. By default, it is a white square
+
+\newpage
+
+..begin section Keywords
+
+Line comment: \verb|%|..n
+Block comment: \verb|%|\verb|%|\verb|%|\verb| something here |\verb|%|\verb|%|\verb|%|
+
+\medskip
+
+\verb|\union          ->        |$\union$..n
+\verb|\itsc           ->        |$\itsc$..n
+\verb|\setdiff        ->        |$\setdiff$..n
+\verb|\del            ->        |$\del$..n
+\verb|\norm{\vec{a}}  ->        |$\norm{\vec{a}}$..n
+\verb|\nin            ->        |$\nin$..n
+\verb|\R              ->        |$\R$..n
+\verb|\Z              ->        |$\Z$..n
+\verb|\N              ->        |$\N$..n
+\verb|\Q              ->        |$\Q$..n
+\verb|\C              ->        |$\C$..n
+\verb|..<=            ->        |$..<=$..n
+\verb|..>=            ->        |$..>=$..n
+\verb|..!=            ->        |$..!=$..n
+\verb|..<<            ->        |$..<<$..n
+\verb|..>>            ->        |$..>>$..n
+\verb|..~=            ->        |$..~=$..n
+\verb|..<(            ->        |$..<($..n
+\verb|..>)            ->        |$..>)$..n
+\verb|..dot           ->        |$..dot$..n
+\verb|..cross         ->        |$..cross$..n
+\verb|..=>            ->        |$..=>$..n
+\verb|..!=>           ->        |$..!=>$..n
+\verb|..==>           ->        |$..==>$..n
+\verb|..<=>           ->        |$..<=>$..n
+\verb|..<==>          ->        |$..<==>$..n
+\verb|..->            ->        |$..->$..n
+\verb|..-->           ->        |$..-->$..n
+\verb|..and           ->        |$..and$..n
+\verb|..or            ->        |$..or$..n
+\verb|..def           ->        |$..def$..n
+\verb|..set           ->        |$..set$..n
+\bigskip
+\verb|\ital{a}        ->        |\ital{a}..n
+\verb|\bold{a}        ->        |\bold{a}..n
+\verb|\contradiction  ->        |\contradiction ..n
+\verb|..n             ->           New line character|..n
+\verb|..t             ->           Tab character|..n
+
+\bigskip
+Check transcribe.py for what exactly they're changed to.
+
+\newpage
+
+..begin section Theorems
+
 \bigskip
 
-To begin a type of theorem defined in the header, such as ..bd{XYZ}: \verb|..begin thm XYZ|. When you're done with the theorem, \verb|..end thm XYZ| must be used as well. 
+To begin a type of theorem defined in the header, such as \bold{XYZ}: \verb|..begin thm XYZ|. When you're done with the theorem, \verb|..end thm XYZ| must be used as well. 
 
 \medskip
 
@@ -43,7 +119,7 @@ This is the contents of Theorem. Notice that it does not have a counter.
 
 \medskip
 
-That means it doesn't matter how many ..it{Theorem}s you have, they'll always show up as ..bd{Theorem}.
+That means it doesn't matter how many \ital{Theorem}s you have, they'll always show up as \bold{Theorem}.
 
 ..begin thm Theorem
 Here is another theorem.
@@ -53,7 +129,7 @@ Here is another theorem.
 And another.
 ..end thm Theorem
 
-On the other hand, ..it{Lemma}s have a counter, since it was defined without the asterisk. 
+On the other hand, \ital{Lemma}s have a counter, since it was defined without the asterisk. 
 
 \medskip
 \verb|..begin thm Lemma|
@@ -63,8 +139,8 @@ Yes, I know this isn't a lemma, but see how there's a counter?
 \verb|.. end thm Lemma|
 \medskip
 
-And since ..it{Note} shares the same counter as ..it{Lemma}, the counter will change whenever we define
-a new ..it{Note} or ..it{Lemma}. 
+And since \ital{Note} shares the same counter as \ital{Lemma}, the counter will change whenever we define
+a new \ital{Note} or \ital{Lemma}. 
 
 \medskip
 \verb|..begin thm Note|
@@ -78,7 +154,7 @@ Hello World! New counter!
 Counter changes again!
 ..end thm Lemma
 
-However, ..it{Corollary}s are defined to be subordinate to ..it{Lemma} counters, take a look. 
+However, \ital{Corollary}s are defined to be subordinate to \ital{Lemma} counters, take a look. 
 
 \medskip
 \verb|..begin thm Corollary|
@@ -92,7 +168,7 @@ Hello, I'm a corollary.
 What a coincidence, me too!
 ..end thm Corollary
 
-Once the "superior" counter changes, in this case ..it{Lemma}, ..it{Corollary}s' counter will also change.
+Once the "superior" counter changes, in this case \ital{Lemma}, \ital{Corollary}s' counter will also change.
 
 ..begin thm Note
 Our counter changed!
@@ -103,21 +179,21 @@ It should be self-explanatory why my counter is the way it is now.
 ..end thm Corollary
 
 \bigskip
-To begin a theorem ..bd{XYZ} with specific heading ..bd{ABC DEF}: \verb|..begin thm XYZ ABC DEF|. To end the theorem, using \verb|..end thm XYZ| is enough. 
+To begin a theorem \bold{XYZ} with specific heading \bold{ABC DEF}: \verb|..begin thm XYZ ABC DEF|. To end the theorem, using \verb|..end thm XYZ| is enough. 
 
 \medskip
 \verb|..begin thm Theorem Stoke's Theorem|
 ..begin thm Theorem Stoke's Theorem
 For a closed surface oriented counter-clockwise, 
 ..begin eq
-\int\limits_C \vec{F} ..dot d\vec{r} = \iint\limits_S (..del ..cross \vec{F}) ..dot d..bd{S}
+\int\limits_C \vec{F} ..dot d\vec{r} = \iint\limits_S (..del ..cross \vec{F}) ..dot d\bold{S}
 ..end eq
 ..end thm Theorem
 \verb|..end thm Theorem|
 \medskip
 
 ..begin thm Note Some arbitrary title
-It works for ..it{Note}, ..it{Lemma}, etc.
+It works for \ital{Note}, \ital{Lemma}, etc.
 ..end thm Note
 
 \newpage
@@ -125,26 +201,26 @@ It works for ..it{Note}, ..it{Lemma}, etc.
 ..begin subsection Proofs
 \verb|..begin subsection Proofs|
 
-To begin a subsection ..bd{XYZ}, use \verb|begin subsection XYZ|. You can also have subsubsections, subsubsubsections, etc.
+To begin a subsection \bold{XYZ}, use \verb|begin subsection XYZ|. You can also have subsubsections, subsubsubsections, etc.
 
 To create a proof, surround the contents of the proof with \verb|..begin proof| and \verb|..end proof|
 
 \bigskip
 
-..bd{Claim:} an irrational number raised to an irrational power can be rational. 
+\bold{Claim:} an irrational number raised to an irrational power can be rational. 
 
 \medskip
 \verb|..begin proof| 
 ..begin proof
 
-Notice that $\sqrt{2} \in ..set{R}$, $\notin ..set{Q}$. Therefore, we know that $\sqrt{2}^{\sqrt{2}} \in ..set{R}$ but can be $\in ..set{Q}$ or $\notin ..set{Q}$.
+Notice that $\sqrt{2} \in \R$, $\notin \Q$. Therefore, we know that $\sqrt{2}^{\sqrt{2}} \in \R$ but can be $\in \Q$ or $\notin \Q$.
 
-Suppose $\sqrt{2}^{\sqrt{2}} \in ..set{Q}$, we're done.
+Suppose $\sqrt{2}^{\sqrt{2}} \in \Q$, we're done.
 
-Suppose $\sqrt{2}^{\sqrt{2}} \notin ..set{Q}$, we can then use this value and raise it to another power of $\sqrt{2}$. 
+Suppose $\sqrt{2}^{\sqrt{2}} \notin \Q$, we can then use this value and raise it to another power of $\sqrt{2}$. 
 
 ..begin eq
-(\sqrt{2}^{\sqrt{2}})^{\sqrt{2}} = \sqrt{2}^{\sqrt{2} * \sqrt{2}} = \sqrt{2}^2 = 2 \in ..set{Q}
+(\sqrt{2}^{\sqrt{2}})^{\sqrt{2}} = \sqrt{2}^{\sqrt{2} * \sqrt{2}} = \sqrt{2}^2 = 2 \in \Q
 ..end eq
 ..end proof
 \verb|..end proof|
@@ -155,23 +231,31 @@ Suppose $\sqrt{2}^{\sqrt{2}} \notin ..set{Q}$, we can then use this value and ra
 
 Lists can be nested. 
 
-Do this to create a bullet-point (unnumbered) type of list: \verb|..begin list bullet|...n
-To create a numbered list: \verb|..begin list|..n
-\verb|..end list| must be used at the very end. ..n
+Do this to create a bullet-point (unnumbered) type of list: \verb|..begin list bullet [optional_label]|...n
+To create a numbered list: \verb|..begin list [optional_label]|..n
+The optional label should not be surrounded by brackets. For bullet point lists, any character can be used as the label. ..n
+For numbered lists, use ``1" without the quotes to number using arabic numerals, ``a" without the quotes to use the English alphabet, and/or ``i" without the quotes to use roman numerals. ..n
+Because of the way the transcriber is currently designed, it is impossible to have it use ``1a", ``1b", ``1c" as consecutive labels. In the future, a backslash to escape the character or something of the sort will probably allow this. ..n
+Regardless of whether it is a numbered list, a list with special labels, use \verb|..end list| at the very end. ..n
 
 \bigskip
 This is the syntax for a sample list. ..n
 
-\verb|..begin list bullet|..n
+\verb|..begin list bullet --|..n
 \verb|.. item 1|..n
 \verb|.. item 2|..n
 \verb|This line will be appended to the end of item 2|..n
 \verb|..n So will this one, but we just added a new line character, so it visually looks like|..n
 \verb|it's on a different line, but there just would not be a bullet point in front of it.|..n
-\verb|..begin list|..n
+\verb|..begin list a)|..n
 \verb|.. Nested lists can be created.|..n
-\verb|..begin list|..n
+\verb|..begin list (i)|..n
 \verb|.. So can nested lists inside nested lists.|..n
+\verb|.. abcdefg|..n
+\verb|..begin list .1.|..n
+\verb|.. Something here|..n
+\verb|.. Something else here|..n
+\verb|..end list|..n
 \verb|..end list|..n
 \verb|.. The above line must be used to indicate that a list is ended.|..n
 \verb|.. It'll transcribe correctly, but it will not compile to .pdf|..n
@@ -183,15 +267,20 @@ This is the syntax for a sample list. ..n
 
 Here is the above code compiled. ..n
 
-..begin list bullet
+..begin list bullet --
 .. item 1
 .. item 2
 This line will be appended to the end of item 2
 ..n So will this one, but we just added a new line character
-..begin list
+..begin list a)
 .. Nested lists can be created.
-..begin list
+..begin list (i)
 .. So can nested lists inside nested lists.
+.. abcdefg
+..begin list .1.
+.. Something here
+.. Something else here
+..end list
 ..end list
 .. The above line must be used to indicate that a list is ended.
 .. It'll transcribe correctly, but it will not compile to .pdf
@@ -205,7 +294,9 @@ The transcribed .tex files will automatically be indented wherever there are ite
 
 \newpage
 
-..begin section Equations
+..begin section Math
+
+..begin subsection Equations
 
 LaTeX's equation mode honestly sucks. You can't have a blank line while in equation / gather / align mode. This means that a reasonable person expecting to create a new line would get a ridiculous error like missing \verb|$| inserted. The only way to create a line break would be using \verb|\\|, which I think is a lot less intuitive than it should be.
 
@@ -215,15 +306,15 @@ This transcriber will assume all new lines within the gather or align mode are s
 
 \medskip
 
-Only two modes are implemented: ..bd{align} and ..bd{gather}. I honestly don't know what the difference between ..bd{gather} and ..bd{equation} are, so I'm only implementing ..bd{gather}. ..bd{Align} mode allows you to select a symbol, usually the equal sign, to be aligned to other equations; ..bd{gather} mode centers all the equations. ..bd{To select which symbol you want to align with in align mode, prepend the symbol with a \& sign.} Most of the time, gather mode will be used. 
+Only two modes are implemented: \bold{align} and \bold{gather}. I honestly don't know what the difference between \bold{gather} and \bold{equation} are, so I'm only implementing \bold{gather}. \bold{Align} mode allows you to select a symbol, usually the equal sign, to be aligned to other equations; \bold{gather} mode centers all the equations. \bold{To select which symbol you want to align with in align mode, prepend the symbol with a \& sign.} Most of the time, gather mode will be used. 
 
 \medskip
 
-By default, ..bd{gather} mode, and non-numbering mode is used. Enable ..bd{align} by putting the word ..it{align} in it. Enable ..bd{numbered} mode by putting ..it{number} in it. 
+By default, \bold{gather} mode, and non-numbering mode is used. Enable \bold{align} by putting the word \ital{align} in it. Enable \bold{numbered} mode by putting \ital{number} in it. 
 
 \medskip
 
-Here's the ..bd{gather} mode with no numbering: ..n
+Here's the \bold{gather} mode with no numbering: ..n
 \verb|..begin eq|..n
 \verb|a = b + c|..n
 \verb|d = e + f|..n
@@ -238,7 +329,7 @@ a + d = b + c
 
 \medskip
 
-Here's the ..bd{align} mode with no numbering: ..n
+Here's the \bold{align} mode with no numbering: ..n
 \verb|..begin eq align|..n
 \verb|h &= 2x + 3y + 4z     &   2u + &2v = 10|..n
 \verb|x &= y                &   &2v + 4w = 20|..n
@@ -256,7 +347,7 @@ f(x, y) &= g(a, b, c)		&	&2v = 4z
 
 \medskip
 
-Here's the ..bd{gather} mode with numbering: ..n
+Here's the \bold{gather} mode with numbering: ..n
 \verb|..begin eq number|..n
 \verb|a = b|..n
 \verb|2x + 4c = 10|..n
@@ -270,7 +361,7 @@ a = b
 
 \medskip
 
-Here's how to do ..bd{align} with numbering: ..n
+Here's how to do \bold{align} with numbering: ..n
 \verb|..begin eq align number|..n
 \verb|a &= b + c|..n
 \verb|a &= 2b + d|..n
@@ -281,6 +372,31 @@ a &= b + c
 a &= 2b + d
 a &= 3c + e
 ..end eq
+
+\newpage
+
+..begin subsection Matrices
+
+To create a matrix, use \verb|..begin matrix|. Normally, in amsmath, math mode must be enabled prior to declaring the matrix, this is not the case anymore. ..n
+Originally, a \verb|&| must be used to separate values within the matrix. This transcriber will assume that spaces are the delimiter. There is also no need to use a line break character, because new lines are assumed to be part of the next row of values. ..n
+Here is the code for defining a basic matrix: ..n
+\verb|..begin matrix|..n
+\verb|a b c d|..n
+\verb|e f g h|..n
+\verb|i j k l|..n
+\verb|..end matrix|
+
+\medskip
+
+..begin matrix
+a b c d
+e f g h
+i j k l
+..end matrix
+
+\medskip
+
+There are currently no customizations to what matrices are surrounded by -- they'll always be brackets because I like the look of brackets more than parenthesis. There are no plans to change this in the future. 
 
 \newpage
 
@@ -306,78 +422,8 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 \verb|..align left|..n
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. 
 
-\newpage
-
-..begin section Creating the Document
-
-..begin thm Note
-EVERYTHING here is optional.
-..end thm Note
-
-\verb|..font XYZ| will set font to ..bd{XYZ}. Defaulted to 12..n
-\verb|..packages A B C| will include packages ..bd{A}, ..bd{B}, ..bd{C} in addition to amsmath, amssymb, amsthm, and geometry ..n
-\verb|..paper letter| will set page size to letter. Can be ``legal'', ``a4'', and some others..n
-\verb|..orient landscape| will set page to be landscape. Default ``portrait''..n
-
 \bigskip
-\verb|..margin XYZ| will set margin size to ..bd{XYZ} inches. Default 1...n
-\verb|..indent XYZ| will set paragraph indent to ..bd{XYZ}. Default 4, can be 0, 1, etc...n
-\verb|..spacing XYZ| will set line spacing to ..bd{XYZ}. Default 1.5, can be ``single'', ``1'', ``double'', ``2''..n
-\verb|..pagenumber none| will make each page not have a number. Default ``bottom'' or ``plain''..n
-
 \bigskip
-\verb|..initheorem* XYZ| will create theorem type ..bd{XYZ} with no numbering..n
-\verb|..initheorem XYZ| will create theorem type ..bd{XYZ} with a counter that increments each time ..bd{XYZ} is created..n
-\verb|..initheorem XYZ ABC sub| will create theorem type ..bd{XYZ} that is ..bd{SUBORDINATE} to counter type ..bd{ABC}..n
-\verb|..initheorem XYZ ABC shared| will create theorem type ..bd{XYZ} that is ..bd{SHARED} with counter type ..bd{ABC}..n
-\verb|..qed XYZ| will change the symbol that sits at the end of a proof to be the text ..bd{XYZ}. Default is a black square
-
-\newpage
-
-..begin section Keywords
-
-Line comment: \verb|%|..n
-Block comment: \verb|%|\verb|%|\verb|%|\verb| something here |\verb|%|\verb|%|\verb|%|
-
-\medskip
-
-\verb|..union         ->        |$..union$..n
-\verb|..itsc          ->        |$..itsc$..n
-\verb|..<=            ->        |$..<=$..n
-\verb|..>=            ->        |$..>=$..n
-\verb|..!=            ->        |$..!=$..n
-\verb|..<<            ->        |$..<<$..n
-\verb|..>>            ->        |$..>>$..n
-\verb|..~=            ->        |$..~=$..n
-\verb|..setdiff       ->        |$..setdiff$..n
-\verb|..del           ->        |$..del$..n
-\verb|..<(            ->        |$..<($..n
-\verb|..>)            ->        |$..>)$..n
-\verb|..norm{\vec{a}} ->        |$..norm{\vec{a}}$..n
-\verb|..dot           ->        |$..dot$..n
-\verb|..cross         ->        |$..cross$..n
-\verb|..=>            ->        |$..=>$..n
-\verb|..!=>           ->        |$..!=>$..n
-\verb|..==>           ->        |$..==>$..n
-\verb|..<=>           ->        |$..<=>$..n
-\verb|..<==>          ->        |$..<==>$..n
-\verb|..->            ->        |$..->$..n
-\verb|..-->           ->        |$..-->$..n
-\verb|..and           ->        |$..and$..n
-\verb|..or            ->        |$..or$..n
-\verb|..def           ->        |$..def$..n
-\verb|..set=          ->        |$..set=$..n
-\verb|..set{R}        ->        |$..set{R}$..n
-\verb|..nin           ->        |$..nin$..n
-\bigskip
-\verb|..it{a}         ->        |..it{a}..n
-\verb|..bd{a}         ->        |..bd{a}..n
-\verb|..n             ->           New line character|..n
-\verb|..t             ->           Tab character|..n
-
-\bigskip
-Check transcribe.py for what exactly they're changed to.
-
 \bigskip
 
 To end the document, use \verb|..end main|..n
