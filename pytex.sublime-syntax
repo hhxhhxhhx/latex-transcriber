@@ -58,6 +58,22 @@ contexts:
           pop: true
         - include: math-content
 
+    - match: '((\.\.)begin table math)\b'
+      scope: string.other.math.pytex punctuation.definition.string.begin.pytex
+      push:
+        - meta_scope: meta.environment.math.inline.dollar.pytex
+        - match: '((\.\.)end table)\b'
+          scope: string.other.math.pytex punctuation.definition.string.end.pytex
+          pop: true
+        - include: math-content
+
+    - match: '((\.\.)begin table)\b'
+      captures:
+        1: support.function.begin.pytex keyword.control.flow.begin.pytex
+    - match: '((\.\.)end table)\b'
+      captures:
+        1: support.function.end.pytex keyword.control.flow.end.pytex
+
     - match: '((\.\.)align)\b'
       captures:
         1: keyword.control.flow.begin.pytex
@@ -143,8 +159,11 @@ contexts:
       scope: support.function.general.pytex
       captures:
         1: punctuation.definition.backslash.pytex
-
     - match: '(((?<=(\.\.begin list ))[^%\n]*)|((?<=(\.\.begin list bullet))[^%\n]*))'
+      scope: support.function.general.pytex
+      captures:
+        1: punctuation.definition.backslash.pytex
+    - match: '(((?<=(\.\.begin table ))|(?<=(\.\.begin table math )))[clr| ]*)'
       scope: support.function.general.pytex
       captures:
         1: punctuation.definition.backslash.pytex

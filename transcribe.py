@@ -363,6 +363,44 @@ class Replacer():
             index += 1
 
         """
+        TABLES / ARRAYS
+        """
+        within_table = False
+        table_name = None
+        index = 0
+        while index < len(self.lines) - 1:
+            if self.lines[index].startswith('..begin table math'):
+                table_name = "array"
+                within_table = True
+                self.lines[index] = '$\\begin{{{0}}}{{{1}}}'.format(table_name, self.lines[index][18:].strip())
+            elif self.lines[index].startswith('..begin table'):
+                table_name = "tabular"
+                within_table = True
+                self.lines[index] = '\\begin{{{0}}}{{{1}}}'.format(table_name, self.lines[index][13:].strip())
+            elif self.lines[index].startswith('..end table'):
+                within_table = False
+                if self.lines[index - 1].endswith('\\\\'): # Remove newline character at the final line
+                    self.lines[index - 1] = self.lines[index - 1][:-2]
+                self.lines[index] = '\\end{{{0}}}{1}'.format(table_name, ('$' if table_name == 'array' else ''))
+            elif within_table and not self.lines[index].strip():
+                self.lines.pop(index)
+                continue
+            elif within_table: # Automatically changes "\ " to be breaks between items
+                self.lines[index] = self.lines[index].strip() # Remove newline characters at the end
+                if self.lines[index].startswith('\\hline'):
+                    index += 1
+                    continue
+                if self.lines[index].endswith('\\\\'):
+                    self.lines[index] = self.lines[index][:-2].strip()
+                elif self.lines[index].endswith('..n'):
+                    self.lines[index] = self.lines[index][:-3].strip()
+                self.lines[index] = self.lines[index].replace('\\ ', '& ') # Replace delimiters with ' & '
+                if self.lines[index].endswith('\\'):
+                    self.lines[index] = self.lines[index][:-1] + '&'
+                self.lines[index] += ' \\\\' # Re-add newline characters after each line
+            index += 1
+
+        """
         ALIGNMENT
         """
         start_align = 'flushleft'

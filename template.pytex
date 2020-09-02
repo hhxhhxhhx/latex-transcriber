@@ -424,6 +424,52 @@ There are currently no customizations to what matrices are surrounded by -- they
 
 \newpage
 
+..begin subsection Arrays and Tables
+
+To create an array or table, use \verb|..begin table math [formatting]| or \verb|..begin table [formatting]|, respectively. The formatting for the table should be exactly what one would do in LaTeX's \verb|\begin{tabular}{[formatting]}| or \verb|\begin{array}{[formatting]}|. The only expected characters within the formatting are ``c", ``l", ``r", and ``\textbar". The three letters signify what that column's alignment should be: center, left, or right; while the ``\textbar" character represents a line separation between them. \bold{In LaTeX, a \& is used as the delimiter between two columns. Here, a single \textbackslash followed immediately by a space is to be used.} A line break is also automatically assumed to be on a separate line, although \verb|\hline| would be an exception. ..n
+\medskip
+Here is the code for an array (math mode): ..n
+
+\medskip
+
+\verb=..begin table math r|c||l= ..n
+\verb|2 \ 3 \ 465| ..n 
+\verb|\hline| ..n
+\verb|p |\verb|..==> q \ q \implies r \ 6| ..n
+\verb|..end table|
+
+\bigskip
+
+..begin table math r|c||l
+2 \ 3 \ 4
+\hline
+p ..==> q \ q \implies r \ 6
+..end table
+
+\bigskip
+
+Similarly, here is some sample code for a table (non math mode): ..n
+
+\medskip
+
+\verb=..begin table c|c|c= ..n
+\verb| \ Names \| ..n
+\verb|\hline| ..n
+\verb|John \ Mary \ Jane| ..n
+\verb|Adam \ Kevin \ Allie| ..n
+\verb|..end table|
+
+\bigskip
+
+..begin table c|c|c
+ \ Names \
+\hline
+John \ Mary \ Jane
+Adam \ Kevin \ Allie
+..end table
+
+\newpage
+
 ..begin section Text Alignment
 
 By default, all text are flushed left. However, it is possible to change it to be flushed right, centered, justified, etc. Use the following to set alignment. 
