@@ -5,9 +5,9 @@
 ..orient portrait						% Optional, default portrait. Can be "landscape"
 
 ..margin 1								% Optional, default 1. Can be 2, 3, 1.5, etc.
-..indent 0								% Optional, default 4 (paragraph indent). 
+..indent 0								% Optional, default 0 (paragraph indent). 
 ..spacing 1.5							% Optional, default 1.5. Can be "1", "2", or "1.5"
-..pagenumber none						% Optional, default "bottom"
+..assignment Template					% Optional, default blank
 
 ..qed Q.E.D								% Optional, default black square. 
 
@@ -27,6 +27,7 @@ To begin the document: \verb|..begin main|
 
 \bigskip
 
+To begin a section with heading \bold{XYZ} with numbering: \verb|..begin section number XYZ|
 To begin a section with heading \bold{XYZ}: \verb|..begin section XYZ|
 
 So in this case, it's \verb|..begin section Theorems|
@@ -42,7 +43,9 @@ Use \verb|..begin ignore| and \verb|..end ignore| to signal a part of the \bold{
 \verb|..begin ignore|
 ..begin ignore
 % Here is a comment that would be ignored by the transcriber, and will be present in template.tex
-It's somewhat like \verb|\verb| in LaTeX, where commands are ignored. ..n
+
+It's somewhat like \verb|\verb| in LaTeX, where commands are ignored. \\
+These are a couple of commands that will be ignored. \\
 ..begin main \\
 ..end main \\
 ..n \\
@@ -63,9 +66,9 @@ All of the following are optional.
 
 \bigskip
 \verb|..margin XYZ| will set margin size to \bold{XYZ} inches. Default 1...n
-\verb|..indent XYZ| will set paragraph indent to \bold{XYZ}. Default 4, can be 0, 1, etc...n
+\verb|..indent XYZ| will set paragraph indent to \bold{XYZ}. Default 0, can be 4, 2, etc. ..n
 \verb|..spacing XYZ| will set line spacing to \bold{XYZ}. Default 1.5, can be ``1'', ``2''..n
-\verb|..pagenumber none| will make each page not have a number. Default ``bottom'' or ``plain''..n
+\verb|..assignment XYZ| will put \bold{XYZ} at the bottom left. ..n
 
 \bigskip
 \verb|..initheorem* XYZ| will create theorem type \bold{XYZ} with no numbering..n
@@ -88,6 +91,8 @@ Block comment: \verb|%|\verb|%|\verb|%|\verb| something here |\verb|%|\verb|%|\v
 \verb|\setdiff        ->        |$\setdiff$..n
 \verb|\del            ->        |$\del$..n
 \verb|\norm{\vec{a}}  ->        |$\norm{\vec{a}}$..n
+\verb|\floor{x}       ->        |$\floor{x}$..n
+\verb|\ceil{x}        ->        |$\ceil{x}$..n
 \verb|\nin            ->        |$\nin$..n
 \verb|\R              ->        |$\R$..n
 \verb|\Z              ->        |$\Z$..n

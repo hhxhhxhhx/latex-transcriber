@@ -61,7 +61,7 @@ def main():
     font = find_content(lines, '..font', '12')
 
     # Set packages
-    packages = ['amsmath', 'amssymb', 'amsthm', 'geometry', 'enumitem']
+    packages = ['amsmath', 'amssymb', 'amsthm', 'geometry', 'enumitem', 'fancyhdr']
     packages.extend(find_content(lines, '..usepackage', '').split())
 
     # Set page size
@@ -74,7 +74,7 @@ def main():
     margin = find_content(lines, '..margin', '1')
 
     # Set indent
-    indent = find_content(lines, '..indent', '4')
+    indent = find_content(lines, '..indent', '0')
 
     # Set spacing
     spacing = find_content(lines, '..spacing', '1.5')
@@ -84,13 +84,9 @@ def main():
     elif spacing == '2':
         line_spread = 1.6
 
-    pagenumbering = find_content(lines, '..pagenumber', 'bottom')
-    if pagenumbering.lower() == 'bottom':
-        pagenumbering = 'plain'
-    elif pagenumbering.lower() == 'none':
-        pagenumbering = 'empty'
-
     qed_symbol = find_content(lines, '..qed', None)
+
+    assignment = find_content(lines, '..assignment', None)
 
     replacer.replace(lines)
 
@@ -127,14 +123,10 @@ def main():
     output += '\n'
 
     output += '\\geometry{{{0}paper, {1}, margin={2}in}}\n'.format(paper, orientation, margin)
-
     output += '\\setlength{{\\parindent}}{{{0}em}}\n'.format(indent)
-
     output += '\\linespread{{{0}}}\n'.format(line_spread)
-
-    output += '\\pagestyle{{{0}}}\n'.format(pagenumbering)
-
-    output += '\n'
+    output += '\\pagestyle{fancy}\n'
+    output += '\\fancyhf{}\n'
 
     if '\\norm' in _content:
         output += '\\newcommand{\\norm}[1]{\\|#1\\|}\n'
@@ -142,14 +134,26 @@ def main():
         output += '\\newcommand{\\pytexdef}{\\mathrel{\\stackrel{\\makebox[0pt]{\\mbox{\\normalfont\\tiny def}}}{=}}}\n'
     if '\\pytexset' in _content:
         output += '\\newcommand{\\pytexset}{\\mathrel{\\stackrel{\\makebox[0pt]{\\mbox{\\normalfont\\tiny set}}}{=}}}\n'
+    if "\\floor" in _content:
+        output += '\\newcommand{\\floor}[1]{\\left\\lfloor #1 \\right\\rfloor}\n'
+    if "\\ceil" in _content:
+        output += '\\newcommand{\\ceil}[1]{\\left\\lceil #1 \\right\\rceil}\n'
 
     if qed_symbol:
         output += '\\renewcommand\\qedsymbol{{{0}}}\n'.format(qed_symbol)
 
     output += '\n'
+    output += '\\renewcommand{\\headrulewidth}{0pt}\n'
+    output += '\\renewcommand{\\footrulewidth}{1pt}\n'
+    output += '\\rhead{Roger Hu}\n'
 
+    output += '\\rfoot{\\fontsize{8}{8} \\selectfont \\thepage}\n'
+
+    if assignment:
+        output += '\\lfoot{\\fontsize{8}{8} \\selectfont ' + assignment + '}\n'
+
+    output += '\n'
     output += replacer.theorem_def
-
     output += '\n'
 
     if replacer.preamble:
@@ -157,9 +161,8 @@ def main():
         output += replacer.preamble
         output += '\n% End of unaffected portion\n\n'
 
-    output += "\\begin{document}\n"
-
-    output += "\n\\begin{flushleft}\n"
+    output += "\\begin{document}\n\n"
+    output += "\\begin{flushleft}\n"
 
     for i in range(len(replacer.ignored_contents)):
         _content = _content.replace('\\\\marker{0}//'.format(i), '% Ignored by transcriber\n' + replacer.ignored_contents[i] + '% End ignored region')
@@ -180,13 +183,12 @@ def main():
     _print("Successfully transcribed to {0}!".format(tex_file_name))
 
     try:
-        exe = subprocess.run(['pdflatex', tex_file_name], timeout=2, capture_output=True)
+        exe = subprocess.run(['pdflatex', '{0}'.format(tex_file_name)], timeout=8, capture_output=True)
         _print("Successfully compiled to {0}.pdf!".format(tex_file_name[:-4]))
     except Exception:
         _print("An error has occured. Please manually compile the file.")
     
     return tex_file_name[:-4]
-
 
 
 # Replacer class
@@ -237,7 +239,10 @@ class Replacer():
             _beginsection = find_index(self.lines, '..begin {0}section'.format('sub' * i))
             while _beginsection != -1:
                 text = self.lines[_beginsection][len('..begin {0}section'.format('sub' * i)) + 1:].strip()
-                self.lines[_beginsection] = '\\{0}section{{{1}}}'.format('sub' * i, text)
+                if text.startswith('number'):
+                    self.lines[_beginsection] = '\\{0}section{{{1}}}'.format('sub' * i, text[7:])
+                else:
+                    self.lines[_beginsection] = '\\{0}section*{{{1}}}'.format('sub' * i, text)
                 _beginsection = find_index(self.lines, '..begin {0}section'.format('sub' * i))
 
         """

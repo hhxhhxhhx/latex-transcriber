@@ -33,7 +33,7 @@ contexts:
     - include: global-braces
 
   unique-pytex:
-    - match: '((\.\.)begin (preamble|main|(sub){0,4}section|thm|proof|list( bullet)?))\b'
+    - match: '((\.\.)begin (preamble|main|(sub){0,4}section (number)?|thm|proof|list( bullet)?))\b'
       captures:
         1: support.function.begin.pytex keyword.control.flow.begin.pytex
     - match: '((\.\.)end (preamble|eq|proof|list|main|thm))\b'
@@ -83,7 +83,7 @@ contexts:
     - match: '((\.\.)(paper|orient))\b'
       captures:
         1: keyword.control.flow.begin.pytex
-    - match: '((\.\.)(usepackage|pagenumber|qed))\b'
+    - match: '((\.\.)(usepackage|assignment|qed))\b'
       captures:
         1: keyword.control.flow.begin.pytex
     - match: '((\.\.)(initheorem\*|initheorem)(?= ))'
@@ -111,6 +111,14 @@ contexts:
       scope: support.function.general.pytex
       captures:
         1: punctuation.definition.backslash.pytex
+    - match: '(((?<=(\.\.begin section number ))|(?<=(\.\.begin subsection number ))|(?<=(\.\.begin subsubsection number )))[^%\n]*)'
+      scope: support.function.general.pytex
+      captures:
+        1: punctuation.definition.backslash.pytex
+    - match: '(((?<=(\.\.begin subsubsubsection number ))|(?<=(\.\.begin subsubsubsubsection number )))[^%\n]*)'
+      scope: support.function.general.pytex
+      captures:
+        1: punctuation.definition.backslash.pytex
     - match: '((?<=(\.\.paper ))(letter|legal|a4))\b'
       scope: support.function.general.pytex
       captures:
@@ -119,11 +127,7 @@ contexts:
       scope: support.function.general.pytex
       captures:
         1: punctuation.definition.backslash.pytex
-    - match: '(((?<=(\.\.usepackage ))|(?<=(\.\.qed )))[^%\n]*)'
-      scope: support.function.general.pytex
-      captures:
-        1: punctuation.definition.backslash.pytex
-    - match: '((?<=(\.\.pagenumber ))(none|bottom))\b'
+    - match: '(((?<=(\.\.usepackage ))|(?<=(\.\.qed ))|(?<=(\.\.assignment )))[^%\n]*)'
       scope: support.function.general.pytex
       captures:
         1: punctuation.definition.backslash.pytex
