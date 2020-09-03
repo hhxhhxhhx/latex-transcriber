@@ -127,11 +127,11 @@ contexts:
       scope: support.function.general.pytex
       captures:
         1: punctuation.definition.backslash.pytex
-    - match: '(((?<=(\.\.usepackage ))|(?<=(\.\.qed ))|(?<=(\.\.assignment )))[^%\n]*)'
+    - match: '(((?<=(\.\.usepackage ))|(?<=(\.\.qed ))|(?<=(\.\.assignment ))|(?<=(\.\.name )))[^%\n]*)'
       scope: support.function.general.pytex
       captures:
         1: punctuation.definition.backslash.pytex
-    - match: '((((?<=(\.\.font ))|(?<=(\.\.margin ))|(?<=(\.\.indent ))|(?<=(\.\.spacing ))|(?<=(\.\.font )))[0-9\.]*))'
+    - match: '((((?<=(\.\.font ))|(?<=(\.\.margin ))|(?<=(\.\.indent ))|(?<=(\.\.spacing )))[0-9\.]*))'
       scope: support.function.general.pytex
       captures:
         1: punctuation.definition.backslash.pytex

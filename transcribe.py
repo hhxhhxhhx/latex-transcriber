@@ -32,6 +32,7 @@ def find_content(lst, strr, deff=None):
 
 def main():
     pytex = sys.argv[1]
+
     pairs = load_pairs()
 
     with open(pytex, 'r') as f:
@@ -64,6 +65,7 @@ def main():
     packages = ['amsmath', 'amssymb', 'amsthm', 'geometry', 'enumitem', 'fancyhdr']
     packages.extend(find_content(lines, '..usepackage', '').split())
 
+    # See if name is specified
     my_name = find_content(lines, '..name', None)
 
     # Set page size
@@ -147,8 +149,12 @@ def main():
     output += '\n'
     output += '\\renewcommand{\\headrulewidth}{0pt}\n'
     output += '\\renewcommand{\\footrulewidth}{1pt}\n'
+    
+    name_arg = sys.argv[2:]
     if my_name:
         output += '\\rhead{{{0}}}\n'.format(my_name)
+    elif len(name_arg) and name_arg[0] == '-rr':
+        output += '\\rhead{Roger Hu}\n'
 
     output += '\\rfoot{\\fontsize{8}{8} \\selectfont \\thepage}\n'
 
