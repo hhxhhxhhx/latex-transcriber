@@ -3,6 +3,6 @@ template.aux
 template.log
 template.tex
 
-shortcut.lnk
+*.lnk
 
 __pycache__/

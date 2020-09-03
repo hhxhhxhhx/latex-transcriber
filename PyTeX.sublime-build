@@ -1,0 +1,4 @@
+{
+    "shell_cmd": "python location_of_your_transcribe.py -c -d -n \"Name\" -f $file",
+    "file_patterns": ["*.pytex"]
+}
