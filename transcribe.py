@@ -64,6 +64,8 @@ def main():
     packages = ['amsmath', 'amssymb', 'amsthm', 'geometry', 'enumitem', 'fancyhdr']
     packages.extend(find_content(lines, '..usepackage', '').split())
 
+    my_name = find_content(lines, '..name', None)
+
     # Set page size
     paper = find_content(lines, '..paper', 'letter')
 
@@ -145,7 +147,8 @@ def main():
     output += '\n'
     output += '\\renewcommand{\\headrulewidth}{0pt}\n'
     output += '\\renewcommand{\\footrulewidth}{1pt}\n'
-    output += '\\rhead{Roger Hu}\n'
+    if my_name:
+        output += '\\rhead{{{0}}}\n'.format(my_name)
 
     output += '\\rfoot{\\fontsize{8}{8} \\selectfont \\thepage}\n'
 
