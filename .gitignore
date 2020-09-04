@@ -1,7 +1,7 @@
 
-template.aux
-template.log
-template.tex
+example.aux
+example.log
+example.tex
 
 *.lnk
 
