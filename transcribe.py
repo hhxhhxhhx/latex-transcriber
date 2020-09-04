@@ -125,7 +125,7 @@ def main():
         _content = _content.replace(pair[0], pair[1])
         _content = _content.replace('\\verb|{0}'.format(pair[0][0] + 'afoswj' + pair[0][1:]), '\\verb|{0}'.format(pair[0]))
 
-    output = "\n% Created by Roger Hu's .pytex', '.tex latex transcriber\n"
+    output = "\n% Created by Roger Hu's .pytex --> .tex latex transcriber\n"
     time_rn = datetime.now(pytz.timezone('America/Los_Angeles'))
     output += "% Compiled on {0} PDT\n\n".format(str(time_rn)[:-13])
 
