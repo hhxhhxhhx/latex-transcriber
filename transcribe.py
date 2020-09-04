@@ -52,7 +52,7 @@ def main():
     content = replacer.set_aside_preamble(content)
     content = replacer.set_aside_ignore_markers(content)
 
-    # Remove comments
+    # Deal with comments
     while '%%%' in content:
         ind1 = content.index('%%%')
         ind2 = ind1 + 3 + content[ind1 + 3:].index('%%%')
@@ -68,39 +68,40 @@ def main():
             lines[i] = ''
         lines[i] = lines[i].strip()
 
-    # Set font
-    font = find_content(lines, '..font', '12')
+    if not has_full_preamble_declaration: # Ignore all other stuff in the preamble if "..begin full preamble" defined
+        # Set font
+        font = find_content(lines, '..font', '12')
 
-    # Set packages
-    packages = ['amsmath', 'amssymb', 'amsthm', 'geometry', 'enumitem', 'fancyhdr']
-    packages.extend(find_content(lines, '..usepackage', '').split())
+        # Set packages
+        packages = ['amsmath', 'amssymb', 'amsthm', 'geometry', 'enumitem', 'fancyhdr']
+        packages.extend(find_content(lines, '..usepackage', '').split())
 
-    # See if name is specified
-    my_name = find_content(lines, '..name', None)
+        # See if name is specified. Overrides --name flag if given. 
+        my_name = find_content(lines, '..name', None)
 
-    # Set page size
-    paper = find_content(lines, '..paper', 'letter')
+        # Set page size
+        paper = find_content(lines, '..paper', 'letter')
 
-    # Set page orientation
-    orientation = find_content(lines, '..orient', 'portrait')
+        # Set page orientation
+        orientation = find_content(lines, '..orient', 'portrait')
 
-    # Set margin
-    margin = find_content(lines, '..margin', '1')
+        # Set margin
+        margin = find_content(lines, '..margin', '1')
 
-    # Set indent
-    indent = find_content(lines, '..indent', '0')
+        # Set indent
+        indent = find_content(lines, '..indent', '0')
 
-    # Set spacing
-    spacing = find_content(lines, '..spacing', '1.5')
-    line_spread = 1.3
-    if spacing == '1':
-        line_spread = 1.0
-    elif spacing == '2':
-        line_spread = 1.6
+        # Set spacing
+        spacing = find_content(lines, '..spacing', '1.5')
+        line_spread = 1.3
+        if spacing == '1':
+            line_spread = 1.0
+        elif spacing == '2':
+            line_spread = 1.6
 
-    qed_symbol = find_content(lines, '..qed', None)
+        qed_symbol = find_content(lines, '..qed', None)
 
-    assignment = find_content(lines, '..assignment', None)
+        assignment = find_content(lines, '..assignment', None)
 
     replacer.replace(lines)
 
@@ -114,17 +115,17 @@ def main():
 
     _content = "\n".join(main_content)
 
-    # Purposely replace ones with \verb|__pair__| with \verb|random_string + __pair__|
+    """
+    Ignore and not transcribe commands surrounded by \verb||. 
+    Currently only ignores commands if they immediately follow "\verb|"
+    Better detection still needed, use "..begin ignore" as an alternative. 
+    """
     for pair in pairs:
         _content = _content.replace('\\verb|{0}'.format(pair[0]), '\\verb|{0}'.format(pair[0][0] + 'afoswj' + pair[0][1:]))
-
-    for pair in pairs:
         _content = _content.replace(pair[0], pair[1])
-
-    for pair in pairs:
         _content = _content.replace('\\verb|{0}'.format(pair[0][0] + 'afoswj' + pair[0][1:]), '\\verb|{0}'.format(pair[0]))
 
-    output = "\n% Created by Roger Hu's .pytex -> .tex latex transcriber\n"
+    output = "\n% Created by Roger Hu's .pytex', '.tex latex transcriber\n"
     time_rn = datetime.now(pytz.timezone('America/Los_Angeles'))
     output += "% Compiled on {0} PDT\n\n".format(str(time_rn)[:-13])
 
@@ -134,15 +135,14 @@ def main():
         for package in packages[:-1]:
             output += package + ', '
         output += packages[-1] + '}\n'
-
         output += '\n'
-
         output += '\\geometry{{{0}paper, {1}, margin={2}in}}\n'.format(paper, orientation, margin)
         output += '\\setlength{{\\parindent}}{{{0}em}}\n'.format(indent)
         output += '\\linespread{{{0}}}\n'.format(line_spread)
         output += '\\pagestyle{fancy}\n'
         output += '\\fancyhf{}\n'
 
+        # Commands
         if '\\norm' in _content:
             output += '\\newcommand{\\norm}[1]{\\|#1\\|}\n'
         if '\\pytexdef' in _content:
@@ -153,54 +153,55 @@ def main():
             output += '\\newcommand{\\floor}[1]{\\left\\lfloor #1 \\right\\rfloor}\n'
         if "\\ceil" in _content:
             output += '\\newcommand{\\ceil}[1]{\\left\\lceil #1 \\right\\rceil}\n'
-
         if qed_symbol:
             output += '\\renewcommand\\qedsymbol{{{0}}}\n'.format(qed_symbol)
-
         output += '\n'
         output += '\\renewcommand{\\headrulewidth}{0pt}\n'
         output += '\\renewcommand{\\footrulewidth}{1pt}\n'
         
+        # Headers and Footers
         if my_name:
             output += '\\rhead{{{0}}}\n'.format(my_name)
         elif args.name:
             output += '\\rhead{{{0}}}\n'.format(args.name)
-
         output += '\\rfoot{\\fontsize{8}{8} \\selectfont \\thepage}\n'
-
         if assignment:
             output += '\\lfoot{\\fontsize{8}{8} \\selectfont ' + assignment + '}\n'
 
+        # Theorem definition
         output += '\n'
         output += replacer.theorem_def
         output += '\n'
 
+        # Between "..begin preamble" and "..end preamble"
         if replacer.preamble:
             output += '% This part is unaffected by transcription\n\n'
             output += replacer.preamble
             output += '\n% End of unaffected portion\n\n'
-    else:
+    else: # Between "..begin full preamble" and "..end full preamble"
         output += replacer.full_preamble + '\n'
 
     output += "\\begin{document}\n\n"
     output += "\\begin{flushleft}\n"
 
+    # Put back the content between "..begin ignore" and "..end ignore"
     for i in range(len(replacer.ignored_contents)):
         _content = _content.replace('\\\\marker{0}//'.format(i), '% Ignored by transcriber\n' + replacer.ignored_contents[i] + '% End ignored region')
     
+    # Main content
     output += _content
 
+    # Final alignment if not "..align justify"
     end_align = replacer.end_align
     if end_align:
         output += '\n\\end{{{0}}}\n'.format(end_align)
 
     output += "\n\\end{document}\n"
 
+    # Write to .tex file
     tex_file_name = file_name[:file_name.index('.')] + '.tex'
-
     with open(tex_file_name, 'w') as f:
         f.write(output)
-
     _print("Successfully transcribed to {0}!".format(tex_file_name))
 
     if args.compile:
@@ -287,7 +288,7 @@ class Replacer():
 
 
         """
-        SAME THING BUT PROOFS
+        PROOFS
         """
         _beginproof = find_index(self.lines, '..begin proof')
         while _beginproof != -1:
@@ -460,7 +461,7 @@ class Replacer():
         if '\n..begin full preamble' in _not_self_lines and '\n..end full preamble' in _not_self_lines:
             start = _not_self_lines.index('..begin full preamble') + len('..begin full preamble')
             end = _not_self_lines.index('..end full preamble')
-            self.full_preamble = '% Here is your full preamble, unmodified in any way\n\n' + _not_self_lines[start:end].strip() + '\n\n% End of full preamble\n'
+            self._full_preamble = '% Here is your full preamble, unmodified in any way\n\n' + _not_self_lines[start:end].strip() + '\n\n% End of full preamble\n'
             return True
 
     def set_aside_preamble(self, _not_self_lines=''):
@@ -508,6 +509,10 @@ class Replacer():
         return '\n'.join(not_self_lines)
 
     @property
+    def full_preamble(self):
+        return self._full_preamble
+
+    @property
     def ignored_contents(self):
         return self._ignored_contents
     
@@ -543,43 +548,42 @@ class Replacer():
 # End of Replacer class
 
 def load_pairs():
-    contents = ['\\union -> \\cup', 
-                '\\itsc -> \\cap', 
-                '\\setdiff -> \\setminus', 
-                '\\del -> \\nabla', 
-                '\\Q -> \\mathbb{Q}',
-                '\\R -> \\mathbb{R}', 
-                '\\Z -> \\mathbb{Z}', 
-                '\\N -> \\mathbb{N}', 
-                '\\C -> \\mathbb{C}', 
-                '\\nin -> \\notin', 
-                '\\ital -> \\emph', 
-                '\\bold -> \\textbf', 
-                '\\contradiction -> $\\Rightarrow\\Leftarrow$', 
-                '..<< -> \\ll', 
-                '..>> -> \\gg', 
-                '..~= -> \\approx', 
-                '..<( -> \\langle', 
-                '..>) -> \\rangle', 
-                '..dot -> \\cdot', 
-                '..cross -> \\times', 
-                '..<=> -> \\Leftrightarrow', 
-                '..<==> -> \\iff', 
-                '..!=> -> \\nRightarrow', 
-                '..=> -> \\Rightarrow', 
-                '..==> -> \\implies', 
-                '..-> -> \\to', 
-                '..--> -> \\longrightarrow', 
-                '..!= -> \\neq', 
-                '..<= -> \\leq', 
-                '..>= -> \\geq', 
-                '..and -> \\wedge', 
-                '..or -> \\vee', 
-                '..def -> \\pytexdef', 
-                '..set -> \\pytexset', 
-                '..n -> \\\\', 
-                '..t -> \\quad']
-    pairs = [x.split(' -> ') for x in contents]
+    pairs = [['\\union', '\\cup'], 
+                ['\\itsc', '\\cap'], 
+                ['\\setdiff', '\\setminus'], 
+                ['\\del', '\\nabla'], 
+                ['\\Q', '\\mathbb{Q}'],
+                ['\\R', '\\mathbb{R}'], 
+                ['\\Z', '\\mathbb{Z}'], 
+                ['\\N', '\\mathbb{N}'], 
+                ['\\C', '\\mathbb{C}'], 
+                ['\\nin', '\\notin'], 
+                ['\\ital', '\\emph'], 
+                ['\\bold', '\\textbf'], 
+                ['\\contradiction', '$\\Rightarrow\\Leftarrow$'], 
+                ['..<<', '\\ll'], 
+                ['..>>', '\\gg'], 
+                ['..~=', '\\approx'], 
+                ['..<(', '\\langle'], 
+                ['..>)', '\\rangle'], 
+                ['..dot', '\\cdot'], 
+                ['..cross', '\\times'], 
+                ['..<=>', '\\Leftrightarrow'], 
+                ['..<==>', '\\iff'], 
+                ['..!=>', '\\nRightarrow'], 
+                ['..=>', '\\Rightarrow'], 
+                ['..==>', '\\implies'], 
+                ['..->', '\\to'], 
+                ['..-->', '\\longrightarrow'], 
+                ['..!=', '\\neq'], 
+                ['..<=', '\\leq'], 
+                ['..>=', '\\geq'], 
+                ['..and', '\\wedge'], 
+                ['..or', '\\vee'], 
+                ['..def', '\\pytexdef'], 
+                ['..set', '\\pytexset'], 
+                ['..n', '\\\\'], 
+                ['..t', '\\quad']]
     return pairs
 
 if __name__ == "__main__":
