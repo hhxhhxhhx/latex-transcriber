@@ -44,6 +44,10 @@ Use \verb|..begin preamble| and \verb|..end preamble| to signal a part of the \b
 
 \bigskip
 
+Use \verb|..begin full preamble| and \verb|..end full preamble| to completely override all default values in the preamble. The transcribed file will contain only the contents inside \verb|..begin full preamble| and \verb|..end full preamble| before \verb|\begin{document}|. 
+
+\bigskip
+
 Use \verb|..begin ignore| and \verb|..end ignore| to signal a part of the \bold{document} to be ignored by the transcriber, including comments. The contents will be placed exactly where they were defined relative to everything else in the document. 
 
 \verb|..begin ignore|
@@ -75,14 +79,14 @@ All of the following are optional.
 \verb|..margin XYZ| will set margin size to \bold{XYZ} inches. Default 1...n
 \verb|..indent XYZ| will set paragraph indent to \bold{XYZ}. Default 0, can be 4 (regular paragraph indent), 2, etc. ..n
 \verb|..spacing XYZ| will set line spacing to \bold{XYZ}. Default 1.5, can be ``1'', ``2''..n
-\verb|..assignment Template| will put \bold{Template} at the bottom left. ..n
+\verb|..assignment Template| will put \bold{Template} at the left footer. ..n
 
 \bigskip
-\verb|..initheorem* XYZ| will create theorem type \bold{XYZ} with no numbering..n
-\verb|..initheorem XYZ| will create theorem type \bold{XYZ} with a counter that increments each time \bold{XYZ} is created..n
-\verb|..initheorem XYZ ABC sub| will create theorem type \bold{XYZ} that is \bold{SUBORDINATE} to counter type \bold{ABC}..n
-\verb|..initheorem XYZ ABC shared| will create theorem type \bold{XYZ} that is \bold{SHARED} with counter type \bold{ABC}..n
-\verb|..qed XYZ| will change the symbol that sits at the end of a proof to be the text \bold{XYZ}. By default, it is a white square
+\verb|..initheorem* XYZ| will create theorem type \bold{XYZ} with no numbering. Equivalent to \verb|\newtheorem*{XYZ}{XYZ}|..n
+\verb|..initheorem XYZ| will create theorem type \bold{XYZ} with a counter that increments each time \bold{XYZ} is created. Equivalent to \verb|\newtheorem{XYZ}{XYZ}|..n
+\verb|..initheorem XYZ ABC sub| will create theorem type \bold{XYZ} that is \bold{SUBORDINATE} to counter type \bold{ABC}. Equivalent to \verb|\newtheorem{XYZ}{XYZ}[ABC]|..n
+\verb|..initheorem XYZ ABC shared| will create theorem type \bold{XYZ} that is \bold{SHARED} with counter type \bold{ABC}. Equivalent to \verb|\newtheorem{XYZ}[ABC]{XYZ}|..n
+\verb|..qed XYZ| will change the symbol that sits at the end of a proof to be \bold{XYZ}. By default, it is a white square. 
 
 \newpage
 
@@ -271,7 +275,7 @@ Do this to create a bullet-point (unnumbered) type of list: \verb|..begin list b
 To create a numbered list: \verb|..begin list [optional_label]|..n
 The optional label should not be surrounded by brackets. For bullet point lists, any character can be used as the label. ..n
 For numbered lists, use ``1" without the quotes to number using arabic numerals, ``a" without the quotes to use the English alphabet, and/or ``i" without the quotes to use roman numerals. ..n
-Because of the way the transcriber is currently designed, it is impossible to have it use ``1a", ``1b", ``1c" as consecutive labels. In the future, a backslash to escape the character or something of the sort will probably allow this. ..n
+Because of the way the transcriber is currently designed, it is impossible to have it use ``1a", ``1b", ``1c" as consecutive labels. In the future, a backslash to escape the character or something like that will probably allow this. ..n
 Regardless of whether it is a numbered list, a list with special labels, use \verb|..end list| at the very end. ..n
 
 \bigskip
@@ -342,7 +346,7 @@ This transcriber will assume all new lines within the gather or align mode are s
 
 \medskip
 
-Only two modes are implemented: \bold{align} and \bold{gather}. I honestly don't know what the difference between \bold{gather} and \bold{equation} are, so I'm only implementing \bold{gather}. \bold{Align} mode allows you to select a symbol, usually the equal sign, to be aligned to other equations; \bold{gather} mode centers all the equations. \bold{To select which symbol you want to align with in align mode, prepend the symbol with a \& sign.} Most of the time, gather mode will be used. 
+Only two modes are implemented: \bold{align} and \bold{gather}. I honestly don't know what the difference between \bold{gather} and \bold{equation} are, so I'm only implementing \bold{gather}. \bold{Align} mode allows you to select a symbol, usually the equal sign, to be aligned to other equations; \bold{gather} mode centers all the equations. Just like LaTeX's align, prepend the symbol or character you want to align with a \& sign. 
 
 \medskip
 
@@ -432,7 +436,7 @@ i j k l
 
 \medskip
 
-There are currently no customizations to what matrices are surrounded by -- they'll always be brackets because I like the look of brackets more than parenthesis. There are no plans to change this in the future. 
+There are currently no customizations to what matrices are surrounded by -- they'll always be brackets because I like the look of brackets more than parentheses. There are no plans to change this in the future. 
 
 \newpage
 
@@ -444,7 +448,7 @@ Here is the code for an array (math mode): ..n
 
 \medskip
 
-\verb=..begin table math r|c||l= ..n
+\verb=..begin table math r|c|l|= ..n
 \verb|2 \ 3 \ 465| ..n 
 \verb|\hline| ..n
 \verb|p |\verb|..==> q \ q \implies r \ 6| ..n
@@ -452,7 +456,7 @@ Here is the code for an array (math mode): ..n
 
 \bigskip
 
-..begin table math r|c||l
+..begin table math r|c|l|
 2 \ 3 \ 4
 \hline
 p ..==> q \ q \implies r \ 6
@@ -465,7 +469,7 @@ Similarly, here is some sample code for a table (non math mode): ..n
 \medskip
 
 \verb=..begin table c|c|c= ..n
-\verb| \ Names \| ..n
+\verb|\ Names \| ..n
 \verb|\hline| ..n
 \verb|John \ Mary \ Jane| ..n
 \verb|Adam \ Kevin \ Allie| ..n
@@ -474,7 +478,7 @@ Similarly, here is some sample code for a table (non math mode): ..n
 \bigskip
 
 ..begin table c|c|c
- \ Names \
+\ Names \
 \hline
 John \ Mary \ Jane
 Adam \ Kevin \ Allie
@@ -509,7 +513,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 \bigskip
 
 To end the document, use \verb|..end main|..n
-This is actually entirely optional, but may cause some problems if there are extra lines that you want the transcriber to ignore. 
+This is actually entirely optional, if there's no \verb|..end main|, the transcriber will assume that the end of the file is the end. 
 
 ..end main
 
