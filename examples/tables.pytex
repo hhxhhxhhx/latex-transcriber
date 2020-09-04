@@ -1,0 +1,47 @@
+
+..name Tables
+
+..begin main
+
+Regular tables (tabular), in non-math mode.
+
+\verb=..begin table c|c|c= ..n
+\verb|\ Names \| ..n
+\verb|\hline| ..n
+\verb|John \ Mary \ Jane| ..n
+\verb|Adam \ Kevin \ Allie| ..n
+\verb|..end table|
+
+\bigskip
+\bigskip
+
+..begin table c|c|c
+\ Names \
+\hline
+John \ Mary \ Jane
+Adam \ Kevin \ Allie
+..end table
+
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+
+Arrays (arrays), in math mode. 
+
+\verb=..begin table math r|c|l|= ..n
+\verb|2 \ 3 \ 465| ..n 
+\verb|\hline| ..n
+\verb|p |\verb|..==> q \ q \implies r \ 6| ..n
+\verb|..end table|
+
+\bigskip
+\bigskip
+
+..begin table math r|c|l|
+2 \ 3 \ 4
+\hline
+p ..==> q \ q \implies r \ 6
+..end table
+
+..end main

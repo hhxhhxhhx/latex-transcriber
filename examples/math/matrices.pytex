@@ -1,0 +1,19 @@
+
+..name Matrix
+
+..begin main
+
+\verb|..begin matrix|..n
+\verb|a b c d|..n
+\verb|e f g h|..n
+\verb|i j k l|..n
+\verb|..end matrix|
+
+\medskip
+
+..begin matrix
+a b c d
+e f g h
+i j k l
+..end matrix
+..end main

@@ -1,0 +1,63 @@
+
+..name Lists
+
+..begin main
+
+Use \verb|..begin list bullet [label]| or \verb|..begin list [label]| to create a list. 
+
+[label] can be any value for a bullet point list, but for now, for an ordered list, the characters `a', `i', and `1', represent ordering alphabetically, by roman numerals, and arabic numerals, respectively. 
+
+\verb|..begin list bullet|..n
+\verb|.. Item 1|..n
+\verb|.. Item 2|..n
+\verb|.. Item 3|..n
+
+..begin list bullet
+.. Item 1
+.. Item 2
+.. Item 3
+..end list
+
+\verb|..begin list bullet *|..n
+\verb|.. Item 1|..n
+\verb|.. Item 2|..n
+\verb|.. Item 3|..n
+
+..begin list bullet *
+.. Item 1
+.. Item 2
+.. Item 3
+..end list
+
+\verb|..begin list a.|..n
+\verb|.. Item 1|..n
+\verb|.. Item 2|..n
+\verb|.. Item 3|..n
+
+..begin list a.
+.. Item 1
+.. Item 2
+.. Item 3
+..end list
+
+\verb|..begin list (i)|..n
+\verb|.. Item 1|..n
+\verb|.. Item 2|..n
+\verb|.. Item 3|..n
+
+..begin list (i)
+.. Item 1
+.. Item 2
+.. Item 3
+..end list
+
+\verb|..begin list 1)|..n
+\verb|.. Item 1|..n
+\verb|.. Item 2|..n
+\verb|.. Item 3|..n
+
+..begin list 1)
+.. Item 1
+.. Item 2
+.. Item 3
+..end list

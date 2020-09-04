@@ -1,8 +1,4 @@
 
-example.aux
-example.log
-example.tex
-
 *.lnk
 
 __pycache__/

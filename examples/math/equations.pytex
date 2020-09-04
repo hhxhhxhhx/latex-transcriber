@@ -1,0 +1,64 @@
+
+..name Equations
+
+..begin main
+Here's the \bold{gather} mode with no numbering: ..n
+\verb|..begin eq|..n
+\verb|a = b + c|..n
+\verb|d = e + f|..n
+\verb|a + d = b + c|..n
+\verb|..end eq|
+
+..begin eq
+a = b + c
+d = e + f
+a + d = b + c
+..end eq
+
+\medskip
+
+Here's the \bold{align} mode with no numbering: ..n
+\verb|..begin eq align|..n
+\verb|h &= 2x + 3y + 4z     &   2u + &2v = 10|..n
+\verb|x &= y                &   &2v + 4w = 20|..n
+\verb|a &= b + c            &   2b + 2c + &7v = 30|..n
+\verb|f(x, y) &= g(a, b, c) &   &2v = 4z|..n
+\verb|..end eq|
+
+..begin eq align
+h &= 2x + 3y + 4z           &   2u + &2v = 10
+x &= y                      &   &2v + 4w = 20
+a &= b + c                  &   2b + 2c + &7v = 30
+f(x, y) &= g(a, b, c)       &   &2v = 4z
+
+..end eq
+
+\medskip
+
+Here's the \bold{gather} mode with numbering: ..n
+\verb|..begin eq number|..n
+\verb|a = b|..n
+\verb|2x + 4c = 10|..n
+\verb|10 + 4c = 20|..n
+\verb|..end eq|
+..begin eq number
+a = b
+2x + 4c = 10
+10 + 4c = 20
+..end eq
+
+\medskip
+
+Here's how to do \bold{align} with numbering: ..n
+\verb|..begin eq align number|..n
+\verb|a &= b + c|..n
+\verb|a &= 2b + d|..n
+\verb|a &= 3c + e|..n
+\verb|..end eq|
+..begin eq align number
+a &= b + c
+a &= 2b + d
+a &= 3c + e
+..end eq
+
+..end main

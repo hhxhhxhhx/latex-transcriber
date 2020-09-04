@@ -1,0 +1,38 @@
+
+..name Proof
+
+..begin main
+
+\verb|..begin proof| 
+..begin proof
+
+Notice that $\sqrt{2} \in \R$, $\notin \Q$. Therefore, we know that $\sqrt{2}^{\sqrt{2}} \in \R$ but can be $\in \Q$ or $\notin \Q$.
+
+Suppose $\sqrt{2}^{\sqrt{2}} \in \Q$, we're done.
+
+Suppose $\sqrt{2}^{\sqrt{2}} \notin \Q$, we can then use this value and raise it to another power of $\sqrt{2}$. 
+
+..begin eq
+(\sqrt{2}^{\sqrt{2}})^{\sqrt{2}} = \sqrt{2}^{\sqrt{2} ..dot \sqrt{2}} = \sqrt{2}^2 = 2 \in \Q
+..end eq
+..end proof
+\verb|..end proof|
+
+\bigskip
+
+\verb|..begin proof by induction|
+..begin proof by induction
+$\forall n \in \N, \exists m \in N > n.$
+
+\medskip
+
+Base case: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+
+\medskip
+
+Inductive step: Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+..end proof
+\verb|..end proof|
+
+..end main

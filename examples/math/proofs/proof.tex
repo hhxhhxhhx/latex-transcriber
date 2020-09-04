@@ -1,0 +1,62 @@
+
+% Created by Roger Hu's .pytex --> .tex latex transcriber
+% Compiled on 2020-09-04 13:56:22 PDT
+
+
+\documentclass[12pt]{article}
+\usepackage{amsmath, amssymb, amsthm, geometry, enumitem, fancyhdr}
+
+\geometry{letterpaper, portrait, margin=1in}
+\setlength{\parindent}{0em}
+\linespread{1.3}
+\pagestyle{fancy}
+\fancyhf{}
+
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{1pt}
+\rhead{Proof}
+\rfoot{\fontsize{8}{8} \selectfont \thepage}
+
+\newtheorem{Theorem}{Theorem}
+\newtheorem{Corollary}{Corollary}[Theorem]
+\newtheorem{Lemma}[Theorem]{Lemma}
+
+\begin{document}
+
+\begin{flushleft}
+
+\verb|..begin proof|
+\begin{proof}
+
+Notice that $\sqrt{2} \in \mathbb{R}$, $\notin \mathbb{Q}$. Therefore, we know that $\sqrt{2}^{\sqrt{2}} \in \mathbb{R}$ but can be $\in \mathbb{Q}$ or $\notin \mathbb{Q}$.
+
+Suppose $\sqrt{2}^{\sqrt{2}} \in \mathbb{Q}$, we're done.
+
+Suppose $\sqrt{2}^{\sqrt{2}} \notin \mathbb{Q}$, we can then use this value and raise it to another power of $\sqrt{2}$.
+
+\begin{gather*}
+(\sqrt{2}^{\sqrt{2}})^{\sqrt{2}} = \sqrt{2}^{\sqrt{2} \cdot \sqrt{2}} = \sqrt{2}^2 = 2 \in \mathbb{Q} 
+\end{gather*}
+\end{proof}
+\verb|..end proof|
+
+\bigskip
+
+\verb|..begin proof by induction|
+\begin{proof}[Proof by induction]
+$\forall n \in \mathbb{N}, \exists m \in N > n.$
+
+\medskip
+
+Base case: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+\medskip
+
+Inductive step: Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+\end{proof}
+\verb|..end proof|
+
+\end{flushleft}
+
+\end{document}

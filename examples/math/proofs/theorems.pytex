@@ -1,0 +1,47 @@
+
+..spacing 2
+
+..begin main
+
+By default, theorems, lemmas, and corollaries are defined as follows: ..n
+\verb|\newtheorem{Theorem}{Theorem}|..n
+\verb|\newtheorem{Corollary}{Corollary}[Theorem]|..n
+\verb|\newtheorem{Lemma}[Theorem]{Lemma}|..n
+
+\bigskip
+
+To change these defaults, or add others, check the next page for uses for \verb|..initheorem*| or \verb|..initheorem| like so. 
+
+\bigskip
+
+To begin a theorem environment, use \verb|..begin thm Theorem_Type [Theorem name]|. Theorem types that are available by default are ``Theorem", ``Lemma", and ``Corollary". 
+
+\bigskip
+\bigskip
+
+\verb|..begin thm Theorem Stoke's Theorem|
+..begin thm Theorem Stoke's Theorem
+For a closed surface oriented counter-clockwise, 
+..begin eq
+\int\limits_C \vec{F} ..dot d\vec{r} = \iint\limits_S (\del ..cross \vec{F}) ..dot d\bold{S}
+..end eq
+..end thm Theorem
+\verb|..end thm Theorem|
+
+\bigskip
+\bigskip
+
+\verb|..begin thm Lemma|
+..begin thm Lemma
+This is a lemma. 
+..end thm Lemma
+\verb|..end thm Lemma|
+
+\newpage
+
+\verb|..initheorem* XYZ| will create theorem type \bold{XYZ} with no numbering. Equivalent to \verb|\newtheorem*{XYZ}{XYZ}|..n
+\verb|..initheorem XYZ| will create theorem type \bold{XYZ} with a counter that increments each time \bold{XYZ} is created. Equivalent to \verb|\newtheorem{XYZ}{XYZ}|..n
+\verb|..initheorem XYZ ABC sub| will create theorem type \bold{XYZ} that is \bold{subordinate} to counter type \bold{ABC}. Equivalent to \verb|\newtheorem{XYZ}{XYZ}[ABC]|..n
+\verb|..initheorem XYZ ABC shared| will create theorem type \bold{XYZ} that is \bold{shared} with counter type \bold{ABC}. Equivalent to \verb|\newtheorem{XYZ}[ABC]{XYZ}|..n
+
+..end main

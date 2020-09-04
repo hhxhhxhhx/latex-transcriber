@@ -444,17 +444,19 @@ class Replacer():
         ALIGNMENT
         """
         start_align = 'flushleft'
-        for i in range(len(self.lines)):
-            lower_case = self.lines[i].lower()
-            start_align = self._align_helper(lower_case, i, 'left', 'flushleft', start_align)
-            start_align = self._align_helper(lower_case, i, 'right', 'flushright', start_align)
-            start_align = self._align_helper(lower_case, i, 'center', 'center', start_align)
+        index = 0
+        while index < len(self.lines):
+            lower_case = self.lines[index].lower()
+            start_align = self._align_helper(lower_case, index, 'left', 'flushleft', start_align)
+            start_align = self._align_helper(lower_case, index, 'right', 'flushright', start_align)
+            start_align = self._align_helper(lower_case, index, 'center', 'center', start_align)
             if lower_case.startswith('..align justify'):
                 if start_align:
-                    self.lines[i] = '\\end{{{0}}}'.format(start_align)
+                    self.lines[index] = '\\end{{{0}}}'.format(start_align)
                 else:
-                    self.lines.pop(i)
+                    self.lines.pop(index)
                 start_align = None
+            index += 1
 
         self.start_align = start_align
 
