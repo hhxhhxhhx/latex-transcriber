@@ -148,10 +148,10 @@ def main():
         # Commands
         if '\\norm' in _content:
             output += '\\newcommand{\\norm}[1]{\\|#1\\|}\n'
-        if '\\pytexdef' in _content:
-            output += '\\newcommand{\\pytexdef}{\\mathrel{\\stackrel{\\makebox[0pt]{\\mbox{\\normalfont\\tiny def}}}{=}}}\n'
-        if '\\pytexset' in _content:
-            output += '\\newcommand{\\pytexset}{\\mathrel{\\stackrel{\\makebox[0pt]{\\mbox{\\normalfont\\tiny set}}}{=}}}\n'
+        if '\\ddef' in _content:
+            output += '\\newcommand{\\ddef}{\\mathrel{\\stackrel{\\makebox[0pt]{\\mbox{\\normalfont\\tiny def}}}{=}}}\n'
+        if '\\sset' in _content:
+            output += '\\newcommand{\\sset}{\\mathrel{\\stackrel{\\makebox[0pt]{\\mbox{\\normalfont\\tiny set}}}{=}}}\n'
         if "\\floor" in _content:
             output += '\\newcommand{\\floor}[1]{\\left\\lfloor #1 \\right\\rfloor}\n'
         if "\\ceil" in _content:
@@ -575,29 +575,19 @@ def load_pairs():
                 ['\\ital', '\\emph'], 
                 ['\\bold', '\\textbf'], 
                 ['\\contradiction', '$\\Rightarrow\\Leftarrow$'], 
-                ['..<<', '\\ll'], 
-                ['..>>', '\\gg'], 
-                ['..~=', '\\approx'], 
-                ['..<(', '\\langle'], 
-                ['..>)', '\\rangle'], 
-                ['..dot', '\\cdot'], 
-                ['..cross', '\\times'], 
-                ['..<=>', '\\Leftrightarrow'], 
-                ['..<==>', '\\iff'], 
-                ['..!=>', '\\nRightarrow'], 
-                ['..=>', '\\Rightarrow'], 
-                ['..==>', '\\implies'], 
-                ['..->', '\\to'], 
-                ['..-->', '\\longrightarrow'], 
-                ['..!=', '\\neq'], 
-                ['..<=', '\\leq'], 
-                ['..>=', '\\geq'], 
-                ['..and', '\\wedge'], 
-                ['..or', '\\vee'], 
-                ['..def', '\\pytexdef'], 
-                ['..set', '\\pytexset'], 
-                ['..n', '\\\\'], 
-                ['..t', '\\quad']]
+                ['\\aand', '\\wedge'], 
+                ['\\oor', '\\vee'], 
+                ['\\<<', '\\ll'], 
+                ['\\>>', '\\gg'], 
+                ['\\~=', '\\approx'], 
+                ['\\<(', '\\langle'], 
+                ['\\>)', '\\rangle'], 
+                ['\\cross', '\\times'], 
+                ['\\nimplies', '\\nRightarrow'],
+                ['\\<=', '\\leq'], 
+                ['\\>=', '\\geq'], 
+                ['\\nl', '\\\\'], 
+                ['\\tb', '\\quad']]
     return pairs
 
 if __name__ == "__main__":

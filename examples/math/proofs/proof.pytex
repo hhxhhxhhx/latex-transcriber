@@ -6,7 +6,7 @@
 \verb|..begin proof| 
 ..begin proof
 
-Notice that $\sqrt{2} \in \R$, $\notin \Q$. Therefore, we know that $\sqrt{2}^{\sqrt{2}} \in \R$ but can be $\in \Q$ or $\notin \Q$.
+Notice that $\sqrt{2} \in \R$, $\notin \Q$. Therefore, we know that $\sqrt{2}^{\sqrt{2}} \in \R$ but can be $\in \Q$ or $\nin \Q$.
 
 Suppose $\sqrt{2}^{\sqrt{2}} \in \Q$, we're done.
 

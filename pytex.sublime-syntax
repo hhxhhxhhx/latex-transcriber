@@ -33,10 +33,10 @@ contexts:
     - include: global-braces
 
   unique-pytex:
-    - match: '((\.\.)begin (preamble|main|(sub){0,4}section (number)?|thm|proof|list( bullet)?))\b'
+    - match: '((\.\.)begin ((full )?preamble|main|(sub){0,4}section( number)?|thm|proof|list( bullet)?))\b'
       captures:
         1: support.function.begin.pytex keyword.control.flow.begin.pytex
-    - match: '((\.\.)end (preamble|eq|proof|list|main|thm))\b'
+    - match: '((\.\.)end ((full )?preamble|eq|proof|list|main|thm))\b'
       captures:
         1: support.function.end.pytex keyword.control.flow.end.pytex
 

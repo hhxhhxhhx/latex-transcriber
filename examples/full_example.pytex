@@ -58,8 +58,7 @@ It's somewhat like \verb|\verb| in LaTeX, where commands are ignored. \\
 These are a couple of commands that will be ignored. \\
 ..begin main \\
 ..end main \\
-..n \\
-..t \\
+However, doing something invalid in LaTeX like \verb|\nl| would cause a compile-time error when using pdflatex because such a command is invalid. 
 ..end ignore
 \verb|..end ignore|
 % Here is a comment that would be removed by the transcriber. 
@@ -69,75 +68,66 @@ These are a couple of commands that will be ignored. \\
 
 All of the following are optional. 
 
-\verb|..name Your Name| will set the top right header to contain \bold{Your Name}. ..n
-\verb|..font XYZ| will set font to \bold{XYZ}. Defaulted to 12 ..n
-\verb|..packages A B C| will include packages \bold{A}, \bold{B}, \bold{C} in addition to amsmath, amssymb, amsthm, geometry, enumitem, and fancyhdr ..n
-\verb|..paper letter| will set page size to letter. Can be ``legal'', ``a4'', and some others..n
-\verb|..orient landscape| will set page to be landscape. Default ``portrait''..n
-
+\verb|..name Your Name| will set the top right header to contain \bold{Your Name}. \nl
+\verb|..font XYZ| will set font to \bold{XYZ}. Defaulted to 12 \nl
+\verb|..packages A B C| will include packages \bold{A}, \bold{B}, \bold{C} in addition to amsmath, amssymb, amsthm, geometry, enumitem, and fancyhdr \nl
+\verb|..paper letter| will set page size to letter. Can be ``legal'', ``a4'', and some others\nl
+\verb|..orient landscape| will set page to be landscape. Default ``portrait''\nl
 \bigskip
-\verb|..margin XYZ| will set margin size to \bold{XYZ} inches. Default 1...n
-\verb|..indent XYZ| will set paragraph indent to \bold{XYZ}. Default 0, can be 4 (regular paragraph indent), 2, etc. ..n
-\verb|..spacing XYZ| will set line spacing to \bold{XYZ}. Default 1.5, can be ``1'', ``2''..n
-\verb|..assignment Template| will put \bold{Template} at the left footer. ..n
-
+\verb|..margin XYZ| will set margin size to \bold{XYZ} inches. Default 1.\nl
+\verb|..indent XYZ| will set paragraph indent to \bold{XYZ}. Default 0, can be 4 (regular paragraph indent), 2, etc. \nl
+\verb|..spacing XYZ| will set line spacing to \bold{XYZ}. Default 1.5, can be ``1'', ``2''\nl
+\verb|..assignment Template| will put \bold{Template} at the left footer. \nl
 \bigskip
-\verb|..initheorem* XYZ| will create theorem type \bold{XYZ} with no numbering. Equivalent to \verb|\newtheorem*{XYZ}{XYZ}|..n
-\verb|..initheorem XYZ| will create theorem type \bold{XYZ} with a counter that increments each time \bold{XYZ} is created. Equivalent to \verb|\newtheorem{XYZ}{XYZ}|..n
-\verb|..initheorem XYZ ABC sub| will create theorem type \bold{XYZ} that is \bold{SUBORDINATE} to counter type \bold{ABC}. Equivalent to \verb|\newtheorem{XYZ}{XYZ}[ABC]|..n
-\verb|..initheorem XYZ ABC shared| will create theorem type \bold{XYZ} that is \bold{SHARED} with counter type \bold{ABC}. Equivalent to \verb|\newtheorem{XYZ}[ABC]{XYZ}|..n
+\verb|..initheorem* XYZ| will create theorem type \bold{XYZ} with no numbering. Equivalent to \verb|\newtheorem*{XYZ}{XYZ}|\nl
+\verb|..initheorem XYZ| will create theorem type \bold{XYZ} with a counter that increments each time \bold{XYZ} is created. Equivalent to \verb|\newtheorem{XYZ}{XYZ}|\nl
+\verb|..initheorem XYZ ABC sub| will create theorem type \bold{XYZ} that is \bold{SUBORDINATE} to counter type \bold{ABC}. Equivalent to \verb|\newtheorem{XYZ}{XYZ}[ABC]|\nl
+\verb|..initheorem XYZ ABC shared| will create theorem type \bold{XYZ} that is \bold{SHARED} with counter type \bold{ABC}. Equivalent to \verb|\newtheorem{XYZ}[ABC]{XYZ}|\nl
 \verb|..qed XYZ| will change the symbol that sits at the end of a proof to be \bold{XYZ}. By default, it is a white square. 
 
 \newpage
 
 ..begin section Keywords
 
-Line comment: \verb|%|..n
+Line comment: \verb|%|\nl
 Block comment: \verb|%|\verb|%|\verb|%|\verb| something here |\verb|%|\verb|%|\verb|%|
 
 \medskip
 
-\verb|\union          ->        |$\union$..n
-\verb|\itsc           ->        |$\itsc$..n
-\verb|\setdiff        ->        |$\setdiff$..n
-\verb|\del            ->        |$\del$..n
-\verb|\norm{\vec{a}}  ->        |$\norm{\vec{a}}$..n
-\verb|\floor{x}       ->        |$\floor{x}$..n
-\verb|\ceil{x}        ->        |$\ceil{x}$..n
-\verb|\nin            ->        |$\nin$..n
-\verb|\R              ->        |$\R$..n
-\verb|\Z              ->        |$\Z$..n
-\verb|\N              ->        |$\N$..n
-\verb|\Q              ->        |$\Q$..n
-\verb|\C              ->        |$\C$..n
-\verb|..<=            ->        |$..<=$..n
-\verb|..>=            ->        |$..>=$..n
-\verb|..!=            ->        |$..!=$..n
-\verb|..<<            ->        |$..<<$..n
-\verb|..>>            ->        |$..>>$..n
-\verb|..~=            ->        |$..~=$..n
-\verb|..<(            ->        |$..<($..n
-\verb|..>)            ->        |$..>)$..n
-\verb|..dot           ->        |$..dot$..n
-\verb|..cross         ->        |$..cross$..n
-\verb|..=>            ->        |$..=>$..n
-\verb|..!=>           ->        |$..!=>$..n
-\verb|..==>           ->        |$..==>$..n
-\verb|..<=>           ->        |$..<=>$..n
-\verb|..<==>          ->        |$..<==>$..n
-\verb|..->            ->        |$..->$..n
-\verb|..-->           ->        |$..-->$..n
-\verb|..and           ->        |$..and$..n
-\verb|..or            ->        |$..or$..n
-\verb|..def           ->        |$..def$..n
-\verb|..set           ->        |$..set$..n
-\bigskip
-\verb|\ital{a}        ->        |\ital{a}..n
-\verb|\bold{a}        ->        |\bold{a}..n
-\verb|\contradiction  ->        |\contradiction ..n
-\verb|..n             ->           New line character|..n
-\verb|..t             ->           Tab character|..n
+Some of the following are honestly kind of useless like \verb|\nl -> \\|. 
 
+\verb|\union          ->        |$\union$\nl
+\verb|\itsc           ->        |$\itsc$\nl
+\verb|\setdiff        ->        |$\setdiff$\nl
+\verb|\del            ->        |$\del$\nl
+\verb|\norm{\vec{a}}  ->        |$\norm{\vec{a}}$\nl
+\verb|\floor{x}       ->        |$\floor{x}$\nl
+\verb|\ceil{x}        ->        |$\ceil{x}$\nl
+\verb|\nin            ->        |$\nin$\nl
+\verb|\R              ->        |$\R$\nl
+\verb|\Z              ->        |$\Z$\nl
+\verb|\N              ->        |$\N$\nl
+\verb|\Q              ->        |$\Q$\nl
+\verb|\C              ->        |$\C$\nl
+\verb|\aand           ->        |$\aand$\nl
+\verb|\oor            ->        |$\oor$\nl
+\verb|\<=             ->        |$\<=$\nl
+\verb|\>=             ->        |$\<=$\nl
+\verb|\<<             ->        |$\<<$\nl
+\verb|\>>             ->        |$\>>$\nl
+\verb|\~=             ->        |$\~=$\nl
+\verb|\<(             ->        |$\<($\nl
+\verb|\>)             ->        |$\>)$\nl
+\verb|\cross          ->        |$\cross$\nl
+\verb|\nimplies       ->        |$\nimplies$\nl
+\verb|\ddef           ->        |$\ddef$\nl
+\verb|\sset           ->        |$\sset$\nl
+\bigskip
+\verb|\ital{a}        ->        |\ital{a}\nl
+\verb|\bold{a}        ->        |\bold{a}\nl
+\verb|\contradiction  ->        |\contradiction \nl
+\verb|\nl             ->           New line character|\nl
+\verb|\tb             ->           Tab character|\nl
 \bigskip
 Check transcribe.py for what exactly they're changed to.
 
@@ -226,7 +216,7 @@ To begin a theorem \bold{XYZ} with specific heading \bold{ABC DEF}: \verb|..begi
 ..begin thm Theorem Stoke's Theorem
 For a closed surface oriented counter-clockwise, 
 ..begin eq
-\int\limits_C \vec{F} ..dot d\vec{r} = \iint\limits_S (..del ..cross \vec{F}) ..dot d\bold{S}
+\int\limits_C \vec{F} \cdot d\vec{r} = \iint\limits_S (\del \cross \vec{F}) \cdot d\bold{S}
 ..end eq
 ..end thm Theorem
 \verb|..end thm Theorem|
@@ -271,42 +261,38 @@ Suppose $\sqrt{2}^{\sqrt{2}} \notin \Q$, we can then use this value and raise it
 
 Lists can be nested. 
 
-Do this to create a bullet-point (unnumbered) type of list: \verb|..begin list bullet [optional_label]|...n
-To create a numbered list: \verb|..begin list [optional_label]|..n
-The optional label should not be surrounded by brackets. For bullet point lists, any character can be used as the label. ..n
-For numbered lists, use ``1" without the quotes to number using arabic numerals, ``a" without the quotes to use the English alphabet, and/or ``i" without the quotes to use roman numerals. ..n
-Because of the way the transcriber is currently designed, it is impossible to have it use ``1a", ``1b", ``1c" as consecutive labels. In the future, a backslash to escape the character or something like that will probably allow this. ..n
-Regardless of whether it is a numbered list, a list with special labels, use \verb|..end list| at the very end. ..n
-
+Do this to create a bullet-point (unnumbered) type of list: \verb|..begin list bullet [optional_label]|.\nl
+To create a numbered list: \verb|..begin list [optional_label]|\nl
+The optional label should not be surrounded by brackets. For bullet point lists, any character can be used as the label. \nl
+For numbered lists, use ``1" without the quotes to number using arabic numerals, ``a" without the quotes to use the English alphabet, and/or ``i" without the quotes to use roman numerals. \nl
+Because of the way the transcriber is currently designed, it is impossible to have it use ``1a", ``1b", ``1c" as consecutive labels. In the future, a backslash to escape the character or something like that will probably allow this. \nl
+Regardless of whether it is a numbered list, a list with special labels, use \verb|..end list| at the very end. \nl
 \bigskip
-This is the syntax for a sample list. ..n
-
-\verb|..begin list bullet --|..n
-\verb|.. item 1|..n
-\verb|.. item 2|..n
-\verb|This line will be appended to the end of item 2|..n
-\verb|..n So will this one, but we just added a new line character, so it visually looks like|..n
-\verb|it's on a different line, but there just would not be a bullet point in front of it.|..n
-\verb|..begin list a)|..n
-\verb|.. Nested lists can be created.|..n
-\verb|..begin list (i)|..n
-\verb|.. So can nested lists inside nested lists.|..n
-\verb|.. abcdefg|..n
-\verb|..begin list .1.|..n
-\verb|.. Something here|..n
-\verb|.. Something else here|..n
-\verb|..end list|..n
-\verb|..end list|..n
-\verb|.. The above line must be used to indicate that a list is ended.|..n
-\verb|.. It'll transcribe correctly, but it will not compile to .pdf|..n
-\verb|..end list|..n
-\verb|.. an end list must be used for each list created.|..n
-\verb|..end list|..n
-
+This is the syntax for a sample list. \nl
+\verb|..begin list bullet --|\nl
+\verb|.. item 1|\nl
+\verb|.. item 2|\nl
+\verb|This line will be appended to the end of item 2|\nl
+\verb|..n So will this one, but we just added a new line character, so it visually looks like|\nl
+\verb|it's on a different line, but there just would not be a bullet point in front of it.|\nl
+\verb|..begin list a)|\nl
+\verb|.. Nested lists can be created.|\nl
+\verb|..begin list (i)|\nl
+\verb|.. So can nested lists inside nested lists.|\nl
+\verb|.. abcdefg|\nl
+\verb|..begin list .1.|\nl
+\verb|.. Something here|\nl
+\verb|.. Something else here|\nl
+\verb|..end list|\nl
+\verb|..end list|\nl
+\verb|.. The above line must be used to indicate that a list is ended.|\nl
+\verb|.. It'll transcribe correctly, but it will not compile to .pdf|\nl
+\verb|..end list|\nl
+\verb|.. an end list must be used for each list created.|\nl
+\verb|..end list|\nl
 \bigskip
 
-Here is the above code compiled. ..n
-
+Here is the above code compiled. \nl
 ..begin list bullet --
 .. item 1
 .. item 2
@@ -354,11 +340,11 @@ By default, \bold{gather} mode, and non-numbering mode is used. Enable \bold{ali
 
 \medskip
 
-Here's the \bold{gather} mode with no numbering: ..n
-\verb|..begin eq|..n
-\verb|a = b + c|..n
-\verb|d = e + f|..n
-\verb|a + d = b + c|..n
+Here's the \bold{gather} mode with no numbering: \nl
+\verb|..begin eq|\nl
+\verb|a = b + c|\nl
+\verb|d = e + f|\nl
+\verb|a + d = b + c|\nl
 \verb|..end eq|
 
 ..begin eq
@@ -369,12 +355,12 @@ a + d = b + c
 
 \medskip
 
-Here's the \bold{align} mode with no numbering: ..n
-\verb|..begin eq align|..n
-\verb|h &= 2x + 3y + 4z     &   2u + &2v = 10|..n
-\verb|x &= y                &   &2v + 4w = 20|..n
-\verb|a &= b + c            &   2b + 2c + &7v = 30|..n
-\verb|f(x, y) &= g(a, b, c) &   &2v = 4z|..n
+Here's the \bold{align} mode with no numbering: \nl
+\verb|..begin eq align|\nl
+\verb|h &= 2x + 3y + 4z     &   2u + &2v = 10|\nl
+\verb|x &= y                &   &2v + 4w = 20|\nl
+\verb|a &= b + c            &   2b + 2c + &7v = 30|\nl
+\verb|f(x, y) &= g(a, b, c) &   &2v = 4z|\nl
 \verb|..end eq|
 
 ..begin eq align
@@ -387,11 +373,11 @@ f(x, y) &= g(a, b, c)		&	&2v = 4z
 
 \medskip
 
-Here's the \bold{gather} mode with numbering: ..n
-\verb|..begin eq number|..n
-\verb|a = b|..n
-\verb|2x + 4c = 10|..n
-\verb|10 + 4c = 20|..n
+Here's the \bold{gather} mode with numbering: \nl
+\verb|..begin eq number|\nl
+\verb|a = b|\nl
+\verb|2x + 4c = 10|\nl
+\verb|10 + 4c = 20|\nl
 \verb|..end eq|
 ..begin eq number
 a = b
@@ -401,11 +387,11 @@ a = b
 
 \medskip
 
-Here's how to do \bold{align} with numbering: ..n
-\verb|..begin eq align number|..n
-\verb|a &= b + c|..n
-\verb|a &= 2b + d|..n
-\verb|a &= 3c + e|..n
+Here's how to do \bold{align} with numbering: \nl
+\verb|..begin eq align number|\nl
+\verb|a &= b + c|\nl
+\verb|a &= 2b + d|\nl
+\verb|a &= 3c + e|\nl
 \verb|..end eq|
 ..begin eq align number
 a &= b + c
@@ -417,13 +403,13 @@ a &= 3c + e
 
 ..begin subsection Matrices
 
-To create a matrix, use \verb|..begin matrix|. Normally, in amsmath, math mode must be enabled prior to declaring the matrix, this is not the case anymore. ..n
-Originally, a \verb|&| must be used to separate values within the matrix. This transcriber will assume that spaces are the delimiter. There is also no need to use a line break character, because new lines are assumed to be part of the next row of values. ..n
-Here is the code for defining a basic matrix: ..n
-\verb|..begin matrix|..n
-\verb|a b c d|..n
-\verb|e f g h|..n
-\verb|i j k l|..n
+To create a matrix, use \verb|..begin matrix|. Normally, in amsmath, math mode must be enabled prior to declaring the matrix, this is not the case anymore. \nl
+Originally, a \verb|&| must be used to separate values within the matrix. This transcriber will assume that spaces are the delimiter. There is also no need to use a line break character, because new lines are assumed to be part of the next row of values. \nl
+Here is the code for defining a basic matrix: \nl
+\verb|..begin matrix|\nl
+\verb|a b c d|\nl
+\verb|e f g h|\nl
+\verb|i j k l|\nl
 \verb|..end matrix|
 
 \medskip
@@ -442,16 +428,15 @@ There are currently no customizations to what matrices are surrounded by -- they
 
 ..begin subsection Arrays and Tables
 
-To create an array or table, use \verb|..begin table math [formatting]| or \verb|..begin table [formatting]|, respectively. The formatting for the table should be exactly what one would do in LaTeX's \verb|\begin{tabular}{[formatting]}| or \verb|\begin{array}{[formatting]}|. The only expected characters within the formatting are ``c", ``l", ``r", and ``\textbar". The three letters signify what that column's alignment should be: center, left, or right; while the ``\textbar" character represents a line separation between them. \bold{In LaTeX, a \& is used as the delimiter between two columns. Here, a single \textbackslash followed immediately by a space is to be used.} A line break is also automatically assumed to be on a separate line, although \verb|\hline| would be an exception. ..n
+To create an array or table, use \verb|..begin table math [formatting]| or \verb|..begin table [formatting]|, respectively. The formatting for the table should be exactly what one would do in LaTeX's \verb|\begin{tabular}{[formatting]}| or \verb|\begin{array}{[formatting]}|. The only expected characters within the formatting are ``c", ``l", ``r", and ``\textbar". The three letters signify what that column's alignment should be: center, left, or right; while the ``\textbar" character represents a line separation between them. \bold{In LaTeX, a \& is used as the delimiter between two columns. Here, a single \textbackslash followed immediately by a space is to be used.} A line break is also automatically assumed to be on a separate line, although \verb|\hline| would be an exception. \nl
 \medskip
-Here is the code for an array (math mode): ..n
-
+Here is the code for an array (math mode): \nl
 \medskip
 
-\verb=..begin table math r|c|l|= ..n
-\verb|2 \ 3 \ 465| ..n 
-\verb|\hline| ..n
-\verb|p |\verb|..==> q \ q \implies r \ 6| ..n
+\verb=..begin table math r|c|l|= \nl
+\verb|2 \ 3 \ 465| \nl
+\verb|\hline| \nl
+\verb|p |\verb|\implies q \ q \implies r \ 6| \nl
 \verb|..end table|
 
 \bigskip
@@ -459,20 +444,19 @@ Here is the code for an array (math mode): ..n
 ..begin table math r|c|l|
 2 \ 3 \ 4
 \hline
-p ..==> q \ q \implies r \ 6
+p \implies q \ q \implies r \ 6
 ..end table
 
 \bigskip
 
-Similarly, here is some sample code for a table (non math mode): ..n
-
+Similarly, here is some sample code for a table (non math mode): \nl
 \medskip
 
-\verb=..begin table c|c|c= ..n
-\verb|\ Names \| ..n
-\verb|\hline| ..n
-\verb|John \ Mary \ Jane| ..n
-\verb|Adam \ Kevin \ Allie| ..n
+\verb=..begin table c|c|c= \nl
+\verb|\ Names \| \nl
+\verb|\hline| \nl
+\verb|John \ Mary \ Jane| \nl
+\verb|Adam \ Kevin \ Allie| \nl
 \verb|..end table|
 
 \bigskip
@@ -491,28 +475,28 @@ Adam \ Kevin \ Allie
 By default, all text are flushed left. However, it is possible to change it to be flushed right, centered, justified, etc. Use the following to set alignment. 
 
 ..align center
-\verb|..align center|..n
+\verb|..align center|\nl
 This is a line of text that is centered. 
 
 ..align right
-\verb|..align right|..n
+\verb|..align right|\nl
 This is a line of text that is flushed right. 
 
 ..align justify
-\verb|..align justify|..n
+\verb|..align justify|\nl
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
 \medskip
 
 ..align left
-\verb|..align left|..n
+\verb|..align left|\nl
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. 
 
 \bigskip
 \bigskip
 \bigskip
 
-To end the document, use \verb|..end main|..n
+To end the document, use \verb|..end main|\nl
 This is actually entirely optional, as long as there is at least 1 empty line at the end. 
 
 ..end main

@@ -2,11 +2,11 @@
 ..name Equations
 
 ..begin main
-Here's the \bold{gather} mode with no numbering: ..n
-\verb|..begin eq|..n
-\verb|a = b + c|..n
-\verb|d = e + f|..n
-\verb|a + d = b + c|..n
+Here's the \bold{gather} mode with no numbering: \nl
+\verb|..begin eq|\nl
+\verb|a = b + c|\nl
+\verb|d = e + f|\nl
+\verb|a + d = b + c|\nl
 \verb|..end eq|
 
 ..begin eq
@@ -17,12 +17,12 @@ a + d = b + c
 
 \medskip
 
-Here's the \bold{align} mode with no numbering: ..n
-\verb|..begin eq align|..n
-\verb|h &= 2x + 3y + 4z     &   2u + &2v = 10|..n
-\verb|x &= y                &   &2v + 4w = 20|..n
-\verb|a &= b + c            &   2b + 2c + &7v = 30|..n
-\verb|f(x, y) &= g(a, b, c) &   &2v = 4z|..n
+Here's the \bold{align} mode with no numbering: \nl
+\verb|..begin eq align|\nl
+\verb|h &= 2x + 3y + 4z     &   2u + &2v = 10|\nl
+\verb|x &= y                &   &2v + 4w = 20|\nl
+\verb|a &= b + c            &   2b + 2c + &7v = 30|\nl
+\verb|f(x, y) &= g(a, b, c) &   &2v = 4z|\nl
 \verb|..end eq|
 
 ..begin eq align
@@ -35,11 +35,11 @@ f(x, y) &= g(a, b, c)       &   &2v = 4z
 
 \medskip
 
-Here's the \bold{gather} mode with numbering: ..n
-\verb|..begin eq number|..n
-\verb|a = b|..n
-\verb|2x + 4c = 10|..n
-\verb|10 + 4c = 20|..n
+Here's the \bold{gather} mode with numbering: \nl
+\verb|..begin eq number|\nl
+\verb|a = b|\nl
+\verb|2x + 4c = 10|\nl
+\verb|10 + 4c = 20|\nl
 \verb|..end eq|
 ..begin eq number
 a = b
@@ -49,11 +49,11 @@ a = b
 
 \medskip
 
-Here's how to do \bold{align} with numbering: ..n
-\verb|..begin eq align number|..n
-\verb|a &= b + c|..n
-\verb|a &= 2b + d|..n
-\verb|a &= 3c + e|..n
+Here's how to do \bold{align} with numbering: \nl
+\verb|..begin eq align number|\nl
+\verb|a &= b + c|\nl
+\verb|a &= 2b + d|\nl
+\verb|a &= 3c + e|\nl
 \verb|..end eq|
 ..begin eq align number
 a &= b + c

@@ -7,10 +7,10 @@ Use \verb|..begin list bullet [label]| or \verb|..begin list [label]| to create 
 
 [label] can be any value for a bullet point list, but for now, for an ordered list, the characters `a', `i', and `1', represent ordering alphabetically, by roman numerals, and arabic numerals, respectively. 
 
-\verb|..begin list bullet|..n
-\verb|.. Item 1|..n
-\verb|.. Item 2|..n
-\verb|.. Item 3|..n
+\verb|..begin list bullet|\nl
+\verb|.. Item 1|\nl
+\verb|.. Item 2|\nl
+\verb|.. Item 3|\nl
 
 ..begin list bullet
 .. Item 1
@@ -18,10 +18,10 @@ Use \verb|..begin list bullet [label]| or \verb|..begin list [label]| to create 
 .. Item 3
 ..end list
 
-\verb|..begin list bullet *|..n
-\verb|.. Item 1|..n
-\verb|.. Item 2|..n
-\verb|.. Item 3|..n
+\verb|..begin list bullet *|\nl
+\verb|.. Item 1|\nl
+\verb|.. Item 2|\nl
+\verb|.. Item 3|\nl
 
 ..begin list bullet *
 .. Item 1
@@ -29,10 +29,10 @@ Use \verb|..begin list bullet [label]| or \verb|..begin list [label]| to create 
 .. Item 3
 ..end list
 
-\verb|..begin list a.|..n
-\verb|.. Item 1|..n
-\verb|.. Item 2|..n
-\verb|.. Item 3|..n
+\verb|..begin list a.|\nl
+\verb|.. Item 1|\nl
+\verb|.. Item 2|\nl
+\verb|.. Item 3|\nl
 
 ..begin list a.
 .. Item 1
@@ -40,10 +40,10 @@ Use \verb|..begin list bullet [label]| or \verb|..begin list [label]| to create 
 .. Item 3
 ..end list
 
-\verb|..begin list (i)|..n
-\verb|.. Item 1|..n
-\verb|.. Item 2|..n
-\verb|.. Item 3|..n
+\verb|..begin list (i)|\nl
+\verb|.. Item 1|\nl
+\verb|.. Item 2|\nl
+\verb|.. Item 3|\nl
 
 ..begin list (i)
 .. Item 1
@@ -51,10 +51,10 @@ Use \verb|..begin list bullet [label]| or \verb|..begin list [label]| to create 
 .. Item 3
 ..end list
 
-\verb|..begin list 1)|..n
-\verb|.. Item 1|..n
-\verb|.. Item 2|..n
-\verb|.. Item 3|..n
+\verb|..begin list 1)|\nl
+\verb|.. Item 1|\nl
+\verb|.. Item 2|\nl
+\verb|.. Item 3|\nl
 
 ..begin list 1)
 .. Item 1

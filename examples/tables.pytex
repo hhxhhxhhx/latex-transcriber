@@ -5,11 +5,11 @@
 
 Regular tables (tabular), in non-math mode.
 
-\verb=..begin table c|c|c= ..n
-\verb|\ Names \| ..n
-\verb|\hline| ..n
-\verb|John \ Mary \ Jane| ..n
-\verb|Adam \ Kevin \ Allie| ..n
+\verb=..begin table c|c|c= \nl
+\verb|\ Names \| \nl
+\verb|\hline| \nl
+\verb|John \ Mary \ Jane| \nl
+\verb|Adam \ Kevin \ Allie| \nl
 \verb|..end table|
 
 \bigskip
@@ -29,10 +29,10 @@ Adam \ Kevin \ Allie
 
 Arrays (arrays), in math mode. 
 
-\verb=..begin table math r|c|l|= ..n
+\verb=..begin table math r|c|l|= \nl
 \verb|2 \ 3 \ 465| ..n 
-\verb|\hline| ..n
-\verb|p |\verb|..==> q \ q \implies r \ 6| ..n
+\verb|\hline| \nl
+\verb|p |\verb|..==> q \ q \implies r \ 6| \nl
 \verb|..end table|
 
 \bigskip

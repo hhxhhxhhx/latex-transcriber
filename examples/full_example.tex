@@ -1,6 +1,6 @@
 
 % Created by Roger Hu's .pytex --> .tex latex transcriber
-% Compiled on 2020-09-04 13:21:56 PDT
+% Compiled on 2020-09-08 20:59:48 PDT
 
 
 \documentclass[12pt]{article}
@@ -12,8 +12,8 @@
 \pagestyle{fancy}
 \fancyhf{}
 \newcommand{\norm}[1]{\|#1\|}
-\newcommand{\pytexdef}{\mathrel{\stackrel{\makebox[0pt]{\mbox{\normalfont\tiny def}}}{=}}}
-\newcommand{\pytexset}{\mathrel{\stackrel{\makebox[0pt]{\mbox{\normalfont\tiny set}}}{=}}}
+\newcommand{\ddef}{\mathrel{\stackrel{\makebox[0pt]{\mbox{\normalfont\tiny def}}}{=}}}
+\newcommand{\sset}{\mathrel{\stackrel{\makebox[0pt]{\mbox{\normalfont\tiny set}}}{=}}}
 \newcommand{\floor}[1]{\left\lfloor #1 \right\rfloor}
 \newcommand{\ceil}[1]{\left\lceil #1 \right\rceil}
 \renewcommand\qedsymbol{Q.E.D}
@@ -74,8 +74,7 @@ It's somewhat like \verb|\verb| in LaTeX, where commands are ignored. \\
 These are a couple of commands that will be ignored. \\
 ..begin main \\
 ..end main \\
-..n \\
-..t \\
+However, doing something invalid in LaTeX like \verb|\nl| would cause a compile-time error when using pdflatex because such a command is invalid. 
 % End ignored region
 \verb|..end ignore|
 
@@ -90,13 +89,11 @@ All of the following are optional.
 \verb|..packages A B C| will include packages \textbf{A}, \textbf{B}, \textbf{C} in addition to amsmath, amssymb, amsthm, geometry, enumitem, and fancyhdr \\
 \verb|..paper letter| will set page size to letter. Can be ``legal'', ``a4'', and some others\\
 \verb|..orient landscape| will set page to be landscape. Default ``portrait''\\
-
 \bigskip
 \verb|..margin XYZ| will set margin size to \textbf{XYZ} inches. Default 1.\\
 \verb|..indent XYZ| will set paragraph indent to \textbf{XYZ}. Default 0, can be 4 (regular paragraph indent), 2, etc. \\
 \verb|..spacing XYZ| will set line spacing to \textbf{XYZ}. Default 1.5, can be ``1'', ``2''\\
 \verb|..assignment Template| will put \textbf{Template} at the left footer. \\
-
 \bigskip
 \verb|..initheorem* XYZ| will create theorem type \textbf{XYZ} with no numbering. Equivalent to \verb|\newtheorem*{XYZ}{XYZ}|\\
 \verb|..initheorem XYZ| will create theorem type \textbf{XYZ} with a counter that increments each time \textbf{XYZ} is created. Equivalent to \verb|\newtheorem{XYZ}{XYZ}|\\
@@ -113,6 +110,8 @@ Block comment: \verb|%|\verb|%|\verb|%|\verb| something here |\verb|%|\verb|%|\v
 
 \medskip
 
+Some of the following are honestly kind of useless like \verb|\nl -> \\|.
+
 \verb|\union          ->        |$\cup$\\
 \verb|\itsc           ->        |$\cap$\\
 \verb|\setdiff        ->        |$\setminus$\\
@@ -126,34 +125,25 @@ Block comment: \verb|%|\verb|%|\verb|%|\verb| something here |\verb|%|\verb|%|\v
 \verb|\N              ->        |$\mathbb{N}$\\
 \verb|\Q              ->        |$\mathbb{Q}$\\
 \verb|\C              ->        |$\mathbb{C}$\\
-\verb|..<=            ->        |$\leq$\\
-\verb|..>=            ->        |$\geq$\\
-\verb|..!=            ->        |$\neq$\\
-\verb|..<<            ->        |$\ll$\\
-\verb|..>>            ->        |$\gg$\\
-\verb|..~=            ->        |$\approx$\\
-\verb|..<(            ->        |$\langle$\\
-\verb|..>)            ->        |$\rangle$\\
-\verb|..dot           ->        |$\cdot$\\
-\verb|..cross         ->        |$\times$\\
-\verb|..=>            ->        |$\Rightarrow$\\
-\verb|..!=>           ->        |$\nRightarrow$\\
-\verb|..==>           ->        |$\implies$\\
-\verb|..<=>           ->        |$\Leftrightarrow$\\
-\verb|..<==>          ->        |$\iff$\\
-\verb|..->            ->        |$\to$\\
-\verb|..-->           ->        |$\longrightarrow$\\
-\verb|..and           ->        |$\wedge$\\
-\verb|..or            ->        |$\vee$\\
-\verb|..def           ->        |$\pytexdef$\\
-\verb|..set           ->        |$\pytexset$\\
+\verb|\aand           ->        |$\wedge$\\
+\verb|\oor            ->        |$\vee$\\
+\verb|\<=             ->        |$\leq$\\
+\verb|\>=             ->        |$\leq$\\
+\verb|\<<             ->        |$\ll$\\
+\verb|\>>             ->        |$\gg$\\
+\verb|\~=             ->        |$\approx$\\
+\verb|\<(             ->        |$\langle$\\
+\verb|\>)             ->        |$\rangle$\\
+\verb|\cross          ->        |$\times$\\
+\verb|\nimplies       ->        |$\nRightarrow$\\
+\verb|\ddef           ->        |$\ddef$\\
+\verb|\sset           ->        |$\sset$\\
 \bigskip
 \verb|\ital{a}        ->        |\emph{a}\\
 \verb|\bold{a}        ->        |\textbf{a}\\
 \verb|\contradiction  ->        |$\Rightarrow\Leftarrow$ \\
-\verb|..n             ->           New line character|\\
-\verb|..t             ->           Tab character|\\
-
+\verb|\nl             ->           New line character|\\
+\verb|\tb             ->           Tab character|\\
 \bigskip
 Check transcribe.py for what exactly they're changed to.
 
@@ -242,7 +232,7 @@ To begin a theorem \textbf{XYZ} with specific heading \textbf{ABC DEF}: \verb|..
 \begin{Theorem}[Stoke's Theorem]
 For a closed surface oriented counter-clockwise,
 \begin{gather*}
-\int\limits_C \vec{F} \cdot d\vec{r} = \iint\limits_S (..del \times \vec{F}) \cdot d\textbf{S} 
+\int\limits_C \vec{F} \cdot d\vec{r} = \iint\limits_S (\nabla \times \vec{F}) \cdot d\textbf{S} 
 \end{gather*}
 \end{Theorem}
 \verb|..end thm Theorem|
@@ -293,10 +283,8 @@ The optional label should not be surrounded by brackets. For bullet point lists,
 For numbered lists, use ``1" without the quotes to number using arabic numerals, ``a" without the quotes to use the English alphabet, and/or ``i" without the quotes to use roman numerals. \\
 Because of the way the transcriber is currently designed, it is impossible to have it use ``1a", ``1b", ``1c" as consecutive labels. In the future, a backslash to escape the character or something like that will probably allow this. \\
 Regardless of whether it is a numbered list, a list with special labels, use \verb|..end list| at the very end. \\
-
 \bigskip
 This is the syntax for a sample list. \\
-
 \verb|..begin list bullet --|\\
 \verb|.. item 1|\\
 \verb|.. item 2|\\
@@ -318,16 +306,14 @@ This is the syntax for a sample list. \\
 \verb|..end list|\\
 \verb|.. an end list must be used for each list created.|\\
 \verb|..end list|\\
-
 \bigskip
 
 Here is the above code compiled. \\
-
 \begin{itemize}[label=--]
     \item item 1
     \item item 2
     This line will be appended to the end of item 2
-    \\ So will this one, but we just added a new line character
+    ..n So will this one, but we just added a new line character
     \begin{enumerate}[label=\alph*)]
         \item Nested lists can be created.
         \begin{enumerate}[label=(\roman*)]
@@ -460,13 +446,12 @@ There are currently no customizations to what matrices are surrounded by -- they
 To create an array or table, use \verb|..begin table math [formatting]| or \verb|..begin table [formatting]|, respectively. The formatting for the table should be exactly what one would do in LaTeX's \verb|\begin{tabular}{[formatting]}| or \verb|\begin{array}{[formatting]}|. The only expected characters within the formatting are ``c", ``l", ``r", and ``\textbar". The three letters signify what that column's alignment should be: center, left, or right; while the ``\textbar" character represents a line separation between them. \textbf{In LaTeX, a \& is used as the delimiter between two columns. Here, a single \textbackslash followed immediately by a space is to be used.} A line break is also automatically assumed to be on a separate line, although \verb|\hline| would be an exception. \\
 \medskip
 Here is the code for an array (math mode): \\
-
 \medskip
 
 \verb=..begin table math r|c|l|= \\
 \verb|2 \ 3 \ 465| \\
 \verb|\hline| \\
-\verb|p |\verb|..==> q \ q \implies r \ 6| \\
+\verb|p |\verb|\implies q \ q \implies r \ 6| \\
 \verb|..end table|
 
 \bigskip
@@ -480,7 +465,6 @@ p \implies q & q \implies r & 6
 \bigskip
 
 Similarly, here is some sample code for a table (non math mode): \\
-
 \medskip
 
 \verb=..begin table c|c|c= \\

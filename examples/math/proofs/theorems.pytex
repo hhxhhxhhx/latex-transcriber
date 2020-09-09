@@ -3,10 +3,10 @@
 
 ..begin main
 
-By default, theorems, lemmas, and corollaries are defined as follows: ..n
-\verb|\newtheorem{Theorem}{Theorem}|..n
-\verb|\newtheorem{Corollary}{Corollary}[Theorem]|..n
-\verb|\newtheorem{Lemma}[Theorem]{Lemma}|..n
+By default, theorems, lemmas, and corollaries are defined as follows: \nl
+\verb|\newtheorem{Theorem}{Theorem}|\nl
+\verb|\newtheorem{Corollary}{Corollary}[Theorem]|\nl
+\verb|\newtheorem{Lemma}[Theorem]{Lemma}|\nl
 
 \bigskip
 
@@ -23,7 +23,7 @@ To begin a theorem environment, use \verb|..begin thm Theorem_Type [Theorem name
 ..begin thm Theorem Stoke's Theorem
 For a closed surface oriented counter-clockwise, 
 ..begin eq
-\int\limits_C \vec{F} ..dot d\vec{r} = \iint\limits_S (\del ..cross \vec{F}) ..dot d\bold{S}
+\int\limits_C \vec{F} \cdot d\vec{r} = \iint\limits_S (\del .\cross \vec{F}) \cdot d\bold{S}
 ..end eq
 ..end thm Theorem
 \verb|..end thm Theorem|
@@ -39,9 +39,9 @@ This is a lemma.
 
 \newpage
 
-\verb|..initheorem* XYZ| will create theorem type \bold{XYZ} with no numbering. Equivalent to \verb|\newtheorem*{XYZ}{XYZ}|..n
-\verb|..initheorem XYZ| will create theorem type \bold{XYZ} with a counter that increments each time \bold{XYZ} is created. Equivalent to \verb|\newtheorem{XYZ}{XYZ}|..n
-\verb|..initheorem XYZ ABC sub| will create theorem type \bold{XYZ} that is \bold{subordinate} to counter type \bold{ABC}. Equivalent to \verb|\newtheorem{XYZ}{XYZ}[ABC]|..n
-\verb|..initheorem XYZ ABC shared| will create theorem type \bold{XYZ} that is \bold{shared} with counter type \bold{ABC}. Equivalent to \verb|\newtheorem{XYZ}[ABC]{XYZ}|..n
+\verb|..initheorem* XYZ| will create theorem type \bold{XYZ} with no numbering. Equivalent to \verb|\newtheorem*{XYZ}{XYZ}|\nl
+\verb|..initheorem XYZ| will create theorem type \bold{XYZ} with a counter that increments each time \bold{XYZ} is created. Equivalent to \verb|\newtheorem{XYZ}{XYZ}|\nl
+\verb|..initheorem XYZ ABC sub| will create theorem type \bold{XYZ} that is \bold{subordinate} to counter type \bold{ABC}. Equivalent to \verb|\newtheorem{XYZ}{XYZ}[ABC]|\nl
+\verb|..initheorem XYZ ABC shared| will create theorem type \bold{XYZ} that is \bold{shared} with counter type \bold{ABC}. Equivalent to \verb|\newtheorem{XYZ}[ABC]{XYZ}|\nl
 
 ..end main
