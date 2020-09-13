@@ -77,13 +77,7 @@ contexts:
     - match: '((\.\.)align)\b'
       captures:
         1: keyword.control.flow.begin.pytex
-    - match: '((\.\.)(font|margin|indent|spacing|name))\b'
-      captures:
-        1: keyword.control.flow.begin.pytex
-    - match: '((\.\.)(paper|orient))\b'
-      captures:
-        1: keyword.control.flow.begin.pytex
-    - match: '((\.\.)(usepackage|assignment|qed))\b'
+    - match: '((\.\.)(font|margin|indent|spacing|name|paper|orient|usepackage|assignment|qed|asset(s)?path|graphicspath))\b'
       captures:
         1: keyword.control.flow.begin.pytex
     - match: '((\.\.)(initheorem\*|initheorem)(?= ))'
@@ -132,6 +126,10 @@ contexts:
       captures:
         1: punctuation.definition.backslash.pytex
     - match: '((((?<=(\.\.font ))|(?<=(\.\.margin ))|(?<=(\.\.indent ))|(?<=(\.\.spacing )))[0-9\.]*))'
+      scope: support.function.general.pytex
+      captures:
+        1: punctuation.definition.backslash.pytex
+    - match: '(((?<=(\.\.assetpath ))|(?<=(\.\.assetspath ))|(?<=(\.\.graphicspath )))[^%\n]*)'
       scope: support.function.general.pytex
       captures:
         1: punctuation.definition.backslash.pytex

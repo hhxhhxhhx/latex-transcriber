@@ -1,7 +1,7 @@
 
-import os # For deleting files with -d flag
-from sys import stdout # For printing out statements
-import subprocess # For compiling with -c flag
+import os
+from sys import stdout, exit
+import subprocess
 
 from datetime import datetime
 import time
@@ -72,6 +72,7 @@ def main():
         lines[i] = lines[i].strip()
 
     if not has_full_preamble_declaration: # Ignore all other stuff in the preamble if "..begin full preamble" defined
+        
         # Set font
         font = find_content(lines, '..font', '12')
 
@@ -102,9 +103,25 @@ def main():
         elif spacing == '2':
             line_spread = 1.6
 
+        # Obvious
         qed_symbol = find_content(lines, '..qed', None)
 
+        # Puts whatever follows "..assignment" as the left footer
         assignment = find_content(lines, '..assignment', None)
+
+        # Asset path
+        asset_path = find_content(lines, '..assetpath', None)
+        assets_path = find_content(lines, '..assetspath', None)
+        graphics_path = find_content(lines, '..graphicspath', None)
+
+        if asset_path and assets_path or asset_path and graphics_path or assets_path and graphics_path:
+            exit('Specify only 1 of asset(s)path or graphicspath, not both!')
+
+        if assets_path:
+            asset_path = assets_path
+        if graphics_path:
+            asset_path = graphics_path
+
 
     replacer.replace(lines)
 
@@ -176,11 +193,19 @@ def main():
         output += replacer.theorem_def
         output += '\n'
 
+        if asset_path:
+            output += '\\graphicspath{'
+            paths = asset_path.split(' ')
+            for path in paths:
+                output += '{{{0}}}'.format(path)
+            output += '}\n'
+
         # Between "..begin preamble" and "..end preamble"
         if replacer.preamble:
             output += '% This part is unaffected by transcription\n\n'
             output += replacer.preamble
             output += '\n% End of unaffected portion\n\n'
+
     else: # Between "..begin full preamble" and "..end full preamble"
         output += replacer.full_preamble + '\n'
 
