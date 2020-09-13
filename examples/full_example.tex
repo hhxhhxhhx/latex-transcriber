@@ -1,6 +1,6 @@
 
 % Created by Roger Hu's .pytex --> .tex latex transcriber
-% Compiled on 2020-09-08 20:59:48 PDT
+% Compiled on 2020-09-13 15:53:28 PDT
 
 
 \documentclass[12pt]{article}
@@ -11,11 +11,31 @@
 \linespread{1.3}
 \pagestyle{fancy}
 \fancyhf{}
+
+\newcommand{\union}{\cup}
+\newcommand{\itsc}{\cap}
+\newcommand{\setdiff}{\setminus}
+\newcommand{\del}{\nabla}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\nin}{\notin}
+\newcommand{\ital}{\emph}
+\newcommand{\contradiction}{$\Rightarrow\Leftarrow$}
+\newcommand{\aand}{\wedge}
+\newcommand{\oor}{\vee}
+\newcommand{\cross}{\times}
+\newcommand{\nimplies}{\nRightarrow}
+\newcommand{\nl}{\\}
+\newcommand{\tb}{\quad}
 \newcommand{\norm}[1]{\|#1\|}
 \newcommand{\ddef}{\mathrel{\stackrel{\makebox[0pt]{\mbox{\normalfont\tiny def}}}{=}}}
 \newcommand{\sset}{\mathrel{\stackrel{\makebox[0pt]{\mbox{\normalfont\tiny set}}}{=}}}
 \newcommand{\floor}[1]{\left\lfloor #1 \right\rfloor}
 \newcommand{\ceil}[1]{\left\lceil #1 \right\rceil}
+\renewcommand\bold{\textbf}
 \renewcommand\qedsymbol{Q.E.D}
 
 \renewcommand{\headrulewidth}{0pt}
@@ -41,7 +61,7 @@
 
 \begin{flushleft}
 
-\textbf{If something is wrong with this file or the transcriber, or you have a suggestion, please let me know at rogerhu (at) berkeley (dot) edu.}
+\bold{If something is wrong with this file or the transcriber, or you have a suggestion, please let me know at rogerhu (at) berkeley (dot) edu.}
 
 \bigskip
 
@@ -49,14 +69,14 @@ To begin the document: \verb|..begin main|
 
 \bigskip
 
-To begin a section with heading \textbf{XYZ} with numbering: \verb|..begin section number XYZ|
-To begin a section with heading \textbf{XYZ}: \verb|..begin section XYZ|
+To begin a section with heading \bold{XYZ} with numbering: \verb|..begin section number XYZ|
+To begin a section with heading \bold{XYZ}: \verb|..begin section XYZ|
 
 So in this case, it's \verb|..begin section Theorems|
 
 \section*{Creating the Document}
 
-Use \verb|..begin preamble| and \verb|..end preamble| to signal a part of the \textbf{preamble} to be ignored by the transcriber, including comments. The contents within them will automatically be inserted before the \verb|\begin{document}| in the transcribed file. This is completely optional.
+Use \verb|..begin preamble| and \verb|..end preamble| to signal a part of the \bold{preamble} to be ignored by the transcriber, including comments. The contents within them will automatically be inserted before the \verb|\begin{document}| in the transcribed file. This is completely optional.
 
 \bigskip
 
@@ -64,7 +84,7 @@ Use \verb|..begin full preamble| and \verb|..end full preamble| to completely ov
 
 \bigskip
 
-Use \verb|..begin ignore| and \verb|..end ignore| to signal a part of the \textbf{document} to be ignored by the transcriber, including comments. The contents will be placed exactly where they were defined relative to everything else in the document.
+Use \verb|..begin ignore| and \verb|..end ignore| to signal a part of the \bold{document} to be ignored by the transcriber, including comments. The contents will be placed exactly where they were defined relative to everything else in the document.
 
 \verb|..begin ignore|
 % Ignored by transcriber
@@ -84,66 +104,66 @@ However, doing something invalid in LaTeX like \verb|\nl| would cause a compile-
 
 All of the following are optional.
 
-\verb|..name Your Name| will set the top right header to contain \textbf{Your Name}. \\
-\verb|..font XYZ| will set font to \textbf{XYZ}. Defaulted to 12 \\
-\verb|..packages A B C| will include packages \textbf{A}, \textbf{B}, \textbf{C} in addition to amsmath, amssymb, amsthm, geometry, enumitem, and fancyhdr \\
-\verb|..paper letter| will set page size to letter. Can be ``legal'', ``a4'', and some others\\
-\verb|..orient landscape| will set page to be landscape. Default ``portrait''\\
+\verb|..name Your Name| will set the top right header to contain \bold{Your Name}. \nl
+\verb|..font XYZ| will set font to \bold{XYZ}. Defaulted to 12 \nl
+\verb|..packages A B C| will include packages \bold{A}, \bold{B}, \bold{C} in addition to amsmath, amssymb, amsthm, geometry, enumitem, and fancyhdr \nl
+\verb|..paper letter| will set page size to letter. Can be ``legal'', ``a4'', and some others\nl
+\verb|..orient landscape| will set page to be landscape. Default ``portrait''\nl
 \bigskip
-\verb|..margin XYZ| will set margin size to \textbf{XYZ} inches. Default 1.\\
-\verb|..indent XYZ| will set paragraph indent to \textbf{XYZ}. Default 0, can be 4 (regular paragraph indent), 2, etc. \\
-\verb|..spacing XYZ| will set line spacing to \textbf{XYZ}. Default 1.5, can be ``1'', ``2''\\
-\verb|..assignment Template| will put \textbf{Template} at the left footer. \\
+\verb|..margin XYZ| will set margin size to \bold{XYZ} inches. Default 1.\nl
+\verb|..indent XYZ| will set paragraph indent to \bold{XYZ}. Default 0, can be 4 (regular paragraph indent), 2, etc. \nl
+\verb|..spacing XYZ| will set line spacing to \bold{XYZ}. Default 1.5, can be ``1'', ``2''\nl
+\verb|..assignment Template| will put \bold{Template} at the left footer. \nl
 \bigskip
-\verb|..initheorem* XYZ| will create theorem type \textbf{XYZ} with no numbering. Equivalent to \verb|\newtheorem*{XYZ}{XYZ}|\\
-\verb|..initheorem XYZ| will create theorem type \textbf{XYZ} with a counter that increments each time \textbf{XYZ} is created. Equivalent to \verb|\newtheorem{XYZ}{XYZ}|\\
-\verb|..initheorem XYZ ABC sub| will create theorem type \textbf{XYZ} that is \textbf{SUBORDINATE} to counter type \textbf{ABC}. Equivalent to \verb|\newtheorem{XYZ}{XYZ}[ABC]|\\
-\verb|..initheorem XYZ ABC shared| will create theorem type \textbf{XYZ} that is \textbf{SHARED} with counter type \textbf{ABC}. Equivalent to \verb|\newtheorem{XYZ}[ABC]{XYZ}|\\
-\verb|..qed XYZ| will change the symbol that sits at the end of a proof to be \textbf{XYZ}. By default, it is a white square.
+\verb|..initheorem* XYZ| will create theorem type \bold{XYZ} with no numbering. Equivalent to \verb|\newtheorem*{XYZ}{XYZ}|\nl
+\verb|..initheorem XYZ| will create theorem type \bold{XYZ} with a counter that increments each time \bold{XYZ} is created. Equivalent to \verb|\newtheorem{XYZ}{XYZ}|\nl
+\verb|..initheorem XYZ ABC sub| will create theorem type \bold{XYZ} that is \bold{SUBORDINATE} to counter type \bold{ABC}. Equivalent to \verb|\newtheorem{XYZ}{XYZ}[ABC]|\nl
+\verb|..initheorem XYZ ABC shared| will create theorem type \bold{XYZ} that is \bold{SHARED} with counter type \bold{ABC}. Equivalent to \verb|\newtheorem{XYZ}[ABC]{XYZ}|\nl
+\verb|..qed XYZ| will change the symbol that sits at the end of a proof to be \bold{XYZ}. By default, it is a white square.
 
 \newpage
 
 \section*{Keywords}
 
-Line comment: \verb|%|\\
+Line comment: \verb|%|\nl
 Block comment: \verb|%|\verb|%|\verb|%|\verb| something here |\verb|%|\verb|%|\verb|%|
 
 \medskip
 
 Some of the following are honestly kind of useless like \verb|\nl -> \\|.
 
-\verb|\union          ->        |$\cup$\\
-\verb|\itsc           ->        |$\cap$\\
-\verb|\setdiff        ->        |$\setminus$\\
-\verb|\del            ->        |$\nabla$\\
-\verb|\norm{\vec{a}}  ->        |$\norm{\vec{a}}$\\
-\verb|\floor{x}       ->        |$\floor{x}$\\
-\verb|\ceil{x}        ->        |$\ceil{x}$\\
-\verb|\nin            ->        |$\notin$\\
-\verb|\R              ->        |$\mathbb{R}$\\
-\verb|\Z              ->        |$\mathbb{Z}$\\
-\verb|\N              ->        |$\mathbb{N}$\\
-\verb|\Q              ->        |$\mathbb{Q}$\\
-\verb|\C              ->        |$\mathbb{C}$\\
-\verb|\aand           ->        |$\wedge$\\
-\verb|\oor            ->        |$\vee$\\
-\verb|\<=             ->        |$\leq$\\
-\verb|\>=             ->        |$\leq$\\
-\verb|\<<             ->        |$\ll$\\
-\verb|\>>             ->        |$\gg$\\
-\verb|\~=             ->        |$\approx$\\
-\verb|\<(             ->        |$\langle$\\
-\verb|\>)             ->        |$\rangle$\\
-\verb|\cross          ->        |$\times$\\
-\verb|\nimplies       ->        |$\nRightarrow$\\
-\verb|\ddef           ->        |$\ddef$\\
-\verb|\sset           ->        |$\sset$\\
+\verb|\union          ->        |$\union$\nl
+\verb|\itsc           ->        |$\itsc$\nl
+\verb|\setdiff        ->        |$\setdiff$\nl
+\verb|\del            ->        |$\del$\nl
+\verb|\norm{\vec{a}}  ->        |$\norm{\vec{a}}$\nl
+\verb|\floor{x}       ->        |$\floor{x}$\nl
+\verb|\ceil{x}        ->        |$\ceil{x}$\nl
+\verb|\nin            ->        |$\nin$\nl
+\verb|\R              ->        |$\R$\nl
+\verb|\Z              ->        |$\Z$\nl
+\verb|\N              ->        |$\N$\nl
+\verb|\Q              ->        |$\Q$\nl
+\verb|\C              ->        |$\C$\nl
+\verb|\aand           ->        |$\aand$\nl
+\verb|\oor            ->        |$\oor$\nl
+\verb|\<=             ->        |$\leq$\nl
+\verb|\>=             ->        |$\leq$\nl
+\verb|\<<             ->        |$\ll$\nl
+\verb|\>>             ->        |$\gg$\nl
+\verb|\~=             ->        |$\approx$\nl
+\verb|\<(             ->        |$\langle$\nl
+\verb|\>)             ->        |$\rangle$\nl
+\verb|\cross          ->        |$\cross$\nl
+\verb|\nimplies       ->        |$\nimplies$\nl
+\verb|\ddef           ->        |$\ddef$\nl
+\verb|\sset           ->        |$\sset$\nl
 \bigskip
-\verb|\ital{a}        ->        |\emph{a}\\
-\verb|\bold{a}        ->        |\textbf{a}\\
-\verb|\contradiction  ->        |$\Rightarrow\Leftarrow$ \\
-\verb|\nl             ->           New line character|\\
-\verb|\tb             ->           Tab character|\\
+\verb|\ital{a}        ->        |\ital{a}\nl
+\verb|\bold{a}        ->        |\bold{a}\nl
+\verb|\contradiction  ->        |\contradiction \nl
+\verb|\nl             ->           New line character|\nl
+\verb|\tb             ->           Tab character|\nl
 \bigskip
 Check transcribe.py for what exactly they're changed to.
 
@@ -153,7 +173,7 @@ Check transcribe.py for what exactly they're changed to.
 
 \bigskip
 
-To begin a type of theorem defined in the header, such as \textbf{XYZ}: \verb|..begin thm XYZ|. When you're done with the theorem, \verb|..end thm XYZ| must be used as well.
+To begin a type of theorem defined in the header, such as \bold{XYZ}: \verb|..begin thm XYZ|. When you're done with the theorem, \verb|..end thm XYZ| must be used as well.
 
 \medskip
 
@@ -165,7 +185,7 @@ This is the contents of Theorem. Notice that it does not have a counter.
 
 \medskip
 
-That means it doesn't matter how many \emph{Theorem}s you have, they'll always show up as \textbf{Theorem}.
+That means it doesn't matter how many \ital{Theorem}s you have, they'll always show up as \bold{Theorem}.
 
 \begin{Theorem}
 Here is another theorem.
@@ -175,7 +195,7 @@ Here is another theorem.
 And another.
 \end{Theorem}
 
-On the other hand, \emph{Lemma}s have a counter, since it was defined without the asterisk.
+On the other hand, \ital{Lemma}s have a counter, since it was defined without the asterisk.
 
 \medskip
 \verb|..begin thm Lemma|
@@ -185,8 +205,8 @@ Yes, I know this isn't a lemma, but see how there's a counter?
 \verb|.. end thm Lemma|
 \medskip
 
-And since \emph{Note} shares the same counter as \emph{Lemma}, the counter will change whenever we define
-a new \emph{Note} or \emph{Lemma}.
+And since \ital{Note} shares the same counter as \ital{Lemma}, the counter will change whenever we define
+a new \ital{Note} or \ital{Lemma}.
 
 \medskip
 \verb|..begin thm Note|
@@ -200,7 +220,7 @@ Hello World! New counter!
 Counter changes again!
 \end{Lemma}
 
-However, \emph{Corollary}s are defined to be subordinate to \emph{Lemma} counters, take a look.
+However, \ital{Corollary}s are defined to be subordinate to \ital{Lemma} counters, take a look.
 
 \medskip
 \verb|..begin thm Corollary|
@@ -214,7 +234,7 @@ Hello, I'm a corollary.
 What a coincidence, me too!
 \end{Corollary}
 
-Once the "superior" counter changes, in this case \emph{Lemma}, \emph{Corollary}s' counter will also change.
+Once the "superior" counter changes, in this case \ital{Lemma}, \ital{Corollary}s' counter will also change.
 
 \begin{Note}
 Our counter changed!
@@ -225,21 +245,21 @@ It should be self-explanatory why my counter is the way it is now.
 \end{Corollary}
 
 \bigskip
-To begin a theorem \textbf{XYZ} with specific heading \textbf{ABC DEF}: \verb|..begin thm XYZ ABC DEF|. To end the theorem, using \verb|..end thm XYZ| is enough.
+To begin a theorem \bold{XYZ} with specific heading \bold{ABC DEF}: \verb|..begin thm XYZ ABC DEF|. To end the theorem, using \verb|..end thm XYZ| is enough.
 
 \medskip
 \verb|..begin thm Theorem Stoke's Theorem|
 \begin{Theorem}[Stoke's Theorem]
 For a closed surface oriented counter-clockwise,
 \begin{gather*}
-\int\limits_C \vec{F} \cdot d\vec{r} = \iint\limits_S (\nabla \times \vec{F}) \cdot d\textbf{S} 
+\int\limits_C \vec{F} \cdot d\vec{r} = \iint\limits_S (\del \cross \vec{F}) \cdot d\bold{S} 
 \end{gather*}
 \end{Theorem}
 \verb|..end thm Theorem|
 \medskip
 
 \begin{Note}[Some arbitrary title]
-It works for \emph{Note}, \emph{Lemma}, etc.
+It works for \ital{Note}, \ital{Lemma}, etc.
 \end{Note}
 
 \newpage
@@ -247,26 +267,26 @@ It works for \emph{Note}, \emph{Lemma}, etc.
 \subsection*{Proofs}
 \verb|..begin subsection Proofs|
 
-To begin a subsection \textbf{XYZ}, use \verb|begin subsection XYZ|. You can also have subsubsections, subsubsubsections, etc.
+To begin a subsection \bold{XYZ}, use \verb|begin subsection XYZ|. You can also have subsubsections, subsubsubsections, etc.
 
 To create a proof, surround the contents of the proof with \verb|..begin proof| and \verb|..end proof|
 
 \bigskip
 
-\textbf{Claim:} an irrational number raised to an irrational power can be rational.
+\bold{Claim:} an irrational number raised to an irrational power can be rational.
 
 \medskip
 \verb|..begin proof|
 \begin{proof}
 
-Notice that $\sqrt{2} \in \mathbb{R}$, $\notin \mathbb{Q}$. Therefore, we know that $\sqrt{2}^{\sqrt{2}} \in \mathbb{R}$ but can be $\in \mathbb{Q}$ or $\notin \mathbb{Q}$.
+Notice that $\sqrt{2} \in \R$, $\notin \Q$. Therefore, we know that $\sqrt{2}^{\sqrt{2}} \in \R$ but can be $\in \Q$ or $\notin \Q$.
 
-Suppose $\sqrt{2}^{\sqrt{2}} \in \mathbb{Q}$, we're done.
+Suppose $\sqrt{2}^{\sqrt{2}} \in \Q$, we're done.
 
-Suppose $\sqrt{2}^{\sqrt{2}} \notin \mathbb{Q}$, we can then use this value and raise it to another power of $\sqrt{2}$.
+Suppose $\sqrt{2}^{\sqrt{2}} \notin \Q$, we can then use this value and raise it to another power of $\sqrt{2}$.
 
 \begin{gather*}
-(\sqrt{2}^{\sqrt{2}})^{\sqrt{2}} = \sqrt{2}^{\sqrt{2} * \sqrt{2}} = \sqrt{2}^2 = 2 \in \mathbb{Q} 
+(\sqrt{2}^{\sqrt{2}})^{\sqrt{2}} = \sqrt{2}^{\sqrt{2} * \sqrt{2}} = \sqrt{2}^2 = 2 \in \Q 
 \end{gather*}
 \end{proof}
 \verb|..end proof|
@@ -277,38 +297,38 @@ Suppose $\sqrt{2}^{\sqrt{2}} \notin \mathbb{Q}$, we can then use this value and 
 
 Lists can be nested.
 
-Do this to create a bullet-point (unnumbered) type of list: \verb|..begin list bullet [optional_label]|.\\
-To create a numbered list: \verb|..begin list [optional_label]|\\
-The optional label should not be surrounded by brackets. For bullet point lists, any character can be used as the label. \\
-For numbered lists, use ``1" without the quotes to number using arabic numerals, ``a" without the quotes to use the English alphabet, and/or ``i" without the quotes to use roman numerals. \\
-Because of the way the transcriber is currently designed, it is impossible to have it use ``1a", ``1b", ``1c" as consecutive labels. In the future, a backslash to escape the character or something like that will probably allow this. \\
-Regardless of whether it is a numbered list, a list with special labels, use \verb|..end list| at the very end. \\
+Do this to create a bullet-point (unnumbered) type of list: \verb|..begin list bullet [optional_label]|.\nl
+To create a numbered list: \verb|..begin list [optional_label]|\nl
+The optional label should not be surrounded by brackets. For bullet point lists, any character can be used as the label. \nl
+For numbered lists, use ``1" without the quotes to number using arabic numerals, ``a" without the quotes to use the English alphabet, and/or ``i" without the quotes to use roman numerals. \nl
+Because of the way the transcriber is currently designed, it is impossible to have it use ``1a", ``1b", ``1c" as consecutive labels. In the future, a backslash to escape the character or something like that will probably allow this. \nl
+Regardless of whether it is a numbered list, a list with special labels, use \verb|..end list| at the very end. \nl
 \bigskip
-This is the syntax for a sample list. \\
-\verb|..begin list bullet --|\\
-\verb|.. item 1|\\
-\verb|.. item 2|\\
-\verb|This line will be appended to the end of item 2|\\
-\verb|..n So will this one, but we just added a new line character, so it visually looks like|\\
-\verb|it's on a different line, but there just would not be a bullet point in front of it.|\\
-\verb|..begin list a)|\\
-\verb|.. Nested lists can be created.|\\
-\verb|..begin list (i)|\\
-\verb|.. So can nested lists inside nested lists.|\\
-\verb|.. abcdefg|\\
-\verb|..begin list .1.|\\
-\verb|.. Something here|\\
-\verb|.. Something else here|\\
-\verb|..end list|\\
-\verb|..end list|\\
-\verb|.. The above line must be used to indicate that a list is ended.|\\
-\verb|.. It'll transcribe correctly, but it will not compile to .pdf|\\
-\verb|..end list|\\
-\verb|.. an end list must be used for each list created.|\\
-\verb|..end list|\\
+This is the syntax for a sample list. \nl
+\verb|..begin list bullet --|\nl
+\verb|.. item 1|\nl
+\verb|.. item 2|\nl
+\verb|This line will be appended to the end of item 2|\nl
+\verb|..n So will this one, but we just added a new line character, so it visually looks like|\nl
+\verb|it's on a different line, but there just would not be a bullet point in front of it.|\nl
+\verb|..begin list a)|\nl
+\verb|.. Nested lists can be created.|\nl
+\verb|..begin list (i)|\nl
+\verb|.. So can nested lists inside nested lists.|\nl
+\verb|.. abcdefg|\nl
+\verb|..begin list .1.|\nl
+\verb|.. Something here|\nl
+\verb|.. Something else here|\nl
+\verb|..end list|\nl
+\verb|..end list|\nl
+\verb|.. The above line must be used to indicate that a list is ended.|\nl
+\verb|.. It'll transcribe correctly, but it will not compile to .pdf|\nl
+\verb|..end list|\nl
+\verb|.. an end list must be used for each list created.|\nl
+\verb|..end list|\nl
 \bigskip
 
-Here is the above code compiled. \\
+Here is the above code compiled. \nl
 \begin{itemize}[label=--]
     \item item 1
     \item item 2
@@ -348,19 +368,19 @@ This transcriber will assume all new lines within the gather or align mode are s
 
 \medskip
 
-Only two modes are implemented: \textbf{align} and \textbf{gather}. I honestly don't know what the difference between \textbf{gather} and \textbf{equation} are, so I'm only implementing \textbf{gather}. \textbf{Align} mode allows you to select a symbol, usually the equal sign, to be aligned to other equations; \textbf{gather} mode centers all the equations. Just like LaTeX's align, prepend the symbol or character you want to align with a \& sign.
+Only two modes are implemented: \bold{align} and \bold{gather}. I honestly don't know what the difference between \bold{gather} and \bold{equation} are, so I'm only implementing \bold{gather}. \bold{Align} mode allows you to select a symbol, usually the equal sign, to be aligned to other equations; \bold{gather} mode centers all the equations. Just like LaTeX's align, prepend the symbol or character you want to align with a \& sign.
 
 \medskip
 
-By default, \textbf{gather} mode, and non-numbering mode is used. Enable \textbf{align} by putting the word \emph{align} in it. Enable \textbf{numbered} mode by putting \emph{number} in it.
+By default, \bold{gather} mode, and non-numbering mode is used. Enable \bold{align} by putting the word \ital{align} in it. Enable \bold{numbered} mode by putting \ital{number} in it.
 
 \medskip
 
-Here's the \textbf{gather} mode with no numbering: \\
-\verb|..begin eq|\\
-\verb|a = b + c|\\
-\verb|d = e + f|\\
-\verb|a + d = b + c|\\
+Here's the \bold{gather} mode with no numbering: \nl
+\verb|..begin eq|\nl
+\verb|a = b + c|\nl
+\verb|d = e + f|\nl
+\verb|a + d = b + c|\nl
 \verb|..end eq|
 
 \begin{gather*}
@@ -371,12 +391,12 @@ a + d = b + c
 
 \medskip
 
-Here's the \textbf{align} mode with no numbering: \\
-\verb|..begin eq align|\\
-\verb|h &= 2x + 3y + 4z     &   2u + &2v = 10|\\
-\verb|x &= y                &   &2v + 4w = 20|\\
-\verb|a &= b + c            &   2b + 2c + &7v = 30|\\
-\verb|f(x, y) &= g(a, b, c) &   &2v = 4z|\\
+Here's the \bold{align} mode with no numbering: \nl
+\verb|..begin eq align|\nl
+\verb|h &= 2x + 3y + 4z     &   2u + &2v = 10|\nl
+\verb|x &= y                &   &2v + 4w = 20|\nl
+\verb|a &= b + c            &   2b + 2c + &7v = 30|\nl
+\verb|f(x, y) &= g(a, b, c) &   &2v = 4z|\nl
 \verb|..end eq|
 
 \begin{align*}
@@ -388,11 +408,11 @@ f(x, y) &= g(a, b, c)		&	&2v = 4z
 
 \medskip
 
-Here's the \textbf{gather} mode with numbering: \\
-\verb|..begin eq number|\\
-\verb|a = b|\\
-\verb|2x + 4c = 10|\\
-\verb|10 + 4c = 20|\\
+Here's the \bold{gather} mode with numbering: \nl
+\verb|..begin eq number|\nl
+\verb|a = b|\nl
+\verb|2x + 4c = 10|\nl
+\verb|10 + 4c = 20|\nl
 \verb|..end eq|
 \begin{gather}
 a = b \\
@@ -402,11 +422,11 @@ a = b \\
 
 \medskip
 
-Here's how to do \textbf{align} with numbering: \\
-\verb|..begin eq align number|\\
-\verb|a &= b + c|\\
-\verb|a &= 2b + d|\\
-\verb|a &= 3c + e|\\
+Here's how to do \bold{align} with numbering: \nl
+\verb|..begin eq align number|\nl
+\verb|a &= b + c|\nl
+\verb|a &= 2b + d|\nl
+\verb|a &= 3c + e|\nl
 \verb|..end eq|
 \begin{align}
 a &= b + c \\
@@ -418,13 +438,13 @@ a &= 3c + e
 
 \subsection*{Matrices}
 
-To create a matrix, use \verb|..begin matrix|. Normally, in amsmath, math mode must be enabled prior to declaring the matrix, this is not the case anymore. \\
-Originally, a \verb|&| must be used to separate values within the matrix. This transcriber will assume that spaces are the delimiter. There is also no need to use a line break character, because new lines are assumed to be part of the next row of values. \\
-Here is the code for defining a basic matrix: \\
-\verb|..begin matrix|\\
-\verb|a b c d|\\
-\verb|e f g h|\\
-\verb|i j k l|\\
+To create a matrix, use \verb|..begin matrix|. Normally, in amsmath, math mode must be enabled prior to declaring the matrix, this is not the case anymore. \nl
+Originally, a \verb|&| must be used to separate values within the matrix. This transcriber will assume that spaces are the delimiter. There is also no need to use a line break character, because new lines are assumed to be part of the next row of values. \nl
+Here is the code for defining a basic matrix: \nl
+\verb|..begin matrix|\nl
+\verb|a b c d|\nl
+\verb|e f g h|\nl
+\verb|i j k l|\nl
 \verb|..end matrix|
 
 \medskip
@@ -443,15 +463,15 @@ There are currently no customizations to what matrices are surrounded by -- they
 
 \subsection*{Arrays and Tables}
 
-To create an array or table, use \verb|..begin table math [formatting]| or \verb|..begin table [formatting]|, respectively. The formatting for the table should be exactly what one would do in LaTeX's \verb|\begin{tabular}{[formatting]}| or \verb|\begin{array}{[formatting]}|. The only expected characters within the formatting are ``c", ``l", ``r", and ``\textbar". The three letters signify what that column's alignment should be: center, left, or right; while the ``\textbar" character represents a line separation between them. \textbf{In LaTeX, a \& is used as the delimiter between two columns. Here, a single \textbackslash followed immediately by a space is to be used.} A line break is also automatically assumed to be on a separate line, although \verb|\hline| would be an exception. \\
+To create an array or table, use \verb|..begin table math [formatting]| or \verb|..begin table [formatting]|, respectively. The formatting for the table should be exactly what one would do in LaTeX's \verb|\begin{tabular}{[formatting]}| or \verb|\begin{array}{[formatting]}|. The only expected characters within the formatting are ``c", ``l", ``r", and ``\textbar". The three letters signify what that column's alignment should be: center, left, or right; while the ``\textbar" character represents a line separation between them. \bold{In LaTeX, a \& is used as the delimiter between two columns. Here, a single \textbackslash followed immediately by a space is to be used.} A line break is also automatically assumed to be on a separate line, although \verb|\hline| would be an exception. \nl
 \medskip
-Here is the code for an array (math mode): \\
+Here is the code for an array (math mode): \nl
 \medskip
 
-\verb=..begin table math r|c|l|= \\
-\verb|2 \ 3 \ 465| \\
-\verb|\hline| \\
-\verb|p |\verb|\implies q \ q \implies r \ 6| \\
+\verb=..begin table math r|c|l|= \nl
+\verb|2 \ 3 \ 465| \nl
+\verb|\hline| \nl
+\verb|p |\verb|\implies q \ q \implies r \ 6| \nl
 \verb|..end table|
 
 \bigskip
@@ -464,14 +484,14 @@ p \implies q & q \implies r & 6
 
 \bigskip
 
-Similarly, here is some sample code for a table (non math mode): \\
+Similarly, here is some sample code for a table (non math mode): \nl
 \medskip
 
-\verb=..begin table c|c|c= \\
-\verb|\ Names \| \\
-\verb|\hline| \\
-\verb|John \ Mary \ Jane| \\
-\verb|Adam \ Kevin \ Allie| \\
+\verb=..begin table c|c|c= \nl
+\verb|\ Names \| \nl
+\verb|\hline| \nl
+\verb|John \ Mary \ Jane| \nl
+\verb|Adam \ Kevin \ Allie| \nl
 \verb|..end table|
 
 \bigskip
@@ -492,31 +512,31 @@ By default, all text are flushed left. However, it is possible to change it to b
 \end{flushleft}
 
 \begin{center}
-\verb|..align center|\\
+\verb|..align center|\nl
 This is a line of text that is centered.
 
 \end{center}
 
 \begin{flushright}
-\verb|..align right|\\
+\verb|..align right|\nl
 This is a line of text that is flushed right.
 
 \end{flushright}
-\verb|..align justify|\\
+\verb|..align justify|\nl
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
 \medskip
 
 
 \begin{flushleft}
-\verb|..align left|\\
+\verb|..align left|\nl
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
 \bigskip
 \bigskip
 \bigskip
 
-To end the document, use \verb|..end main|\\
+To end the document, use \verb|..end main|\nl
 This is actually entirely optional, as long as there is at least 1 empty line at the end.
 
 \end{flushleft}

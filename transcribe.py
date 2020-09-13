@@ -43,8 +43,6 @@ def find_content(lst, strr, deff=None):
 def main():
     file_name = args.file
 
-    pairs = load_pairs()
-
     with open(file_name, 'r') as f:
         content = f.read()
 
@@ -140,7 +138,20 @@ def main():
     Currently only ignores commands if they immediately follow "\verb|"
     Better detection still needed, use "..begin ignore" as an alternative. 
     """
+    used_macros = []
+    pairs = load_pairs()
     for pair in pairs:
+        if _content.find(pair[0]) != -1:
+            used_macros.append(pair)
+
+    used_renewed_commands = []
+    renewed = load_renew_commands()
+    for pair in renewed:
+        if _content.find(pair[0]) != -1:
+            used_renewed_commands.append(pair)
+
+    replacement_pairs = load_replacements()
+    for pair in replacement_pairs:
         _content = _content.replace('\\verb|{0}'.format(pair[0]), '\\verb|{0}'.format(pair[0][0] + 'afoswj' + pair[0][1:]))
         _content = _content.replace(pair[0], pair[1])
         _content = _content.replace('\\verb|{0}'.format(pair[0][0] + 'afoswj' + pair[0][1:]), '\\verb|{0}'.format(pair[0]))
@@ -152,17 +163,20 @@ def main():
     if not has_full_preamble_declaration:
         output += '\n\\documentclass[{0}pt]{{article}}\n'.format(font)
         output += '\\usepackage{'
-        for package in packages[:-1]:
-            output += package + ', '
-        output += packages[-1] + '}\n'
+        if 'graphicx' not in packages and asset_path:
+            packages.append('graphicx')
+        output += ', '.join(packages)
+        output += '}\n'
         output += '\n'
         output += '\\geometry{{{0}paper, {1}, margin={2}in}}\n'.format(paper, orientation, margin)
         output += '\\setlength{{\\parindent}}{{{0}em}}\n'.format(indent)
         output += '\\linespread{{{0}}}\n'.format(line_spread)
         output += '\\pagestyle{fancy}\n'
-        output += '\\fancyhf{}\n'
+        output += '\\fancyhf{}\n\n'
 
         # Commands
+        for pair in used_macros:
+            output += '\\newcommand{' + pair[0] + '}{' + pair[1] + '}\n'
         if '\\norm' in _content:
             output += '\\newcommand{\\norm}[1]{\\|#1\\|}\n'
         if '\\ddef' in _content:
@@ -173,6 +187,8 @@ def main():
             output += '\\newcommand{\\floor}[1]{\\left\\lfloor #1 \\right\\rfloor}\n'
         if "\\ceil" in _content:
             output += '\\newcommand{\\ceil}[1]{\\left\\lceil #1 \\right\\rceil}\n'
+        for pair in used_renewed_commands:
+            output += '\\renewcommand' + pair[0] + '{' + pair[1] + '}\n'
         if qed_symbol:
             output += '\\renewcommand\\qedsymbol{{{0}}}\n'.format(qed_symbol)
         output += '\n'
@@ -208,6 +224,10 @@ def main():
 
     else: # Between "..begin full preamble" and "..end full preamble"
         output += replacer.full_preamble + '\n'
+        for pair in used_macros:
+            output += '\\newcommand{' + pair[0] + '}{' + pair[1] + '}\n'
+        for pair in used_renewed_commands:
+            output += '\\renewcommand' + pair[0] + '{' + pair[1] + '}\n'
 
     output += "\\begin{document}\n\n"
     output += "\\begin{flushleft}\n"
@@ -598,22 +618,29 @@ def load_pairs():
                 ['\\C', '\\mathbb{C}'], 
                 ['\\nin', '\\notin'], 
                 ['\\ital', '\\emph'], 
-                ['\\bold', '\\textbf'], 
                 ['\\contradiction', '$\\Rightarrow\\Leftarrow$'], 
                 ['\\aand', '\\wedge'], 
                 ['\\oor', '\\vee'], 
-                ['\\<<', '\\ll'], 
+                ['\\cross', '\\times'], 
+                ['\\nimplies', '\\nRightarrow'],
+                ['\\nl', '\\\\'], 
+                ['\\tb', '\\quad']]
+    return pairs
+
+def load_replacements():
+    replacements = [['\\<<', '\\ll'], 
                 ['\\>>', '\\gg'], 
                 ['\\~=', '\\approx'], 
                 ['\\<(', '\\langle'], 
                 ['\\>)', '\\rangle'], 
-                ['\\cross', '\\times'], 
-                ['\\nimplies', '\\nRightarrow'],
                 ['\\<=', '\\leq'], 
-                ['\\>=', '\\geq'], 
-                ['\\nl', '\\\\'], 
-                ['\\tb', '\\quad']]
-    return pairs
+                ['\\>=', '\\geq']]
+    return replacements
+
+def load_renew_commands():
+    renew = [['\\bold', '\\textbf']]
+
+    return renew
 
 if __name__ == "__main__":
     file_name = main()
