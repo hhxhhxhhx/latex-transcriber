@@ -33,10 +33,13 @@ contexts:
     - include: global-braces
 
   unique-pytex:
-    - match: '((\.\.)begin ((full )?preamble|main|(sub){0,4}section( number)?|thm|proof|list( bullet)?))\b'
+    - match: '((\.\.)begin ((full )?preamble|main|(sub){0,4}section( number)?|thm|proof|list( bullet)?|parts))\b'
       captures:
         1: support.function.begin.pytex keyword.control.flow.begin.pytex
-    - match: '((\.\.)end ((full )?preamble|eq|proof|list|main|thm))\b'
+    - match: '((\.\.)resume parts)\b'
+      captures:
+        1: support.function.begin.pytex keyword.control.flow.begin.pytex
+    - match: '((\.\.)end ((full )?preamble|eq|proof|list|main|thm|parts))\b'
       captures:
         1: support.function.end.pytex keyword.control.flow.end.pytex
 
@@ -166,6 +169,10 @@ contexts:
       captures:
         1: punctuation.definition.backslash.pytex
     - match: '(((?<=(\.\.begin table ))|(?<=(\.\.begin table math )))[clr| ]*)'
+      scope: support.function.general.pytex
+      captures:
+        1: punctuation.definition.backslash.pytex
+    - match: '((?<=(\.\.begin parts ))([^%\n]*))'
       scope: support.function.general.pytex
       captures:
         1: punctuation.definition.backslash.pytex

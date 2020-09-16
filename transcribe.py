@@ -177,6 +177,13 @@ def main():
         # Commands
         for pair in used_macros:
             output += '\\newcommand{' + pair[0] + '}{' + pair[1] + '}\n'
+        if '\\begin{Parts}' in _content:
+            output += "\n\\newcounter{resumer}\n\\setcounter{resumer}{0}\n"
+            output += "\\newenvironment{Parts}{\n\\setcounter{resumer}{0}\n\\begin{enumerate}[label=(\\alph*)]\n"
+            output += "\\newcommand\\Part{\\item}}{\\setcounter{resumer}{\\value{enumi}}\\end{enumerate}}\n"
+        if '\\begin{ResumeParts}' in _content:
+            output += "\n\\newenvironment{ResumeParts}{\n" + "\\begin{enumerate}[label=(\\alph*)]\n"
+            output += "\\setcounter{enumi}{\\value{resumer}}\\newcommand\\Part{\\item}}{\\setcounter{resumer}{\\value{enumi}}\\end{enumerate}}\n"
         if '\\norm' in _content:
             output += '\\newcommand{\\norm}[1]{\\|#1\\|}\n'
         if '\\ddef' in _content:
@@ -349,15 +356,16 @@ class Replacer():
         """
         _beginproof = find_index(self.lines, '..begin proof')
         while _beginproof != -1:
-            if self.lines[_beginproof][13:].strip():
-                self.lines[_beginproof] = '\\begin{{{0}}}[Proof {1}]'.format('proof', self.lines[_beginproof][13:].strip())
+            if self.lines[_beginproof][self.lines[_beginproof].index('..begin proof') + 13:].strip():
+                self.lines[_beginproof] = self.lines[_beginproof][:self.lines[_beginproof].index('..begin proof')] + \
+                                        '\\begin{{{0}}}[Proof {1}]'.format('proof', self.lines[_beginproof][self.lines[_beginproof].index('..begin proof') + 13:].strip())
             else:
-                self.lines[_beginproof] = '\\begin{proof}'
+                self.lines[_beginproof] = self.lines[_beginproof][:self.lines[_beginproof].index('..begin proof')] + '\\begin{proof}'
             _beginproof = find_index(self.lines, '..begin proof')
 
         _endproof = find_index(self.lines, '..end proof')
         while _endproof != -1:
-            self.lines[_endproof] = '\\end{proof}'
+            self.lines[_endproof] = self.lines[_endproof][:self.lines[_endproof].index('..end proof')] + '\\end{proof}'
             _endproof = find_index(self.lines, '..end proof')
 
 
@@ -394,6 +402,51 @@ class Replacer():
             elif nested_list_total and not self.lines[i].strip().startswith('.. '):
                 self.lines[i] = '    '*nested_list_total + self.lines[i].strip()
 
+        """
+        PARTS (With inspiration from CS 70's header.sty)
+        """
+        index = 0
+        last_label = "(\\alph*)"
+        resume_label = "(\\alph*)"
+        using_resume = 0
+        while index < len(self.lines):
+            if self.lines[index].strip().startswith('p\\ '): # Each item to begin with ".. "
+                self.lines[index] = '\\Part ' + self.lines[index].strip()[3:]
+            elif self.lines[index].strip().startswith('..begin parts'):
+                using_resume = 0
+                if len(self.lines[index].strip()) <= 13 and last_label == "(\\alph*)": # If the entire line is '..begin parts'
+                    self.lines[index] = '\\begin{{{0}}}'.format('Parts')
+                    index += 1
+                    continue
+                    label_type = "(\\alph*)"
+                else: # If there is something after '..begin parts' that's the label
+                    label_type = self.lines[index].strip()[13:].strip()
+                    label_type = label_type.replace('a', '\\alph*') # Use 'a' to represent the alphabet
+                    label_type = label_type.replace('i', '\\roman*') # Use 'i' to use roman numerals
+                    label_type = label_type.replace('1', '\\arabic*') # Use '1' to use arabic numerals
+                if label_type == last_label:
+                    self.lines[index] = '\\begin{{{0}}}'.format('Parts')
+                    index += 1
+                    continue
+                else:
+                    last_label = label_type
+                    self.lines[index] = "\\renewenvironment{Parts}{\n" + "\\setcounter{resumer}{0}\n" + "\\begin{enumerate}[label=" + label_type + "]\n"
+                    self.lines[index] += "\\newcommand\\Part{\\item}}{\\setcounter{resumer}{\\value{enumi}}\\end{enumerate}}"
+                    self.lines.insert(index + 1, '\\begin{{{0}}}'.format('Parts'))
+                    index += 1
+            elif self.lines[index].strip().startswith('..end parts'):
+                self.lines[index] = '\\end{{{0}}}'.format('Resume' * using_resume + 'Parts')
+            elif self.lines[index].strip().startswith('..resume parts'):
+                using_resume = 1
+                if last_label == resume_label:
+                    self.lines[index] = '\\begin{{{0}}}'.format('ResumeParts')
+                else:
+                    resume_label = last_label
+                    self.lines[index] = "\\renewenvironment{ResumeParts}{\n" + "\\begin{enumerate}[label=" + label_type + "]\n"
+                    self.lines[index] += "\\setcounter{enumi}{\\value{resumer}}\\newcommand\\Part{\\item}}{\\setcounter{resumer}{\\value{enumi}}\\end{enumerate}}"
+                    self.lines.insert(index + 1, '\\begin{{{0}}}'.format('ResumeParts'))
+
+            index += 1
         """
         EQUATIONS
         """

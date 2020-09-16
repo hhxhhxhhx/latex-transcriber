@@ -34,9 +34,9 @@ To begin the document: \verb|..begin main|
 \bigskip
 
 To begin a section with heading \bold{XYZ} with numbering: \verb|..begin section number XYZ|
-To begin a section with heading \bold{XYZ}: \verb|..begin section XYZ|
+To begin a section with heading \bold{XYZ} without numbering: \verb|..begin section XYZ|
 
-So in this case, it's \verb|..begin section Theorems|
+So in this case, it's \verb|..begin section Creating the Document|
 
 ..begin section Creating the Document
 
@@ -317,6 +317,89 @@ This line will be appended to the end of item 2
 ..begin thm Note
 The transcribed .tex files will automatically be indented wherever there are items in a list. 
 ..end thm Note
+
+\newpage
+
+..begin section Parts
+
+The \bold{Parts} and \bold{ResumeParts} environment is heavily inspired by CS 70's header.sty file. 
+
+\bold{Usage of } \verb|..begin parts| \nl
+\medskip
+\verb|..begin parts [optional_label]| \nl
+\verb|p\ Part 1 contents| \nl
+\verb|p\ Part 2 contents| \nl
+\verb|p\ Part 3 contents| \nl
+\verb|..end parts| \nl
+
+\bigskip
+
+\bold{Usage of } \verb|..resume parts| \nl
+\medskip
+\verb|..resume parts| \nl
+\verb|p\ Part 1 contents| \nl
+\verb|p\ Part 2 contents| \nl
+\verb|p\ Part 3 contents| \nl
+\verb|..end parts| \nl
+
+\bigskip
+
+\verb|..begin parts| \nl
+\verb|p\ Parts are kind of like lists, except they look much better| \nl
+\verb|if you're not actually trying to make a short list. | \nl
+\verb=p\ Precede each part with \verb|p\ |= \nl
+\verb=p\ To end the parts environment, use \verb|..end parts|= \nl
+\verb|..end parts|
+
+\bigskip
+
+..begin parts
+p\ Parts are kind of like lists, except they look much better if you're not actually trying to make a short list. 
+p\ Precede each part with ``\verb|p\ |". 
+p\ To end the parts environment, use \verb|..end parts|
+..end parts
+
+\bigskip
+
+At any point in time, the parts environment can be resumed by using \verb|..resume parts| \nl
+
+\bigskip
+
+\verb|..resume parts| \nl
+\verb|p\ These will continue the same labels from before.| \nl
+\verb=p\ To end this environment, use \verb|..end parts| again.= \nl
+\verb|..end parts|
+
+..resume parts
+p\ These will continue the same labels from before. 
+p\ To end this environment, use \verb|..end parts| again. 
+..end parts
+
+\bigskip
+
+\verb|..begin parts i)| \nl
+\verb|p\ Item 1| \nl
+\verb|p\ Item 2 \nl| \nl
+\verb|Some text here. | \nl
+..begin ignore
+\verb|p\ ..begin proof| \nl
+..end ignore
+\verb|This is a proof environment. | \nl
+\verb|..end proof| \nl
+\verb|p\ Continuing on the parts environment. | \nl
+\verb|..end parts| \nl
+
+\bigskip
+
+..begin parts i)
+p\ Item 1
+p\ Item 2 \nl
+Some text here. 
+p\ ..begin proof
+This is a proof environment. 
+..end proof
+p\ Continuing on the parts environment. 
+..end parts
 
 \newpage
 
