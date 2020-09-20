@@ -1,6 +1,6 @@
 
 % Created by Roger Hu's .pytex --> .tex latex transcriber
-% Compiled on 2020-09-15 21:38:54 PDT
+% Compiled on 2020-09-19 22:16:17 PDT
 
 
 \documentclass[12pt]{article}
@@ -125,6 +125,7 @@ All of the following are optional.
 \verb|..indent XYZ| will set paragraph indent to \bold{XYZ}. Default 0, can be 4 (regular paragraph indent), 2, etc. \nl
 \verb|..spacing XYZ| will set line spacing to \bold{XYZ}. Default 1.5, can be ``1'', ``2''\nl
 \verb|..assignment Template| will put \bold{Template} at the left footer. \nl
+\verb|..assetpath path/to/folder1 path/to/folder2| will set \verb|\graphicspath{{path/to/folder1}{path/to/folder2}}| in the preamble. \nl
 \bigskip
 \verb|..initheorem* XYZ| will create theorem type \bold{XYZ} with no numbering. Equivalent to \verb|\newtheorem*{XYZ}{XYZ}|\nl
 \verb|..initheorem XYZ| will create theorem type \bold{XYZ} with a counter that increments each time \bold{XYZ} is created. Equivalent to \verb|\newtheorem{XYZ}{XYZ}|\nl
@@ -177,6 +178,78 @@ Some of the following are honestly kind of useless like \verb|\nl -> \\|.
 \verb|\tb             ->           Tab character|\nl
 \bigskip
 Check transcribe.py for what exactly they're changed to.
+
+\newpage
+
+\section*{Copy Pasting}
+Note: This will not copy Theorem numbers correctly. Use \verb|restatable| environment from \verb|thm-restate| for that.
+
+\bigskip
+
+\verb|..begin copy label1| \nl
+This text is between the \verb|..begin copy label1| and \verb|..end copy|. It will get duplicated when \verb|..paste label1| is present. \nl
+\verb|..end copy|
+
+\bigskip
+
+\verb|..paste label1| \nl
+This text is between the \verb|..begin copy label1| and \verb|..end copy|. It will get duplicated when \verb|..paste label1| is present. \nl
+
+\bigskip
+
+\verb|..begin copy label2| \nl
+Second set of copied text \nl
+\verb|..end copy|
+
+\bigskip
+
+\verb|..paste label2| \nl
+Second set of copied text \nl
+
+\medskip
+
+\verb|..paste label2| \nl
+Second set of copied text \nl
+
+\bigskip
+
+Do keep in mind that if a label is reused, \verb|..paste label| will only use the last reference to that label, so the originally copied text under ``label" will be lost, even if there are \verb|..paste| commands before future declarations of the same label.
+
+\bigskip
+
+For example: \nl
+\verb|..begin copy label3|\nl
+This is inside the first label3. \nl
+\verb|..end copy|
+
+\bigskip
+
+\verb|..paste label3| \nl
+This is inside the second label3. \nl
+
+\bigskip
+
+\verb|..begin copy label3|\nl
+This is inside the second label3. \nl
+\verb|..end copy|
+
+\bigskip
+
+\verb|..paste label3| \nl
+This is inside the second label3. \nl
+
+\bigskip
+
+\verb|..paste| commands can also be called before the copy reference is established.
+
+\verb|..paste label4| \nl
+This is label4 \nl
+
+\bigskip
+
+\verb|..begin copy label4| \nl
+This is label4 \nl
+\verb|..end copy|
 
 \newpage
 

@@ -1,0 +1,102 @@
+
+% Created by Roger Hu's .pytex --> .tex latex transcriber
+% Compiled on 2020-09-19 22:12:47 PDT
+
+
+\documentclass[12pt]{article}
+\usepackage{amsmath, amssymb, amsthm, geometry, enumitem, fancyhdr}
+
+\geometry{letterpaper, portrait, margin=1in}
+\setlength{\parindent}{0em}
+\linespread{1.3}
+\pagestyle{fancy}
+\fancyhf{}
+
+\newcommand{\nl}{\\}
+
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{1pt}
+\rhead{Roger Hu}
+\rfoot{\fontsize{8}{8} \selectfont \thepage}
+\lfoot{\fontsize{8}{8} \selectfont Copying and Pasting}
+
+\newtheorem{Theorem}{Theorem}
+\newtheorem{Corollary}{Corollary}[Theorem]
+\newtheorem{Lemma}[Theorem]{Lemma}
+
+\begin{document}
+
+\begin{flushleft}
+
+Note: This will not copy Theorem numbers correctly. Use \verb|restatable| environment from \verb|thm-restate| for that.
+
+\bigskip
+
+\verb|..begin copy label1| \nl
+This text is between the \verb|..begin copy label1| and \verb|..end copy|. It will get duplicated when \verb|..paste label1| is present. \nl
+\verb|..end copy|
+
+\bigskip
+
+\verb|..paste label1| \nl
+This text is between the \verb|..begin copy label1| and \verb|..end copy|. It will get duplicated when \verb|..paste label1| is present. \nl
+
+\bigskip
+
+\verb|..begin copy label2| \nl
+Second set of copied text \nl
+\verb|..end copy|
+
+\bigskip
+
+\verb|..paste label2| \nl
+Second set of copied text \nl
+
+\medskip
+
+\verb|..paste label2| \nl
+Second set of copied text \nl
+
+\bigskip
+
+Do keep in mind that if a label is reused, \verb|..paste label| will only use the last reference to that label, so the originally copied text under ``label" will be lost, even if there are \verb|..paste| commands before future declarations of the same label.
+
+\bigskip
+
+For example: \nl
+\verb|..begin copy label3|\nl
+This is inside the first label3. \nl
+\verb|..end copy|
+
+\bigskip
+
+\verb|..paste label3| \nl
+This is inside the second label3. \nl
+
+\bigskip
+
+\verb|..begin copy label3|\nl
+This is inside the second label3. \nl
+\verb|..end copy|
+
+\bigskip
+
+\verb|..paste label3| \nl
+This is inside the second label3. \nl
+
+\bigskip
+
+\verb|..paste| commands can also be called before the copy reference is established.
+
+\verb|..paste label4| \nl
+This is label4 \nl
+
+\bigskip
+
+\verb|..begin copy label4| \nl
+This is label4 \nl
+\verb|..end copy|
+
+\end{flushleft}
+
+\end{document}
