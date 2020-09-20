@@ -310,6 +310,11 @@ class Replacer():
         self.lines = lines
 
         """
+        INITIALIZING EQUATION NUMBERING
+        """
+        self.equation_numbering = find_content(self.lines, '..initeq', None)
+
+        """
         INITIALIZING THEOREMS
         """
         self.all_theorem_names = []
@@ -319,7 +324,8 @@ class Replacer():
             lst = _initunnumberedtheorem.split()
             # These theorems must have 1 argument: the name of the type of theorem
             if len(lst) != 1:
-                print("Error with ..initheorem* {0} command!".format(_initunnumberedtheorem))
+                _print("..initheorem* requires 1 argument. Read documentation if necessary")
+                exit(1)
             else:
                 self.unnumbered_theorems.append(lst[0])
                 self.all_theorem_names.append(lst[0])
@@ -334,7 +340,8 @@ class Replacer():
             # Must have 1 or 3 arguments: 1 if the counter is by itself
             #                             3 if the counter is subordinate or shared with something else
             if len(lst) != 1 and len(lst) != 3:
-                print("Error with ..initheorem {0} command!".format(_initnumberedtheorem))
+                _print("..initheorem* requires exactly 2 arguments. Read documentation if necessary")
+                exit(1)
             else:
                 self.numbered_theorems.append(lst)
                 self.all_theorem_names.append(lst[0])
@@ -533,7 +540,7 @@ class Replacer():
                 self.lines.pop(index)
                 continue
             elif eq_type and not self.lines[index].strip().endswith('\\\\') \
-                         and not self.lines[index].strip().endswith('..n'): # Add newline character after each line break because LaTeX is dumb
+                         and not self.lines[index].strip().endswith('\\nl'): # Add newline character after each line break because LaTeX is dumb
                 self.lines[index] += ' \\\\'
             index += 1
 
@@ -560,7 +567,7 @@ class Replacer():
                 self.lines[index] = self.lines[index].strip() # Remove newline characters at the end
                 if self.lines[index].endswith('\\\\'):
                     self.lines[index] = self.lines[index][:-2].strip()
-                elif self.lines[index].endswith('..n'):
+                elif self.lines[index].endswith('\\nl'):
                     self.lines[index] = self.lines[index][:-3].strip()
                 self.lines[index] = self.lines[index].replace(' ', ' & ') # Replace spaces with ' & '
                 self.lines[index] += ' \\\\' # Re-add newline characters after each line
@@ -596,7 +603,7 @@ class Replacer():
                     continue
                 if self.lines[index].endswith('\\\\'):
                     self.lines[index] = self.lines[index][:-2].strip()
-                elif self.lines[index].endswith('..n'):
+                elif self.lines[index].endswith('\\nl'):
                     self.lines[index] = self.lines[index][:-3].strip()
                 self.lines[index] = self.lines[index].replace('\\ ', '& ') # Replace delimiters with ' & '
                 if self.lines[index].endswith('\\'):
@@ -709,12 +716,18 @@ class Replacer():
     @property
     def theorem_def(self):
         output = ''
+
+        if not self.equation_numbering:
+            output += '\\numberwithin{equation}{section}\n'
+        else:
+            output += '\\numberwithin{equation}{' + output.strip() + '}\n'
+
         if 'Theorem' not in self.all_theorem_names and 'theorem' not in self.all_theorem_names:
             output += '\\newtheorem{Theorem}{Theorem}\n'
         if 'Corollary' not in self.all_theorem_names and 'corollary' not in self.all_theorem_names:
             output += '\\newtheorem{Corollary}{Corollary}[Theorem]\n'
         if 'Lemma' not in self.all_theorem_names and 'lemma' not in self.all_theorem_names:
-            output += '\\newtheorem{Lemma}[Theorem]{Lemma}\n'
+            output += '\\newtheorem{Lemma}[equation]{Lemma}\n'
 
         for theorem in self.unnumbered_theorems:
             output += '\\newtheorem*{{{0}}}{{{0}}}\n'.format(theorem[0].upper() + theorem[1:])

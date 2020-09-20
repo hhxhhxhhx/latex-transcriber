@@ -1,6 +1,6 @@
 
 % Created by Roger Hu's .pytex --> .tex latex transcriber
-% Compiled on 2020-09-19 22:16:17 PDT
+% Compiled on 2020-09-20 00:32:44 PDT
 
 
 \documentclass[12pt]{article}
@@ -55,6 +55,7 @@
 \rfoot{\fontsize{8}{8} \selectfont \thepage}
 \lfoot{\fontsize{8}{8} \selectfont Full Example}
 
+\numberwithin{equation}{section}
 \newtheorem*{Theorem}{Theorem}
 \newtheorem{Lemma}{Lemma}
 \newtheorem{Corollary}{Corollary}[Lemma]
@@ -83,9 +84,9 @@ To begin the document: \verb|..begin main|
 To begin a section with heading \bold{XYZ} with numbering: \verb|..begin section number XYZ|
 To begin a section with heading \bold{XYZ} without numbering: \verb|..begin section XYZ|
 
-So in this case, it's \verb|..begin section Creating the Document|
+So in this case, it's \verb|..begin section number Creating the Document|
 
-\section*{Creating the Document}
+\section{Creating the Document}
 
 Use \verb|..begin preamble| and \verb|..end preamble| to signal a part of the \bold{preamble} to be ignored by the transcriber, including comments. The contents within them will automatically be inserted before the \verb|\begin{document}| in the transcribed file. This is completely optional.
 
@@ -127,15 +128,16 @@ All of the following are optional.
 \verb|..assignment Template| will put \bold{Template} at the left footer. \nl
 \verb|..assetpath path/to/folder1 path/to/folder2| will set \verb|\graphicspath{{path/to/folder1}{path/to/folder2}}| in the preamble. \nl
 \bigskip
+\verb|..initeq XYZ ABC| will set the equation numbering scheme to be \bold{subordinate} to counter type \bold{ABC}. Equivalent to \verb|\numberwithin{equation}{ABC}|\nl
 \verb|..initheorem* XYZ| will create theorem type \bold{XYZ} with no numbering. Equivalent to \verb|\newtheorem*{XYZ}{XYZ}|\nl
 \verb|..initheorem XYZ| will create theorem type \bold{XYZ} with a counter that increments each time \bold{XYZ} is created. Equivalent to \verb|\newtheorem{XYZ}{XYZ}|\nl
-\verb|..initheorem XYZ ABC sub| will create theorem type \bold{XYZ} that is \bold{SUBORDINATE} to counter type \bold{ABC}. Equivalent to \verb|\newtheorem{XYZ}{XYZ}[ABC]|\nl
-\verb|..initheorem XYZ ABC shared| will create theorem type \bold{XYZ} that is \bold{SHARED} with counter type \bold{ABC}. Equivalent to \verb|\newtheorem{XYZ}[ABC]{XYZ}|\nl
+\verb|..initheorem XYZ ABC sub| will create theorem type \bold{XYZ} that is \bold{subordinate} to counter type \bold{ABC}. Can be subordinate to equations. Equivalent to \verb|\newtheorem{XYZ}{XYZ}[ABC]|\nl
+\verb|..initheorem XYZ ABC shared| will create theorem type \bold{XYZ} that is \bold{shared} with counter type \bold{ABC}. Can be shared with equations. Equivalent to \verb|\newtheorem{XYZ}[ABC]{XYZ}|\nl
 \verb|..qed XYZ| will change the symbol that sits at the end of a proof to be \bold{XYZ}. By default, it is a white square.
 
 \newpage
 
-\section*{Keywords}
+\section{Keywords}
 
 Line comment: \verb|%|\nl
 Block comment: \verb|%|\verb|%|\verb|%|\verb| something here |\verb|%|\verb|%|\verb|%|
@@ -181,7 +183,7 @@ Check transcribe.py for what exactly they're changed to.
 
 \newpage
 
-\section*{Copy Pasting}
+\section{Copy Pasting}
 Note: This will not copy Theorem numbers correctly. Use \verb|restatable| environment from \verb|thm-restate| for that.
 
 \bigskip
@@ -253,7 +255,7 @@ This is label4 \nl
 
 \newpage
 
-\section*{Theorems}
+\section{Theorems}
 
 \bigskip
 
@@ -377,7 +379,7 @@ Suppose $\sqrt{2}^{\sqrt{2}} \notin \Q$, we can then use this value and raise it
 
 \newpage
 
-\section*{Lists}
+\section{Lists}
 
 Lists can be nested.
 
@@ -440,7 +442,7 @@ The transcribed .tex files will automatically be indented wherever there are ite
 
 \newpage
 
-\section*{Parts}
+\section{Parts}
 
 The \bold{Parts} and \bold{ResumeParts} environment is heavily inspired by CS 70's header.sty file.
 
@@ -527,7 +529,7 @@ This is a proof environment.
 
 \newpage
 
-\section*{Math}
+\section{Math}
 
 \subsection*{Equations}
 
@@ -544,6 +546,8 @@ Only two modes are implemented: \bold{align} and \bold{gather}. I honestly don't
 \medskip
 
 By default, \bold{gather} mode, and non-numbering mode is used. Enable \bold{align} by putting the word \ital{align} in it. Enable \bold{numbered} mode by putting \ital{number} in it.
+
+\medskip
 
 \medskip
 
@@ -576,6 +580,10 @@ x &= y						&	&2v + 4w = 20 \\
 a &= b + c					&	2b + 2c + &7v = 30 \\
 f(x, y) &= g(a, b, c)		&	&2v = 4z 
 \end{align*}
+
+\medskip
+
+Equation numbering is subordinate to sections, but it can be changed with ``..initeq"
 
 \medskip
 
@@ -676,7 +684,7 @@ Adam & Kevin & Allie
 
 \newpage
 
-\section*{Text Alignment}
+\section{Text Alignment}
 
 By default, all text are flushed left. However, it is possible to change it to be flushed right, centered, justified, etc. Use the following to set alignment.
 

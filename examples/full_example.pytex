@@ -36,9 +36,9 @@ To begin the document: \verb|..begin main|
 To begin a section with heading \bold{XYZ} with numbering: \verb|..begin section number XYZ|
 To begin a section with heading \bold{XYZ} without numbering: \verb|..begin section XYZ|
 
-So in this case, it's \verb|..begin section Creating the Document|
+So in this case, it's \verb|..begin section number Creating the Document|
 
-..begin section Creating the Document
+..begin section number Creating the Document
 
 Use \verb|..begin preamble| and \verb|..end preamble| to signal a part of the \bold{preamble} to be ignored by the transcriber, including comments. The contents within them will automatically be inserted before the \verb|\begin{document}| in the transcribed file. This is completely optional. 
 
@@ -80,15 +80,16 @@ All of the following are optional.
 \verb|..assignment Template| will put \bold{Template} at the left footer. \nl
 \verb|..assetpath path/to/folder1 path/to/folder2| will set \verb|\graphicspath{{path/to/folder1}{path/to/folder2}}| in the preamble. \nl
 \bigskip
+\verb|..initeq XYZ ABC| will set the equation numbering scheme to be \bold{subordinate} to counter type \bold{ABC}. Equivalent to \verb|\numberwithin{equation}{ABC}|\nl
 \verb|..initheorem* XYZ| will create theorem type \bold{XYZ} with no numbering. Equivalent to \verb|\newtheorem*{XYZ}{XYZ}|\nl
 \verb|..initheorem XYZ| will create theorem type \bold{XYZ} with a counter that increments each time \bold{XYZ} is created. Equivalent to \verb|\newtheorem{XYZ}{XYZ}|\nl
-\verb|..initheorem XYZ ABC sub| will create theorem type \bold{XYZ} that is \bold{SUBORDINATE} to counter type \bold{ABC}. Equivalent to \verb|\newtheorem{XYZ}{XYZ}[ABC]|\nl
-\verb|..initheorem XYZ ABC shared| will create theorem type \bold{XYZ} that is \bold{SHARED} with counter type \bold{ABC}. Equivalent to \verb|\newtheorem{XYZ}[ABC]{XYZ}|\nl
+\verb|..initheorem XYZ ABC sub| will create theorem type \bold{XYZ} that is \bold{subordinate} to counter type \bold{ABC}. Can be subordinate to equations. Equivalent to \verb|\newtheorem{XYZ}{XYZ}[ABC]|\nl
+\verb|..initheorem XYZ ABC shared| will create theorem type \bold{XYZ} that is \bold{shared} with counter type \bold{ABC}. Can be shared with equations. Equivalent to \verb|\newtheorem{XYZ}[ABC]{XYZ}|\nl
 \verb|..qed XYZ| will change the symbol that sits at the end of a proof to be \bold{XYZ}. By default, it is a white square. 
 
 \newpage
 
-..begin section Keywords
+..begin section number Keywords
 
 Line comment: \verb|%|\nl
 Block comment: \verb|%|\verb|%|\verb|%|\verb| something here |\verb|%|\verb|%|\verb|%|
@@ -134,7 +135,7 @@ Check transcribe.py for what exactly they're changed to.
 
 \newpage
 
-..begin section Copy Pasting
+..begin section number Copy Pasting
 Note: This will not copy Theorem numbers correctly. Use \verb|restatable| environment from \verb|thm-restate| for that. 
 
 \bigskip
@@ -216,7 +217,7 @@ This is label4 \nl
 
 \newpage
 
-..begin section Theorems
+..begin section number Theorems
 
 \bigskip
 
@@ -340,7 +341,7 @@ Suppose $\sqrt{2}^{\sqrt{2}} \notin \Q$, we can then use this value and raise it
 
 \newpage
 
-..begin section Lists
+..begin section number Lists
 
 Lists can be nested. 
 
@@ -403,7 +404,7 @@ The transcribed .tex files will automatically be indented wherever there are ite
 
 \newpage
 
-..begin section Parts
+..begin section number Parts
 
 The \bold{Parts} and \bold{ResumeParts} environment is heavily inspired by CS 70's header.sty file. 
 
@@ -486,7 +487,7 @@ p\ Continuing on the parts environment.
 
 \newpage
 
-..begin section Math
+..begin section number Math
 
 ..begin subsection Equations
 
@@ -503,6 +504,8 @@ Only two modes are implemented: \bold{align} and \bold{gather}. I honestly don't
 \medskip
 
 By default, \bold{gather} mode, and non-numbering mode is used. Enable \bold{align} by putting the word \ital{align} in it. Enable \bold{numbered} mode by putting \ital{number} in it. 
+
+\medskip
 
 \medskip
 
@@ -536,6 +539,10 @@ a &= b + c					&	2b + 2c + &7v = 30
 f(x, y) &= g(a, b, c)		&	&2v = 4z
 
 ..end eq
+
+\medskip
+
+Equation numbering is subordinate to sections, but it can be changed with ``..initeq"
 
 \medskip
 
@@ -636,7 +643,7 @@ Adam \ Kevin \ Allie
 
 \newpage
 
-..begin section Text Alignment
+..begin section number Text Alignment
 
 By default, all text are flushed left. However, it is possible to change it to be flushed right, centered, justified, etc. Use the following to set alignment. 
 
