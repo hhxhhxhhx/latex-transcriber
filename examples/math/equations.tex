@@ -1,6 +1,6 @@
 
 % Created by Roger Hu's .pytex --> .tex latex transcriber
-% Compiled on 2020-09-08 21:01:51 PDT
+% Compiled on 2020-09-20 00:50:02 PDT
 
 
 \documentclass[12pt]{article}
@@ -12,6 +12,9 @@
 \pagestyle{fancy}
 \fancyhf{}
 
+\newcommand{\nl}{\\}
+\renewcommand\bold{\textbf}
+
 \renewcommand{\headrulewidth}{0pt}
 \renewcommand{\footrulewidth}{1pt}
 \rhead{Equations}
@@ -19,16 +22,17 @@
 
 \newtheorem{Theorem}{Theorem}
 \newtheorem{Corollary}{Corollary}[Theorem]
-\newtheorem{Lemma}[Theorem]{Lemma}
+\newtheorem{Lemma}[equation]{Lemma}
+\numberwithin{equation}{section}
 
 \begin{document}
 
 \begin{flushleft}
-Here's the \textbf{gather} mode with no numbering: \\
-\verb|..begin eq|\\
-\verb|a = b + c|\\
-\verb|d = e + f|\\
-\verb|a + d = b + c|\\
+Here's the \bold{gather} mode with no numbering: \nl
+\verb|..begin eq|\nl
+\verb|a = b + c|\nl
+\verb|d = e + f|\nl
+\verb|a + d = b + c|\nl
 \verb|..end eq|
 
 \begin{gather*}
@@ -39,12 +43,12 @@ a + d = b + c
 
 \medskip
 
-Here's the \textbf{align} mode with no numbering: \\
-\verb|..begin eq align|\\
-\verb|h &= 2x + 3y + 4z     &   2u + &2v = 10|\\
-\verb|x &= y                &   &2v + 4w = 20|\\
-\verb|a &= b + c            &   2b + 2c + &7v = 30|\\
-\verb|f(x, y) &= g(a, b, c) &   &2v = 4z|\\
+Here's the \bold{align} mode with no numbering: \nl
+\verb|..begin eq align|\nl
+\verb|h &= 2x + 3y + 4z     &   2u + &2v = 10|\nl
+\verb|x &= y                &   &2v + 4w = 20|\nl
+\verb|a &= b + c            &   2b + 2c + &7v = 30|\nl
+\verb|f(x, y) &= g(a, b, c) &   &2v = 4z|\nl
 \verb|..end eq|
 
 \begin{align*}
@@ -56,11 +60,15 @@ f(x, y) &= g(a, b, c)       &   &2v = 4z
 
 \medskip
 
-Here's the \textbf{gather} mode with numbering: \\
-\verb|..begin eq number|\\
-\verb|a = b|\\
-\verb|2x + 4c = 10|\\
-\verb|10 + 4c = 20|\\
+Equation numbering is subordinate to sections, but it can be changed with ``..initeq"
+
+\medskip
+
+Here's the \bold{gather} mode with numbering: \nl
+\verb|..begin eq number|\nl
+\verb|a = b|\nl
+\verb|2x + 4c = 10|\nl
+\verb|10 + 4c = 20|\nl
 \verb|..end eq|
 \begin{gather}
 a = b \\
@@ -70,11 +78,11 @@ a = b \\
 
 \medskip
 
-Here's how to do \textbf{align} with numbering: \\
-\verb|..begin eq align number|\\
-\verb|a &= b + c|\\
-\verb|a &= 2b + d|\\
-\verb|a &= 3c + e|\\
+Here's how to do \bold{align} with numbering: \nl
+\verb|..begin eq align number|\nl
+\verb|a &= b + c|\nl
+\verb|a &= 2b + d|\nl
+\verb|a &= 3c + e|\nl
 \verb|..end eq|
 \begin{align}
 a &= b + c \\

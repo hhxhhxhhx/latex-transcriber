@@ -717,17 +717,17 @@ class Replacer():
     def theorem_def(self):
         output = ''
 
-        if not self.equation_numbering:
-            output += '\\numberwithin{equation}{section}\n'
-        else:
-            output += '\\numberwithin{equation}{' + output.strip() + '}\n'
-
         if 'Theorem' not in self.all_theorem_names and 'theorem' not in self.all_theorem_names:
             output += '\\newtheorem{Theorem}{Theorem}\n'
         if 'Corollary' not in self.all_theorem_names and 'corollary' not in self.all_theorem_names:
             output += '\\newtheorem{Corollary}{Corollary}[Theorem]\n'
         if 'Lemma' not in self.all_theorem_names and 'lemma' not in self.all_theorem_names:
             output += '\\newtheorem{Lemma}[equation]{Lemma}\n'
+
+        if not self.equation_numbering:
+            output += '\\numberwithin{equation}{section}\n'
+        else:
+            output += '\\numberwithin{equation}{' + self.equation_numbering.strip() + '}\n'
 
         for theorem in self.unnumbered_theorems:
             output += '\\newtheorem*{{{0}}}{{{0}}}\n'.format(theorem[0].upper() + theorem[1:])

@@ -83,7 +83,7 @@ contexts:
     - match: '((\.\.)(font|margin|indent|spacing|name|paper|orient|usepackage|assignment|qed|asset(s)?path|graphicspath))\b'
       captures:
         1: keyword.control.flow.begin.pytex
-    - match: '((\.\.)(initheorem\*|initheorem)(?= ))'
+    - match: '((\.\.)(initheorem\*(?!\w)|initheorem\b|initeq\b))'
       captures:
         1: keyword.control.flow.begin.pytex
 
@@ -144,15 +144,15 @@ contexts:
       scope: support.function.general.pytex
       captures:
         1: punctuation.definition.backslash.pytex
+    - match: '((?<=(\.\.initeq ))\w*)\b'
+      scope: support.function.general.pytex
+      captures:
+        1: punctuation.definition.backslash.pytex
     - match: '((?<=(\.\.initheorem\* ))\w*)\b'
       scope: support.function.general.pytex
       captures:
         1: punctuation.definition.backslash.pytex
     - match: '((?<=(\.\.initheorem ))((\w* \w* (shared|sub)|(\w*))))\b'
-      scope: support.function.general.pytex
-      captures:
-        1: punctuation.definition.backslash.pytex
-    - match: '((\.\. ))'
       scope: support.function.general.pytex
       captures:
         1: punctuation.definition.backslash.pytex

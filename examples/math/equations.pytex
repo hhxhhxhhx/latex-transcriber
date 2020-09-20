@@ -35,6 +35,10 @@ f(x, y) &= g(a, b, c)       &   &2v = 4z
 
 \medskip
 
+Equation numbering is subordinate to sections, but it can be changed with ``..initeq"
+
+\medskip
+
 Here's the \bold{gather} mode with numbering: \nl
 \verb|..begin eq number|\nl
 \verb|a = b|\nl
