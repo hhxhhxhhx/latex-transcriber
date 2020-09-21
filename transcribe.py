@@ -350,14 +350,15 @@ class Replacer():
                 _initnumberedtheorem = find_content(self.lines, '..initheorem', None)
 
         # Check for ..begin section or ..begin subsection or ..begin subsubsection, etc. 
+        # Changed default behavior from not numbering to numbering. Use ..begin section nonum to not number. 
         for i in range(5):
             _beginsection = find_index(self.lines, '..begin {0}section'.format('sub' * i))
             while _beginsection != -1:
                 text = self.lines[_beginsection][len('..begin {0}section'.format('sub' * i)) + 1:].strip()
-                if text.startswith('number'):
-                    self.lines[_beginsection] = '\\{0}section{{{1}}}'.format('sub' * i, text[7:])
+                if text.startswith('nonum'):
+                    self.lines[_beginsection] = '\\{0}section*{{{1}}}'.format('sub' * i, text[6:])
                 else:
-                    self.lines[_beginsection] = '\\{0}section*{{{1}}}'.format('sub' * i, text)
+                    self.lines[_beginsection] = '\\{0}section{{{1}}}'.format('sub' * i, text)
                 _beginsection = find_index(self.lines, '..begin {0}section'.format('sub' * i))
 
         """

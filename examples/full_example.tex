@@ -1,6 +1,6 @@
 
 % Created by Roger Hu's .pytex --> .tex latex transcriber
-% Compiled on 2020-09-20 00:49:14 PDT
+% Compiled on 2020-09-20 19:00:35 PDT
 
 
 \documentclass[12pt]{article}
@@ -81,10 +81,10 @@ To begin the document: \verb|..begin main|
 
 \bigskip
 
-To begin a section with heading \bold{XYZ} with numbering: \verb|..begin section number XYZ|
-To begin a section with heading \bold{XYZ} without numbering: \verb|..begin section XYZ|
+To begin a section with heading \bold{XYZ} with numbering: \verb|..begin section XYZ| \nl
+To begin a section with heading \bold{XYZ} without numbering: \verb|..begin section nonum XYZ|
 
-So in this case, it's \verb|..begin section number Creating the Document|
+So in this case, it's \verb|..begin section Creating the Document|
 
 \section{Creating the Document}
 
@@ -350,7 +350,7 @@ It works for \ital{Note}, \ital{Lemma}, etc.
 
 \newpage
 
-\subsection*{Proofs}
+\subsection{Proofs}
 \verb|..begin subsection Proofs|
 
 To begin a subsection \bold{XYZ}, use \verb|begin subsection XYZ|. You can also have subsubsections, subsubsubsections, etc.
@@ -531,7 +531,7 @@ This is a proof environment.
 
 \section{Math}
 
-\subsection*{Equations}
+\subsection{Equations}
 
 LaTeX's equation mode honestly sucks. You can't have a blank line while in equation / gather / align mode. This means that a reasonable person expecting to create a new line would get a ridiculous error like missing \verb|$| inserted. The only way to create a line break would be using \verb|\\|, which I think is a lot less intuitive than it should be.
 
@@ -615,7 +615,7 @@ a &= 3c + e
 
 \newpage
 
-\subsection*{Matrices}
+\subsection{Matrices}
 
 To create a matrix, use \verb|..begin matrix|. Normally, in amsmath, math mode must be enabled prior to declaring the matrix, this is not the case anymore. \nl
 Originally, a \verb|&| must be used to separate values within the matrix. This transcriber will assume that spaces are the delimiter. There is also no need to use a line break character, because new lines are assumed to be part of the next row of values. \nl
@@ -640,7 +640,7 @@ There are currently no customizations to what matrices are surrounded by -- they
 
 \newpage
 
-\subsection*{Arrays and Tables}
+\subsection{Arrays and Tables}
 
 To create an array or table, use \verb|..begin table math [formatting]| or \verb|..begin table [formatting]|, respectively. The formatting for the table should be exactly what one would do in LaTeX's \verb|\begin{tabular}{[formatting]}| or \verb|\begin{array}{[formatting]}|. The only expected characters within the formatting are ``c", ``l", ``r", and ``\textbar". The three letters signify what that column's alignment should be: center, left, or right; while the ``\textbar" character represents a line separation between them. \bold{In LaTeX, a \& is used as the delimiter between two columns. Here, a single \textbackslash followed immediately by a space is to be used.} A line break is also automatically assumed to be on a separate line, although \verb|\hline| would be an exception. \nl
 \medskip

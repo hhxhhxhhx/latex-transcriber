@@ -33,12 +33,12 @@ To begin the document: \verb|..begin main|
 
 \bigskip
 
-To begin a section with heading \bold{XYZ} with numbering: \verb|..begin section number XYZ|
-To begin a section with heading \bold{XYZ} without numbering: \verb|..begin section XYZ|
+To begin a section with heading \bold{XYZ} with numbering: \verb|..begin section XYZ| \nl
+To begin a section with heading \bold{XYZ} without numbering: \verb|..begin section nonum XYZ|
 
-So in this case, it's \verb|..begin section number Creating the Document|
+So in this case, it's \verb|..begin section Creating the Document|
 
-..begin section number Creating the Document
+..begin section Creating the Document
 
 Use \verb|..begin preamble| and \verb|..end preamble| to signal a part of the \bold{preamble} to be ignored by the transcriber, including comments. The contents within them will automatically be inserted before the \verb|\begin{document}| in the transcribed file. This is completely optional. 
 
@@ -89,7 +89,7 @@ All of the following are optional.
 
 \newpage
 
-..begin section number Keywords
+..begin section Keywords
 
 Line comment: \verb|%|\nl
 Block comment: \verb|%|\verb|%|\verb|%|\verb| something here |\verb|%|\verb|%|\verb|%|
@@ -135,7 +135,7 @@ Check transcribe.py for what exactly they're changed to.
 
 \newpage
 
-..begin section number Copy Pasting
+..begin section Copy Pasting
 Note: This will not copy Theorem numbers correctly. Use \verb|restatable| environment from \verb|thm-restate| for that. 
 
 \bigskip
@@ -217,7 +217,7 @@ This is label4 \nl
 
 \newpage
 
-..begin section number Theorems
+..begin section Theorems
 
 \bigskip
 
@@ -341,7 +341,7 @@ Suppose $\sqrt{2}^{\sqrt{2}} \notin \Q$, we can then use this value and raise it
 
 \newpage
 
-..begin section number Lists
+..begin section Lists
 
 Lists can be nested. 
 
@@ -404,7 +404,7 @@ The transcribed .tex files will automatically be indented wherever there are ite
 
 \newpage
 
-..begin section number Parts
+..begin section Parts
 
 The \bold{Parts} and \bold{ResumeParts} environment is heavily inspired by CS 70's header.sty file. 
 
@@ -487,7 +487,7 @@ p\ Continuing on the parts environment.
 
 \newpage
 
-..begin section number Math
+..begin section Math
 
 ..begin subsection Equations
 
@@ -643,7 +643,7 @@ Adam \ Kevin \ Allie
 
 \newpage
 
-..begin section number Text Alignment
+..begin section Text Alignment
 
 By default, all text are flushed left. However, it is possible to change it to be flushed right, centered, justified, etc. Use the following to set alignment. 
 
