@@ -617,7 +617,8 @@ class Replacer():
         """
         TFDS
         """
-        self.tfds_rules = ['MP', 'MT', 'DN', 'MCND', 'CNJ', 'CA', 'RAA', 'D', 'P', 'W']
+        self.tfds_rules = ['MP', 'MT', 'DN', 'MCND', 'CNJ', 'CA', 'RAA', 'BIC', 'DIL', \
+                           'DM', 'D', 'P', 'W']
         within_tfds = False
         index = 0
         line_count = 1
