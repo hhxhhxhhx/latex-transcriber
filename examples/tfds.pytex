@@ -1,0 +1,47 @@
+
+..name TFDS
+
+..begin main
+
+\verb=..begin tfds l|l|c|l|l=\nl
+\verb=[1] \ p \supset q \ \ P=\nl
+\verb=[2] \ -q \ \ P=\nl
+\verb=[1,2] \ -p \ (1)(2) \ MT=\nl
+\verb=[1] \ -q \supset -p \ [2](3) \ D=\nl
+\verb=..end tfds=\nl
+\bigskip
+
+..begin tfds l|l|c|l|l
+[1] \ p \supset q \ \ P
+[2] \ -q \ \ P
+[1,2] \ -p \ (1)(2) \ MT
+[1] \ -q \supset -p \ [2](3) \ D
+..end tfds
+
+\bigskip
+
+Here is some text.
+
+\bigskip
+
+\verb|..begin tfds cccc|\nl
+\verb|[1] \ p \supset q \ P|\nl
+\verb|[2] \ -q \ P|\nl
+\verb|[1,2] \ -p \ (1)(2) MT|\nl
+\verb|[1] \ -q \supset -p \ [2](3) D|\nl
+\verb|[] \ (p \supset q) \supset (-q \supset -p) \ [1](4) D|\nl
+\verb|..end tfds|\nl
+\bigskip
+
+..begin tfds cccc
+[1] \ p \supset q \ P
+[2] \ -q \ P
+[1,2] \ -p \ (1)(2) MT
+[1] \ -q \supset -p \ [2](3) D
+[] \ (p \supset q) \supset (-q \supset -p) \ [1](4) D
+..end tfds
+
+\bigskip
+
+Here's some other text. 
+..end main

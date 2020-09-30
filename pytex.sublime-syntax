@@ -70,6 +70,15 @@ contexts:
           pop: true
         - include: math-content
 
+    - match: '((\.\.)begin tfds)\b'
+      scope: string.other.math.pytex punctuation.definition.string.begin.pytex
+      push:
+        - meta_scope: meta.environment.math.inline.dollar.pytex
+        - match: '((\.\.)end tfds)\b'
+          scope: string.other.math.pytex punctuation.definition.string.end.pytex
+          pop: true
+        - include: math-content
+
     - match: '((\.\.)begin table)\b'
       captures:
         1: support.function.begin.pytex keyword.control.flow.begin.pytex
@@ -168,7 +177,7 @@ contexts:
       scope: support.function.general.pytex
       captures:
         1: punctuation.definition.backslash.pytex
-    - match: '(((?<=(\.\.begin table ))|(?<=(\.\.begin table math )))[clr| ]*)'
+    - match: '(((?<=(\.\.begin table ))|(?<=(\.\.begin table math ))|(?<=(\.\.begin tfds )))[clr| ]*)'
       scope: support.function.general.pytex
       captures:
         1: punctuation.definition.backslash.pytex

@@ -170,6 +170,8 @@ def main():
         output += '\\usepackage{'
         if 'graphicx' not in packages and asset_path:
             packages.append('graphicx')
+        if 'pdfpages' not in packages and '\\includepdf' in _content:
+            packages.append('pdfpages')
         output += ', '.join(packages)
         output += '}\n'
         output += '\n'
@@ -613,6 +615,64 @@ class Replacer():
             index += 1
 
         """
+        TFDS
+        """
+        self.tfds_rules = ['MP', 'MT', 'DN', 'MCND', 'CNJ', 'CA', 'RAA', 'D', 'P', 'W']
+        within_tfds = False
+        index = 0
+        line_count = 1
+        while index < len(self.lines) - 1:
+            if self.lines[index].startswith('..begin tfds'):
+                within_tfds = True
+                line_count = 1
+                self.lines[index] = '$\\begin{{{0}}}{{{1}}}'.format('array', self.lines[index][12:].strip())
+            elif self.lines[index].startswith('..end tfds'):
+                within_tfds = False
+                if self.lines[index - 1].endswith('\\\\'): # Remove newline character at the final line
+                    self.lines[index - 1] = self.lines[index - 1][:-2]
+                self.lines[index] = '\\end{array}$'
+            elif within_tfds and not self.lines[index].strip():
+                self.lines.pop(index)
+                continue
+            elif within_tfds: # Automatically changes "\ " to be breaks between items
+
+                # "\ " is equivalent to "&"
+
+                self.lines[index] = self.lines[index].strip() # Remove newline characters at the end
+                if self.lines[index].startswith('\\hline'):
+                    index += 1
+                    continue
+
+                # Surround [] in the beginning with braces {}
+                if self.lines[index].startswith('['):
+                    closing_bracket_index = self.lines[index].find(']')
+                    self.lines[index] = '{' + self.lines[index][:closing_bracket_index + 1] + '}' + self.lines[index][closing_bracket_index + 1:]
+
+                # Change '[]' to be '[~]' for visual purposes
+                self.lines[index] = self.lines[index].replace('[]', '[~]')
+
+                # Remove \nl and \\ in the end
+                if self.lines[index].endswith('\\\\'):
+                    self.lines[index] = self.lines[index][:-2].strip()
+                elif self.lines[index].endswith('\\nl'):
+                    self.lines[index] = self.lines[index][:-3].strip()
+                self.lines[index] = self.lines[index].replace('\\ ', '& ') # Replace delimiters with ' & '
+
+                # Add line number in second position
+                first_break = self.lines[index].find('&')
+                self.lines[index] = self.lines[index][:first_break + 1] + ' ({0}) &'.format(line_count) + self.lines[index][first_break + 1:]
+
+                line_count += 1
+                if self.lines[index].endswith('\\'):
+                    self.lines[index] = self.lines[index][:-1] + '&'
+                self.lines[index] += ' \\\\' # Re-add newline characters after each line
+                
+                # MP -> \text{MP}, MT -> \text{MT}, etc. 
+                self.lines[index] = self._apply_tfds_rules_names(self.lines[index])
+                
+            index += 1
+
+        """
         ALIGNMENT
         """
         start_align = 'flushleft'
@@ -631,6 +691,12 @@ class Replacer():
             index += 1
 
         self.start_align = start_align
+
+    # Current rules: ['MP', 'MT', 'DN', 'MCND', 'CNJ', 'CA', 'RAA', 'D', 'P', 'W']
+    def _apply_tfds_rules_names(self, line):
+        for name in self.tfds_rules:
+            line = line.replace(name, '\\text{' + name + '}')
+        return line
 
     def _align_helper(self, lower_case, i, word, second_word, start_align):
         if lower_case.startswith('..align ' + word):
