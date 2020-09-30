@@ -1,6 +1,6 @@
 
 % Created by Roger Hu's .pytex --> .tex latex transcriber
-% Compiled on 2020-09-29 17:06:10 PDT
+% Compiled on 2020-09-29 22:40:17 PDT
 
 
 \documentclass[12pt]{article}
@@ -29,8 +29,8 @@
 \begin{flushleft}
 
 \verb=..begin tfds l|l|c|l|l=\nl
-\verb=[1] \ p \supset q \ \ P=\nl
-\verb=[2] \ -q \ \ P=\nl
+\verb=[1] \ p \supset q \ P=\nl
+\verb=[2] \ -q \ P=\nl
 \verb=[1,2] \ -p \ (1)(2) \ MT=\nl
 \verb=[1] \ -q \supset -p \ [2](3) \ D=\nl
 \verb=..end tfds=\nl
@@ -45,16 +45,16 @@ $\begin{array}{l|l|c|l|l}
 
 \bigskip
 
-Here is some text.
+In the example above, the first line would normally have to be written as \verb=[1] \ p \supset q \ \ P=, because 4 column breaks is expected. However, if that line is a premise (the line ends with a ` P'), the \verb|\| or \verb|&| can be ommitted.
 
 \bigskip
 
 \verb|..begin tfds cccc|\nl
-\verb|[1] \ p \supset q \ P|\nl
-\verb|[2] \ -q \ P|\nl
-\verb|[1,2] \ -p \ (1)(2) MT|\nl
-\verb|[1] \ -q \supset -p \ [2](3) D|\nl
-\verb|[] \ (p \supset q) \supset (-q \supset -p) \ [1](4) D|\nl
+\verb|[1] & p \supset q & P|\nl
+\verb|[2] & -q & P|\nl
+\verb|[1,2] & -p & (1)(2) MT|\nl
+\verb|[1] & -q \supset -p & [2](3) D|\nl
+\verb|[] & (p \supset q) \supset (-q \supset -p) & [1](4) D|\nl
 \verb|..end tfds|\nl
 \bigskip
 

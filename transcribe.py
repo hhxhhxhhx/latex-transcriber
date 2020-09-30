@@ -621,11 +621,16 @@ class Replacer():
         within_tfds = False
         index = 0
         line_count = 1
+        expected_columns = 0
         while index < len(self.lines) - 1:
             if self.lines[index].startswith('..begin tfds'):
                 within_tfds = True
                 line_count = 1
                 self.lines[index] = '$\\begin{{{0}}}{{{1}}}'.format('array', self.lines[index][12:].strip())
+                expected_columns = 0
+                expected_columns += self.lines[index][12:].strip().count('c')
+                expected_columns += self.lines[index][12:].strip().count('l')
+                expected_columns += self.lines[index][12:].strip().count('r')
             elif self.lines[index].startswith('..end tfds'):
                 within_tfds = False
                 if self.lines[index - 1].endswith('\\\\'): # Remove newline character at the final line
@@ -665,6 +670,11 @@ class Replacer():
                 line_count += 1
                 if self.lines[index].endswith('\\'):
                     self.lines[index] = self.lines[index][:-1] + '&'
+
+                if self.lines[index].strip().endswith(' P'):
+                    # Check if lazy and left an extra column blank because of premise
+                    if self.lines[index].count('&') == expected_columns - 2:
+                        self.lines[index] = self.lines[index][:self.lines[index].rindex('&') + 1] + ' &' + self.lines[index][self.lines[index].rindex('&') + 1:]
                 self.lines[index] += ' \\\\' # Re-add newline characters after each line
                 
                 # MP -> \text{MP}, MT -> \text{MT}, etc. 
