@@ -1,0 +1,7 @@
+\<< -> \ll 
+\>> -> \gg 
+\~= -> \approx 
+\<( -> \langle 
+\>) -> \rangle 
+\<= -> \leq 
+\>= -> \geq

@@ -645,7 +645,7 @@ Adam \ Kevin \ Allie
 
 ..begin section Text Alignment
 
-By default, all text are flushed left. However, it is possible to change it to be flushed right, centered, justified, etc. Use the following to set alignment. 
+By default, all text are aligned justified. However, it is possible to change it to be flushed left, right, centered, etc. Use the following to set alignment. 
 
 ..align center
 \verb|..align center|\nl
@@ -655,15 +655,13 @@ This is a line of text that is centered.
 \verb|..align right|\nl
 This is a line of text that is flushed right. 
 
+..align left
+\verb|..align left|\nl
+This is a line of text that is aligned left. 
+
 ..align justify
 \verb|..align justify|\nl
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-\medskip
-
-..align left
-\verb|..align left|\nl
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. 
 
 \bigskip
 \bigskip

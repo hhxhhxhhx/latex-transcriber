@@ -3,7 +3,7 @@
 
 ..begin main
 
-By default, everything is aligned left, but it can be changed by using \verb|..align [alignment]|. 
+By default, everything is aligned justified, but it can be changed by using \verb|..align [alignment]|. 
 
 ..align left
 \verb|..align left|\nl

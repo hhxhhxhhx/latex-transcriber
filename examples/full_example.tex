@@ -1,6 +1,6 @@
 
 % Created by Roger Hu's .pytex --> .tex latex transcriber
-% Compiled on 2020-09-20 19:00:35 PDT
+% Compiled on 2020-10-13 22:46:36 PDT
 
 
 \documentclass[12pt]{article}
@@ -12,21 +12,21 @@
 \pagestyle{fancy}
 \fancyhf{}
 
-\newcommand{\union}{\cup}
-\newcommand{\itsc}{\cap}
-\newcommand{\setdiff}{\setminus}
-\newcommand{\del}{\nabla}
+\newcommand{\union}{\cup }
+\newcommand{\itsc}{\cap }
+\newcommand{\setdiff}{\setminus }
+\newcommand{\del}{\nabla }
 \newcommand{\Q}{\mathbb{Q}}
-\newcommand{\R}{\mathbb{R}}
-\newcommand{\Z}{\mathbb{Z}}
-\newcommand{\N}{\mathbb{N}}
-\newcommand{\C}{\mathbb{C}}
-\newcommand{\nin}{\notin}
-\newcommand{\ital}{\emph}
+\newcommand{\R}{\mathbb{R} }
+\newcommand{\Z}{\mathbb{Z} }
+\newcommand{\N}{\mathbb{N} }
+\newcommand{\C}{\mathbb{C} }
+\newcommand{\nin}{\notin }
+\newcommand{\ital}{\emph }
 \newcommand{\contradiction}{$\Rightarrow\Leftarrow$}
-\newcommand{\aand}{\wedge}
-\newcommand{\oor}{\vee}
-\newcommand{\cross}{\times}
+\newcommand{\aand}{\wedge }
+\newcommand{\oor}{\vee }
+\newcommand{\cross}{\times }
 \newcommand{\nimplies}{\nRightarrow}
 \newcommand{\nl}{\\}
 \newcommand{\tb}{\quad}
@@ -71,7 +71,6 @@
 
 \begin{document}
 
-\begin{flushleft}
 
 \bold{If something is wrong with this file or the transcriber, or you have a suggestion, please let me know at rogerhu (at) berkeley (dot) edu.}
 
@@ -161,13 +160,13 @@ Some of the following are honestly kind of useless like \verb|\nl -> \\|.
 \verb|\C              ->        |$\C$\nl
 \verb|\aand           ->        |$\aand$\nl
 \verb|\oor            ->        |$\oor$\nl
-\verb|\<=             ->        |$\leq$\nl
-\verb|\>=             ->        |$\leq$\nl
-\verb|\<<             ->        |$\ll$\nl
-\verb|\>>             ->        |$\gg$\nl
-\verb|\~=             ->        |$\approx$\nl
-\verb|\<(             ->        |$\langle$\nl
-\verb|\>)             ->        |$\rangle$\nl
+\verb|\<=             ->        |$\leq $\nl
+\verb|\>=             ->        |$\leq $\nl
+\verb|\<<             ->        |$\ll $\nl
+\verb|\>>             ->        |$\gg $\nl
+\verb|\~=             ->        |$\approx $\nl
+\verb|\<(             ->        |$\langle $\nl
+\verb|\>)             ->        |$\rangle $\nl
 \verb|\cross          ->        |$\cross$\nl
 \verb|\nimplies       ->        |$\nimplies$\nl
 \verb|\ddef           ->        |$\ddef$\nl
@@ -686,9 +685,8 @@ Adam & Kevin & Allie
 
 \section{Text Alignment}
 
-By default, all text are flushed left. However, it is possible to change it to be flushed right, centered, justified, etc. Use the following to set alignment.
+By default, all text are aligned justified. However, it is possible to change it to be flushed left, right, centered, etc. Use the following to set alignment.
 
-\end{flushleft}
 
 \begin{center}
 \verb|..align center|\nl
@@ -701,14 +699,13 @@ This is a line of text that is centered.
 This is a line of text that is flushed right.
 
 \end{flushright}
-\verb|..align justify|\nl
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-\medskip
-
 
 \begin{flushleft}
 \verb|..align left|\nl
+This is a line of text that is aligned left.
+
+\end{flushleft}
+\verb|..align justify|\nl
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
 \bigskip
@@ -717,7 +714,5 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 To end the document, use \verb|..end main|\nl
 This is actually entirely optional, as long as there is at least 1 empty line at the end.
-
-\end{flushleft}
 
 \end{document}
